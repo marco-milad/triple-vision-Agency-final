@@ -1,13 +1,28 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import Layout from '@/components/layout/Layout';
+import HeroSection from '@/components/sections/HeroSection';
+import AboutPreview from '@/components/sections/AboutPreview';
+import ServicesOverview from '@/components/sections/ServicesOverview';
+import PortfolioPreview from '@/components/sections/PortfolioPreview';
+import WhyTripleVision from '@/components/sections/WhyTripleVision';
+import StatsSection from '@/components/sections/StatsSection';
+import CTASection from '@/components/sections/CTASection';
+import ContactModal from '@/components/modals/ContactModal';
 
 const Index = () => {
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <Layout>
+      <HeroSection onContactClick={() => setIsContactOpen(true)} />
+      <AboutPreview />
+      <ServicesOverview />
+      <PortfolioPreview />
+      <WhyTripleVision />
+      <StatsSection />
+      <CTASection onContactClick={() => setIsContactOpen(true)} />
+      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+    </Layout>
   );
 };
 
