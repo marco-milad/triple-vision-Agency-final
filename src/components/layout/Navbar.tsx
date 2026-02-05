@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-
+import logo from '@/assets/logo.png';
 const navLinks = [
   { name: 'Home', path: '/' },
   { name: 'About', path: '/about' },
@@ -47,12 +47,12 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
         <div className="container mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="relative z-10">
-            <motion.div
+            <motion.img
+              src={logo}
+              alt="Triple Vision"
               whileHover={{ scale: 1.05 }}
-              className="text-2xl font-bold text-gradient"
-            >
-              Triple Vision
-            </motion.div>
+              className="h-10 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}
