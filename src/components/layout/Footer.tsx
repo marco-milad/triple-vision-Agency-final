@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Instagram, Twitter, Linkedin, Youtube, Mail, Phone, MapPin } from 'lucide-react';
+import logo from '@/assets/logo.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -40,8 +41,8 @@ const Footer = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              <Link to="/" className="text-2xl font-bold text-gradient mb-4 block">
-                Triple Vision
+              <Link to="/" className="mb-4 block">
+                <img src={logo} alt="Triple Vision" className="h-10 w-auto" />
               </Link>
               <p className="text-muted-foreground text-sm leading-relaxed mb-6">
                 A premium creative agency delivering cinematic experiences through 
