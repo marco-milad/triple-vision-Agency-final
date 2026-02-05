@@ -6,6 +6,7 @@ import CEOSection from '@/components/sections/CEOSection';
 import ServicesOverview from '@/components/sections/ServicesOverview';
 import PortfolioPreview from '@/components/sections/PortfolioPreview';
 import WhyTripleVision from '@/components/sections/WhyTripleVision';
+import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import StatsSection from '@/components/sections/StatsSection';
 import CTASection from '@/components/sections/CTASection';
 import ContactModal from '@/components/modals/ContactModal';
@@ -21,6 +22,7 @@ const Index = () => {
       <ServicesOverview />
       <PortfolioPreview />
       <WhyTripleVision />
+      <TestimonialsSection />
       <StatsSection />
       <CTASection onContactClick={() => setIsContactOpen(true)} />
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
