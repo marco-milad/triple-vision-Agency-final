@@ -49,10 +49,10 @@ const HeroSection = ({ onContactClick }: HeroSectionProps) => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
           >
-            <span className="text-foreground">We Craft </span>
-            <span className="text-gradient">Cinematic</span>
+            <span className="text-foreground">A   </span>
+            <span className="text-gradient">FULL service</span>
             <br />
-            <span className="text-foreground">Experiences</span>
+            <span className="text-foreground">MEDIA AGENCY</span>
           </motion.h1>
 
           {/* Subheadline */}
@@ -62,8 +62,7 @@ const HeroSection = ({ onContactClick }: HeroSectionProps) => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
           >
-            From bold media productions to stunning digital experiences, 
-            we bring your vision to life with creativity and precision.
+            Digital agency crafting impactful, user-centric experiences with cutting-edge design and technology for maximum success. Innovative digital agency crafting impactful solutions
           </motion.p>
 
           {/* CTA Buttons */}
