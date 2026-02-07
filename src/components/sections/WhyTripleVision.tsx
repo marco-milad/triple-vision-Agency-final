@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Target, Lightbulb, Rocket, Shield, Sparkles, ArrowRight } from 'lucide-react';
+import { useSectionInView, useParticlePositions } from '@/hooks/use-in-view-animation';
 
 const values = [
   {
@@ -33,20 +34,21 @@ const values = [
 ];
 
 const WhyTripleVision = () => {
+  const { ref: sectionRef, isInView } = useSectionInView();
+  const particles = useParticlePositions(15);
+
   return (
-    <section className="section-padding bg-gradient-to-br from-background via-background-secondary to-background relative overflow-hidden">
+    <section ref={sectionRef} className="section-padding bg-gradient-to-br from-background via-background-secondary to-background relative overflow-hidden">
       {/* Enhanced Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 right-0 w-[700px] h-[700px] rounded-full bg-primary/10 blur-[140px] animate-pulse" />
+        <div className="absolute top-1/4 right-0 w-[700px] h-[700px] rounded-full bg-primary/10 blur-[140px]" style={{ animationPlayState: isInView ? 'running' : 'paused' }} />
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full bg-orange-500/10 blur-[120px]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-purple-500/5 blur-[100px]" />
       </div>
 
       {/* Animated Grid Background */}
       <motion.div
-        animate={{
-          backgroundPosition: ['0px 0px', '60px 60px'],
-        }}
+        animate={isInView ? { backgroundPosition: ['0px 0px', '60px 60px'] } : undefined}
         transition={{
           duration: 20,
           repeat: Infinity,
@@ -63,23 +65,20 @@ const WhyTripleVision = () => {
       />
 
       {/* Floating Particles */}
-      {[...Array(15)].map((_, i) => (
+      {particles.map((p, i) => (
         <motion.div
           key={i}
           className="absolute w-2 h-2 rounded-full bg-primary/20"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-          animate={{
+          style={{ left: p.left, top: p.top }}
+          animate={isInView ? {
             y: [0, -30, 0],
             opacity: [0.2, 0.5, 0.2],
             scale: [1, 1.5, 1],
-          }}
+          } : undefined}
           transition={{
-            duration: 3 + Math.random() * 2,
+            duration: p.duration,
             repeat: Infinity,
-            delay: Math.random() * 2,
+            delay: p.delay,
             ease: "easeInOut"
           }}
         />
@@ -199,10 +198,10 @@ const WhyTripleVision = () => {
 
                     {/* Sparkle Animation */}
                     <motion.div
-                      animate={{
+                      animate={isInView ? {
                         scale: [1, 1.2, 1],
                         opacity: [0.5, 1, 0.5],
-                      }}
+                      } : undefined}
                       transition={{
                         duration: 2,
                         repeat: Infinity,
@@ -268,7 +267,7 @@ const WhyTripleVision = () => {
           >
             <span>Ready to Get Started?</span>
             <motion.div
-              animate={{ x: [0, 5, 0] }}
+              animate={isInView ? { x: [0, 5, 0] } : undefined}
               transition={{ duration: 1.5, repeat: Infinity }}
             >
               <ArrowRight className="w-5 h-5" />

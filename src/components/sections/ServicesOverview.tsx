@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Video, Calendar, Share2, Palette, Code, Radio, Sparkles, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useSectionInView } from '@/hooks/use-in-view-animation';
 
 const services = [
   {
@@ -51,20 +52,20 @@ const services = [
 ];
 
 const ServicesOverview = () => {
+  const { ref: sectionRef, isInView } = useSectionInView();
+
   return (
-    <section className="section-padding bg-gradient-to-br from-background via-background to-background-secondary relative overflow-hidden">
+    <section ref={sectionRef} className="section-padding bg-gradient-to-br from-background via-background to-background-secondary relative overflow-hidden">
       {/* Enhanced Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-primary/10 blur-[120px] animate-pulse" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-primary/10 blur-[120px]" style={{ animationPlayState: isInView ? 'running' : 'paused' }} />
         <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-purple-500/5 blur-[100px]" />
         <div className="absolute top-1/3 left-0 w-[500px] h-[500px] rounded-full bg-orange-500/5 blur-[100px]" />
       </div>
 
       {/* Animated Grid */}
       <motion.div
-        animate={{
-          backgroundPosition: ['0px 0px', '60px 60px'],
-        }}
+        animate={isInView ? { backgroundPosition: ['0px 0px', '60px 60px'] } : undefined}
         transition={{
           duration: 20,
           repeat: Infinity,
@@ -82,12 +83,12 @@ const ServicesOverview = () => {
 
       {/* Floating Decorative Elements */}
       <motion.div
-        animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
+        animate={isInView ? { y: [0, -20, 0], rotate: [0, 5, 0] } : undefined}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
         className="absolute top-1/4 right-10 w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/10 to-purple-500/10 backdrop-blur-sm border border-primary/20 hidden lg:block"
       />
       <motion.div
-        animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
+        animate={isInView ? { y: [0, 20, 0], rotate: [0, -5, 0] } : undefined}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         className="absolute bottom-1/4 left-10 w-16 h-16 rounded-xl bg-gradient-to-br from-orange-500/10 to-pink-500/10 backdrop-blur-sm border border-primary/20 hidden lg:block"
       />
@@ -200,7 +201,7 @@ const ServicesOverview = () => {
                     <div className="flex items-center gap-2 text-primary font-semibold text-sm">
                       Learn More
                       <motion.div
-                        animate={{ x: [0, 4, 0] }}
+                        animate={isInView ? { x: [0, 4, 0] } : undefined}
                         transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                       >
                         <ArrowRight className="w-4 h-4" />
