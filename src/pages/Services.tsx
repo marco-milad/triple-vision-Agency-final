@@ -1,10 +1,9 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Video, Calendar, Share2, Palette, Code, Radio, CheckCircle } from 'lucide-react';
-import ContactModal from '@/components/modals/ContactModal';
+import { useContact } from '@/contexts/ContactContext';
 
 const services = [
   {
@@ -58,7 +57,7 @@ const services = [
 ];
 
 const Services = () => {
-  const [isContactOpen, setIsContactOpen] = useState(false);
+  const { openContact } = useContact();
 
   return (
     <Layout>
@@ -152,7 +151,7 @@ const Services = () => {
             <p className="text-muted-foreground text-lg mb-8">
               Let's discuss your project and find the perfect solution together.
             </p>
-            <Button variant="hero" size="xl" onClick={() => setIsContactOpen(true)} className="group">
+            <Button variant="hero" size="xl" onClick={() => openContact()} className="group">
               Get a Free Consultation
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
@@ -160,7 +159,6 @@ const Services = () => {
         </div>
       </section>
 
-      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </Layout>
   );
 };

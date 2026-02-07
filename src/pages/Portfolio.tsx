@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Play, ExternalLink } from 'lucide-react';
-import ContactModal from '@/components/modals/ContactModal';
+import { useContact } from '@/contexts/ContactContext';
 
 const categories = ['All', 'Media Production', 'Branding', 'Web Development', 'Events', 'Digital Media'];
 
@@ -76,7 +76,7 @@ const projects = [
 
 const Portfolio = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [isContactOpen, setIsContactOpen] = useState(false);
+  const { openContact } = useContact();
 
   const filteredProjects = selectedCategory === 'All'
     ? projects
@@ -207,7 +207,7 @@ const Portfolio = () => {
             <p className="text-muted-foreground text-lg mb-8">
               Let's create something extraordinary together.
             </p>
-            <Button variant="hero" size="xl" onClick={() => setIsContactOpen(true)} className="group">
+            <Button variant="hero" size="xl" onClick={() => openContact()} className="group">
               Get Started Today
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
@@ -215,7 +215,6 @@ const Portfolio = () => {
         </div>
       </section>
 
-      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </Layout>
   );
 };

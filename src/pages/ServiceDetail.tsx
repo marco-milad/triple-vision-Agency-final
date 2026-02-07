@@ -1,10 +1,9 @@
-import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, CheckCircle, Video, Calendar, Share2, Palette, Code, Radio } from 'lucide-react';
-import ContactModal from '@/components/modals/ContactModal';
+import { useContact } from '@/contexts/ContactContext';
 
 const servicesData = {
   'media-production': {
@@ -176,7 +175,7 @@ const relatedServices = [
 
 const ServiceDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const [isContactOpen, setIsContactOpen] = useState(false);
+  const { openContact } = useContact();
 
   const service = servicesData[slug as keyof typeof servicesData];
 
@@ -217,7 +216,7 @@ const ServiceDetail = () => {
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">
               {service.description}
             </p>
-            <Button variant="hero" size="xl" onClick={() => setIsContactOpen(true)} className="group">
+            <Button variant="hero" size="xl" onClick={() => openContact(slug)} className="group">
               Start Your Project
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
@@ -416,7 +415,7 @@ const ServiceDetail = () => {
             <p className="text-muted-foreground text-lg mb-8">
               Let's discuss how our {service.title.toLowerCase()} services can help you achieve your goals.
             </p>
-            <Button variant="hero" size="xl" onClick={() => setIsContactOpen(true)} className="group">
+            <Button variant="hero" size="xl" onClick={() => openContact(slug)} className="group">
               Request a Quote
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
@@ -442,11 +441,6 @@ const ServiceDetail = () => {
         </div>
       </section>
 
-      <ContactModal
-        isOpen={isContactOpen}
-        onClose={() => setIsContactOpen(false)}
-        preSelectedService={slug}
-      />
     </Layout>
   );
 };

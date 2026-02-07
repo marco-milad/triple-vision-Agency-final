@@ -1,19 +1,20 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import ContactModal from '@/components/modals/ContactModal';
+import { ContactProvider, useContact } from '@/contexts/ContactContext';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
-const Layout = ({ children }: LayoutProps) => {
-  const [isContactOpen, setIsContactOpen] = useState(false);
+const LayoutInner = ({ children }: LayoutProps) => {
+  const { isContactOpen, preSelectedService, openContact, closeContact } = useContact();
 
   return (
     <div className="min-h-screen bg-background noise-overlay">
-      <Navbar onContactClick={() => setIsContactOpen(true)} />
+      <Navbar onContactClick={openContact} />
       <AnimatePresence mode="wait">
         <motion.main
           initial={{ opacity: 0 }}
@@ -25,9 +26,15 @@ const Layout = ({ children }: LayoutProps) => {
         </motion.main>
       </AnimatePresence>
       <Footer />
-      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+      <ContactModal isOpen={isContactOpen} onClose={closeContact} preSelectedService={preSelectedService} />
     </div>
   );
 };
+
+const Layout = ({ children }: LayoutProps) => (
+  <ContactProvider>
+    <LayoutInner>{children}</LayoutInner>
+  </ContactProvider>
+);
 
 export default Layout;
