@@ -230,7 +230,7 @@ const CEOSection = () => {
               className="mb-6"
             >
               <h3 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent mb-2">
-                Mario Ndungu
+                Mario Maged
               </h3>
               <p className="text-primary font-bold text-lg mb-4">CEO & Founder</p>
               
