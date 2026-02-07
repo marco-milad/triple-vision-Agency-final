@@ -189,7 +189,8 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
             onClick={toggleMobileMenu}
             className="md:hidden relative z-10 p-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md transition-transform hover:scale-110"
             aria-label={menuButtonLabel}
-            aria-expanded={isMobileMenuOpen}
+            aria-expanded={isMobileMenuOpen ? 'true' : 'false'}
+            aria-haspopup="true"
           >
             <AnimatePresence mode="wait">
               {isMobileMenuOpen ? (
