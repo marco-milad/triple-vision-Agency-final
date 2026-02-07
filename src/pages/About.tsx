@@ -104,11 +104,12 @@ const About = () => {
               className="relative"
             >
               <div className="aspect-[4/3] rounded-3xl overflow-hidden card-glass">
-                <img
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80"
-                  alt="Team at work"
-                  className="w-full h-full object-cover"
-                />
+                  <img
+                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80"
+                    alt="Team at work"
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
               </div>
               <div className="absolute -bottom-6 -left-6 bg-primary rounded-2xl p-6 shadow-lg shadow-primary/30">
                 <p className="text-3xl font-bold text-primary-foreground">2016</p>
@@ -233,6 +234,7 @@ const About = () => {
                   <img
                     src={member.image}
                     alt={member.name}
+                    loading="lazy"
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
                   />
                 </div>
