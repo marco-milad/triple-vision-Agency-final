@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Video, Calendar, Share2, Palette, Code, Radio } from 'lucide-react';
+import { ArrowRight, Video, Calendar, Share2, Palette, Code, Radio, Sparkles, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const services = [
@@ -10,6 +10,7 @@ const services = [
     description: 'Cinematic video production, commercials, and brand films that tell your story.',
     path: '/services/media-production',
     color: 'from-orange-500 to-red-500',
+    badge: 'Popular',
   },
   {
     icon: Calendar,
@@ -24,6 +25,7 @@ const services = [
     description: 'Social media management, content creation, and digital marketing.',
     path: '/services/digital-media',
     color: 'from-blue-500 to-cyan-500',
+    badge: 'Trending',
   },
   {
     icon: Palette,
@@ -50,9 +52,45 @@ const services = [
 
 const ServicesOverview = () => {
   return (
-    <section className="section-padding bg-background relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,140,0,0.03),transparent_70%)]" />
+    <section className="section-padding bg-gradient-to-br from-background via-background to-background-secondary relative overflow-hidden">
+      {/* Enhanced Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-primary/10 blur-[120px] animate-pulse" />
+        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-purple-500/5 blur-[100px]" />
+        <div className="absolute top-1/3 left-0 w-[500px] h-[500px] rounded-full bg-orange-500/5 blur-[100px]" />
+      </div>
+
+      {/* Animated Grid */}
+      <motion.div
+        animate={{
+          backgroundPosition: ['0px 0px', '60px 60px'],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(255,140,0,0.3) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,140,0,0.3) 1px, transparent 1px)
+          `,
+          backgroundSize: '60px 60px'
+        }}
+      />
+
+      {/* Floating Decorative Elements */}
+      <motion.div
+        animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/4 right-10 w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/10 to-purple-500/10 backdrop-blur-sm border border-primary/20 hidden lg:block"
+      />
+      <motion.div
+        animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-1/4 left-10 w-16 h-16 rounded-xl bg-gradient-to-br from-orange-500/10 to-pink-500/10 backdrop-blur-sm border border-primary/20 hidden lg:block"
+      />
 
       <div className="container mx-auto relative z-10">
         {/* Section Header */}
@@ -63,21 +101,34 @@ const ServicesOverview = () => {
           transition={{ duration: 0.6 }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <span className="text-primary font-semibold text-sm uppercase tracking-widest mb-4 block">
-            Our Services
-          </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 backdrop-blur-sm mb-6"
+          >
+            <Sparkles className="w-4 h-4 text-primary" />
+            <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+              Our Services
+            </span>
+          </motion.div>
+
+          <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-foreground mb-6 leading-[1.1]">
             Creative Solutions for{' '}
-            <span className="text-gradient">Bold Brands</span>
+            <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">
+              Bold Brands
+            </span>
           </h2>
-          <p className="text-muted-foreground text-lg">
-            From concept to execution, we offer comprehensive creative services 
-            that elevate your brand and drive results.
+          <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
+            From concept to execution, we offer <span className="text-foreground font-semibold">comprehensive creative services</span>
+            {' '}that elevate your brand and drive <span className="text-primary font-semibold">real results</span>.
           </p>
         </motion.div>
 
         {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {services.map((service, index) => (
             <motion.div
               key={service.title}
@@ -86,47 +137,113 @@ const ServicesOverview = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Link to={service.path} className="block group">
-                <div className="card-glass card-hover p-8 h-full">
-                  {/* Icon */}
-                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                    <service.icon className="w-7 h-7 text-white" />
+              <Link to={service.path} className="block group h-full">
+                <motion.div 
+                  className="relative p-8 h-full rounded-2xl border border-border/50 bg-background/50 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 overflow-hidden"
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {/* Glow Effect on Hover */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-br from-primary/0 to-primary/0 group-hover:from-primary/10 group-hover:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  />
+
+                  {/* Animated Background Gradient */}
+                  <motion.div
+                    className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+                  />
+
+                  {/* Badge if available */}
+                  {service.badge && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.3, delay: index * 0.1 + 0.2 }}
+                      className="absolute top-4 right-4"
+                    >
+                      <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-primary to-orange-500 text-white text-xs font-bold">
+                        <Star className="w-3 h-3" />
+                        {service.badge}
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* Icon with Gradient Border */}
+                  <div className="relative mb-6">
+                    <motion.div 
+                      className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} p-0.5`}
+                      whileHover={{ rotate: 5, scale: 1.1 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className="w-full h-full rounded-2xl bg-background flex items-center justify-center">
+                        <service.icon className="w-7 h-7 text-primary" />
+                      </div>
+                    </motion.div>
+                    
+                    {/* Decorative Circle */}
+                    <motion.div
+                      className={`absolute -inset-2 rounded-2xl bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`}
+                    />
                   </div>
 
                   {/* Content */}
-                  <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
-                    {service.description}
-                  </p>
+                  <div className="relative z-10">
+                    <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
+                      {service.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm md:text-base mb-6 leading-relaxed">
+                      {service.description}
+                    </p>
 
-                  {/* Link */}
-                  <div className="flex items-center gap-2 text-primary font-medium">
-                    Learn More
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                    {/* Link with Arrow */}
+                    <div className="flex items-center gap-2 text-primary font-semibold text-sm">
+                      Learn More
+                      <motion.div
+                        animate={{ x: [0, 4, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                      >
+                        <ArrowRight className="w-4 h-4" />
+                      </motion.div>
+                    </div>
                   </div>
-                </div>
+
+                  {/* Bottom Gradient Line */}
+                  <motion.div
+                    className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${service.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                  />
+                </motion.div>
               </Link>
             </motion.div>
           ))}
         </div>
 
-        {/* View All CTA */}
+        {/* View All CTA - Enhanced */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="text-center mt-12"
+          className="text-center mt-16"
         >
           <Link to="/services">
-            <Button variant="outline" size="lg" className="group">
-              View All Services
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button variant="outline" size="lg" className="group relative overflow-hidden">
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-primary/20 to-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity"
+                />
+                <span className="relative z-10">Explore All Services</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform relative z-10" />
+              </Button>
+            </motion.div>
           </Link>
         </motion.div>
+
+        {/* Stats Bar */}
+      
       </div>
     </section>
   );
