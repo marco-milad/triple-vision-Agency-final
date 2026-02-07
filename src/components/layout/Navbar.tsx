@@ -98,9 +98,7 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
     return () => window.removeEventListener('keydown', handleEscape);
   }, [isMobileMenuOpen]);
 
-  // ARIA values as explicit variables
   const mobileMenuAriaLabel = isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu';
-  const mobileMenuAriaExpanded = isMobileMenuOpen ? 'true' : 'false';
 
   return (
     <>
@@ -177,7 +175,7 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="md:hidden relative z-10 p-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md transition-transform hover:scale-110"
             aria-label={mobileMenuAriaLabel}
-            aria-expanded={mobileMenuAriaExpanded}
+            aria-expanded={isMobileMenuOpen}
             aria-haspopup="true"
           >
             <AnimatePresence mode="wait">
