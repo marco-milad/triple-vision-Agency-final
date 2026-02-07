@@ -1,9 +1,8 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Target, Eye, Heart, Users } from 'lucide-react';
-import ContactModal from '@/components/modals/ContactModal';
+import { useContact } from '@/contexts/ContactContext';
 
 const values = [
   {
@@ -36,7 +35,7 @@ const team = [
 ];
 
 const About = () => {
-  const [isContactOpen, setIsContactOpen] = useState(false);
+  const { openContact } = useContact();
 
   return (
     <Layout>
@@ -261,7 +260,7 @@ const About = () => {
             <p className="text-muted-foreground text-lg mb-8">
               Let's create something extraordinary together.
             </p>
-            <Button variant="hero" size="xl" onClick={() => setIsContactOpen(true)} className="group">
+            <Button variant="hero" size="xl" onClick={() => openContact()} className="group">
               Start Your Project
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
@@ -269,7 +268,6 @@ const About = () => {
         </div>
       </section>
 
-      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </Layout>
   );
 };
