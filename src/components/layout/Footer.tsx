@@ -2,9 +2,12 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Instagram, Twitter, Linkedin, Youtube, Mail, Phone, MapPin, ArrowRight, Sparkles, Heart } from 'lucide-react';
 import logo from '@/assets/logo.png';
+import { useSectionInView, useParticlePositions } from '@/hooks/use-in-view-animation';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { ref: sectionRef, isInView } = useSectionInView();
+  const particles = useParticlePositions(10);
 
   const footerLinks = {
     services: [
@@ -30,7 +33,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gradient-to-br from-background via-background-secondary to-background border-t border-border/30 relative overflow-hidden">
+    <footer ref={sectionRef} className="bg-gradient-to-br from-background via-background-secondary to-background border-t border-border/30 relative overflow-hidden">
       {/* Enhanced Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px]" />
@@ -39,9 +42,9 @@ const Footer = () => {
 
       {/* Animated Grid Background */}
       <motion.div
-        animate={{
+        animate={isInView ? {
           backgroundPosition: ['0px 0px', '40px 40px'],
-        }}
+        } : undefined}
         transition={{
           duration: 30,
           repeat: Infinity,
@@ -57,23 +60,23 @@ const Footer = () => {
         }}
       />
 
-      {/* Floating Particles */}
-      {[...Array(10)].map((_, i) => (
+      {/* Floating Particles - memoized positions, viewport-gated */}
+      {particles.map((p, i) => (
         <motion.div
           key={i}
           className="absolute w-1 h-1 rounded-full bg-primary/20"
           style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
+            left: p.left,
+            top: p.top,
           }}
-          animate={{
+          animate={isInView ? {
             y: [0, -20, 0],
             opacity: [0.2, 0.5, 0.2],
-          }}
+          } : undefined}
           transition={{
-            duration: 3 + Math.random() * 2,
+            duration: p.duration,
             repeat: Infinity,
-            delay: Math.random() * 2,
+            delay: p.delay,
             ease: "easeInOut"
           }}
         />
@@ -97,7 +100,7 @@ const Footer = () => {
                 >
                   {/* Logo Glow */}
                   <div className="absolute inset-0 rounded-xl bg-primary/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <img src={logo} alt="Triple Vision" className="h-12 w-auto relative z-10" />
+                  <img src={logo} alt="Triple Vision" className="h-12 w-auto relative z-10" loading="lazy" />
                 </motion.div>
               </Link>
 

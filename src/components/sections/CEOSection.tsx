@@ -107,6 +107,7 @@ const CEOSection = () => {
                 <img
                   src={ceoPortrait}
                   alt="Mario Ndungu - CEO & Founder"
+                  loading="lazy"
                   className="w-full aspect-[3/4] object-cover"
                 />
                 {/* Enhanced Gradient Overlay */}

@@ -1,7 +1,8 @@
 import { motion, type TargetAndTransition } from 'framer-motion';
 import { ArrowRight, Play, Sparkles, Zap, Rocket, Star, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
+import { useParticlePositions } from '@/hooks/use-in-view-animation';
 
 interface HeroSectionProps {
   onContactClick: () => void;
@@ -50,6 +51,7 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
   }, []);
 
   const cardCount = isLowPerformance ? 0 : isMobile ? 3 : 6;
+  const particles = useParticlePositions(15);
 
   const getAnimationProps = (animation: TargetAndTransition): TargetAndTransition | Record<string, never> => {
     return prefersReducedMotion || isLowPerformance ? {} : animation;
@@ -127,13 +129,13 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
         />
 
         {/* Floating Particles */}
-        {!isLowPerformance && [...Array(15)].map((_, i) => (
+        {!isLowPerformance && particles.map((p, i) => (
           <motion.div
             key={i}
             className="absolute w-2 h-2 rounded-full bg-primary/30"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: p.left,
+              top: p.top,
             }}
             animate={getAnimationProps({
               y: [0, -30, 0],
@@ -141,9 +143,9 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
               scale: [1, 1.5, 1],
             })}
             transition={{
-              duration: 3 + Math.random() * 2,
+              duration: p.duration,
               repeat: Infinity,
-              delay: Math.random() * 2,
+              delay: p.delay,
               ease: "easeInOut"
             }}
           />
