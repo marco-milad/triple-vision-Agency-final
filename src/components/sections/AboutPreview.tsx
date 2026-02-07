@@ -3,6 +3,7 @@ import { ArrowRight, Award, Users, Zap, Sparkles, TrendingUp, Target } from 'luc
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useEffect, useRef, useState } from 'react';
+import { useSectionInView } from '@/hooks/use-in-view-animation';
 
 // Counter Component
 const Counter = ({ value, suffix = '', duration = 2 }: { value: number; suffix?: string; duration?: number }) => {
@@ -75,17 +76,17 @@ const stats = [
 ];
 
 const AboutPreview = () => {
+  const { ref: sectionRef, isInView } = useSectionInView();
+
   return (
-    <section className="section-padding bg-gradient-to-br from-background via-background to-background-secondary relative overflow-hidden">
+    <section ref={sectionRef} className="section-padding bg-gradient-to-br from-background via-background to-background-secondary relative overflow-hidden">
       {/* Enhanced Background Effects */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] rounded-full bg-primary/10 blur-[120px] animate-pulse" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] rounded-full bg-primary/10 blur-[120px]" style={{ animationPlayState: isInView ? 'running' : 'paused' }} />
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-orange-500/5 blur-[100px]" />
       
       {/* Animated Grid Background */}
       <motion.div
-        animate={{
-          backgroundPosition: ['0px 0px', '60px 60px'],
-        }}
+        animate={isInView ? { backgroundPosition: ['0px 0px', '60px 60px'] } : undefined}
         transition={{
           duration: 20,
           repeat: Infinity,
@@ -198,9 +199,7 @@ const AboutPreview = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-orange-500/20 to-pink-500/20 backdrop-blur-xl">
                 {/* Animated Gradient Overlay */}
                 <motion.div
-                  animate={{
-                    backgroundPosition: ['0% 0%', '100% 100%'],
-                  }}
+                  animate={isInView ? { backgroundPosition: ['0% 0%', '100% 100%'] } : undefined}
                   transition={{
                     duration: 10,
                     repeat: Infinity,
@@ -215,12 +214,12 @@ const AboutPreview = () => {
 
                 {/* Decorative Circles */}
                 <motion.div
-                  animate={{ rotate: 360, scale: [1, 1.1, 1] }}
+                  animate={isInView ? { rotate: 360, scale: [1, 1.1, 1] } : undefined}
                   transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] border-2 border-primary/20 rounded-full"
                 />
                 <motion.div
-                  animate={{ rotate: -360, scale: [1, 1.05, 1] }}
+                  animate={isInView ? { rotate: -360, scale: [1, 1.05, 1] } : undefined}
                   transition={{ duration: 35, repeat: Infinity, ease: 'linear' }}
                   className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] border border-primary/10 rounded-full"
                 />
@@ -273,12 +272,12 @@ const AboutPreview = () => {
 
             {/* Decorative Floating Elements */}
             <motion.div
-              animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
+              animate={isInView ? { y: [0, -10, 0], rotate: [0, 5, 0] } : undefined}
               transition={{ duration: 4, repeat: Infinity }}
               className="absolute top-1/4 -right-8 w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-purple-500/10 backdrop-blur-sm border border-primary/20 shadow-xl"
             />
             <motion.div
-              animate={{ y: [0, 10, 0], rotate: [0, -5, 0] }}
+              animate={isInView ? { y: [0, 10, 0], rotate: [0, -5, 0] } : undefined}
               transition={{ duration: 5, repeat: Infinity }}
               className="absolute bottom-1/4 -left-8 w-16 h-16 rounded-xl bg-gradient-to-br from-orange-500/20 to-pink-500/10 backdrop-blur-sm border border-primary/20 shadow-xl"
             />

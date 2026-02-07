@@ -1,7 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Quote, Sparkles, TrendingUp, Award, CheckCircle2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useSectionInView, useParticlePositions } from '@/hooks/use-in-view-animation';
 
 const testimonials = [
   {
@@ -95,27 +96,29 @@ const TestimonialsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const { ref: sectionRef, isInView } = useSectionInView();
+  const particles = useParticlePositions(12);
 
-  // Auto-play slider
+  const handleNext = useCallback(() => {
+    setDirection(1);
+    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+  }, []);
+
+  const handlePrev = useCallback(() => {
+    setDirection(-1);
+    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  }, []);
+
+  // Auto-play slider - only when in view
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    if (!isAutoPlaying || !isInView) return;
     
     const interval = setInterval(() => {
       handleNext();
-    }, 5000); // Change every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
-  }, [currentIndex, isAutoPlaying]);
-
-  const handleNext = () => {
-    setDirection(1);
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const handlePrev = () => {
-    setDirection(-1);
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
+  }, [currentIndex, isAutoPlaying, isInView, handleNext]);
 
   // Get visible testimonials (3 at a time)
   const getVisibleTestimonials = () => {
@@ -146,19 +149,17 @@ const TestimonialsSection = () => {
   };
 
   return (
-    <section className="section-padding bg-gradient-to-br from-background via-background-secondary to-background relative overflow-hidden">
+    <section ref={sectionRef} className="section-padding bg-gradient-to-br from-background via-background-secondary to-background relative overflow-hidden">
       {/* Enhanced Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 right-1/4 w-[700px] h-[700px] rounded-full bg-primary/10 blur-[140px] animate-pulse" />
+        <div className="absolute top-0 right-1/4 w-[700px] h-[700px] rounded-full bg-primary/10 blur-[140px]" style={{ animationPlayState: isInView ? 'running' : 'paused' }} />
         <div className="absolute bottom-0 left-1/4 w-[600px] h-[600px] rounded-full bg-orange-500/10 blur-[120px]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-purple-500/5 blur-[100px]" />
       </div>
 
       {/* Animated Grid Background */}
       <motion.div
-        animate={{
-          backgroundPosition: ['0px 0px', '60px 60px'],
-        }}
+        animate={isInView ? { backgroundPosition: ['0px 0px', '60px 60px'] } : undefined}
         transition={{
           duration: 25,
           repeat: Infinity,
@@ -175,23 +176,20 @@ const TestimonialsSection = () => {
       />
 
       {/* Floating Particles */}
-      {[...Array(12)].map((_, i) => (
+      {particles.map((p, i) => (
         <motion.div
           key={i}
           className="absolute w-1.5 h-1.5 rounded-full bg-primary/30"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-          animate={{
+          style={{ left: p.left, top: p.top }}
+          animate={isInView ? {
             y: [0, -20, 0],
             opacity: [0.3, 0.7, 0.3],
             scale: [1, 1.3, 1],
-          }}
+          } : undefined}
           transition={{
-            duration: 3 + Math.random() * 2,
+            duration: p.duration,
             repeat: Infinity,
-            delay: Math.random() * 2,
+            delay: p.delay,
             ease: "easeInOut"
           }}
         />
@@ -332,10 +330,10 @@ const TestimonialsSection = () => {
 
                     {/* Quote Icon - Animated */}
                     <motion.div
-                      animate={{ 
+                      animate={isInView ? { 
                         rotate: [0, 5, 0],
                         scale: [1, 1.1, 1]
-                      }}
+                      } : undefined}
                       transition={{ 
                         duration: 3, 
                         repeat: Infinity,
@@ -407,7 +405,7 @@ const TestimonialsSection = () => {
                       <div className="relative">
                         <CheckCircle2 className="w-6 h-6 text-green-500 fill-green-500/20" />
                         <motion.div
-                          animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
+                          animate={isInView ? { scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] } : undefined}
                           transition={{ duration: 2, repeat: Infinity }}
                           className="absolute inset-0 rounded-full bg-green-500/30 blur-md"
                         />
@@ -431,108 +429,41 @@ const TestimonialsSection = () => {
                 }}
                 whileHover={{ scale: 1.3 }}
                 whileTap={{ scale: 0.9 }}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  index === currentIndex 
-                    ? 'w-12 bg-gradient-to-r from-primary to-orange-500' 
-                    : 'w-2 bg-muted-foreground/30 hover:bg-primary/50'
+                className={`rounded-full transition-all duration-300 ${
+                  index === currentIndex
+                    ? 'w-10 h-3 bg-gradient-to-r from-primary to-orange-500 shadow-lg shadow-primary/50'
+                    : 'w-3 h-3 bg-muted-foreground/30 hover:bg-primary/50'
                 }`}
               />
             ))}
           </div>
         </div>
 
-        {/* Trust Badge - Enhanced */}
+        {/* Bottom Summary Stats */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-center"
-        >
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="inline-flex items-center gap-4 px-8 py-5 rounded-2xl bg-gradient-to-br from-primary/10 via-orange-500/10 to-pink-500/10 border-2 border-primary/30 backdrop-blur-xl shadow-2xl shadow-primary/20"
-          >
-            {/* Avatars Stack */}
-            <div className="flex -space-x-3">
-              {[...Array(5)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, scale: 0, x: -20 }}
-                  whileInView={{ opacity: 1, scale: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ 
-                    duration: 0.4, 
-                    delay: 0.6 + i * 0.1,
-                    type: 'spring'
-                  }}
-                  whileHover={{ scale: 1.2, zIndex: 10 }}
-                  className="relative"
-                >
-                  <div
-                    className={`w-10 h-10 rounded-full bg-gradient-to-br ${
-                      i === 0 ? 'from-primary to-orange-500' :
-                      i === 1 ? 'from-orange-500 to-pink-500' :
-                      i === 2 ? 'from-pink-500 to-purple-500' :
-                      i === 3 ? 'from-purple-500 to-blue-500' :
-                      'from-blue-500 to-primary'
-                    } border-3 border-background flex items-center justify-center shadow-lg transition-transform`}
-                  >
-                    <span className="text-xs font-black text-white">
-                      {String.fromCharCode(65 + i)}
-                    </span>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Text */}
-            <div className="flex items-center gap-2">
-              <Award className="w-5 h-5 text-primary" />
-              <span className="text-foreground font-black text-base md:text-lg">
-                Trusted by <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">50+</span> clients worldwide
-              </span>
-            </div>
-
-            {/* Sparkle */}
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-            >
-              <Sparkles className="w-5 h-5 text-primary" />
-            </motion.div>
-          </motion.div>
-        </motion.div>
-
-        {/* Stats Row */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.7 }}
-          className="mt-16 grid grid-cols-3 gap-6 max-w-3xl mx-auto"
+          transition={{ duration: 0.6 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-6 p-8 rounded-3xl border-2 border-border/50 bg-background/50 backdrop-blur-xl"
         >
           {[
-            { label: '5-Star Reviews', value: '98%', icon: Star },
-            { label: 'Client Retention', value: '95%', icon: TrendingUp },
-            { label: 'Projects Delivered', value: '200+', icon: Award },
+            { icon: Star, value: '4.9/5', label: 'Average Rating', color: 'text-primary' },
+            { icon: Award, value: '100%', label: 'Client Satisfaction', color: 'text-orange-500' },
+            { icon: TrendingUp, value: '300%', label: 'Avg. ROI Increase', color: 'text-pink-500' },
+            { icon: CheckCircle2, value: '200+', label: 'Projects Delivered', color: 'text-purple-500' },
           ].map((stat, index) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.8 + index * 0.1 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              className="text-center p-6 rounded-xl border border-border/50 bg-background/50 backdrop-blur-sm hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="text-center"
             >
-              <stat.icon className="w-8 h-8 text-primary mx-auto mb-3" />
-              <div className="text-2xl md:text-3xl font-black bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent mb-1">
-                {stat.value}
-              </div>
-              <div className="text-xs text-muted-foreground font-semibold">
-                {stat.label}
-              </div>
+              <stat.icon className={`w-8 h-8 ${stat.color} mx-auto mb-3`} />
+              <p className="text-2xl md:text-3xl font-black text-foreground mb-1">{stat.value}</p>
+              <p className="text-muted-foreground text-xs md:text-sm font-medium">{stat.label}</p>
             </motion.div>
           ))}
         </motion.div>

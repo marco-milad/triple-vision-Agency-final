@@ -1,33 +1,37 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Zap, Rocket, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useSectionInView, useParticlePositions } from '@/hooks/use-in-view-animation';
 
 interface CTASectionProps {
   onContactClick: () => void;
 }
 
 const CTASection = ({ onContactClick }: CTASectionProps) => {
+  const { ref: sectionRef, isInView } = useSectionInView();
+  const particles = useParticlePositions(20);
+
   return (
-    <section className="section-padding bg-gradient-to-br from-background via-background-secondary to-background relative overflow-hidden">
+    <section ref={sectionRef} className="section-padding bg-gradient-to-br from-background via-background-secondary to-background relative overflow-hidden">
       {/* Enhanced Background Effects */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] rounded-full bg-primary/10 blur-[140px] animate-pulse" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] rounded-full bg-primary/10 blur-[140px]" style={{ animationPlayState: isInView ? 'running' : 'paused' }} />
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full bg-orange-500/10 blur-[120px]" />
         <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-pink-500/5 blur-[100px]" />
         
         {/* Animated Rings */}
         <motion.div
-          animate={{ rotate: 360 }}
+          animate={isInView ? { rotate: 360 } : undefined}
           transition={{ duration: 50, repeat: Infinity, ease: 'linear' }}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border-2 border-primary/10 rounded-full"
         />
         <motion.div
-          animate={{ rotate: -360 }}
+          animate={isInView ? { rotate: -360 } : undefined}
           transition={{ duration: 70, repeat: Infinity, ease: 'linear' }}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-primary/5 rounded-full"
         />
         <motion.div
-          animate={{ rotate: 360 }}
+          animate={isInView ? { rotate: 360 } : undefined}
           transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] border border-orange-500/5 rounded-full"
         />
@@ -35,9 +39,7 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
 
       {/* Animated Grid Background */}
       <motion.div
-        animate={{
-          backgroundPosition: ['0px 0px', '60px 60px'],
-        }}
+        animate={isInView ? { backgroundPosition: ['0px 0px', '60px 60px'] } : undefined}
         transition={{
           duration: 25,
           repeat: Infinity,
@@ -54,23 +56,20 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
       />
 
       {/* Floating Particles */}
-      {[...Array(20)].map((_, i) => (
+      {particles.map((p, i) => (
         <motion.div
           key={i}
           className="absolute w-2 h-2 rounded-full bg-primary/30"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-          animate={{
+          style={{ left: p.left, top: p.top }}
+          animate={isInView ? {
             y: [0, -30, 0],
             opacity: [0.2, 0.8, 0.2],
             scale: [1, 1.5, 1],
-          }}
+          } : undefined}
           transition={{
-            duration: 3 + Math.random() * 2,
+            duration: p.duration,
             repeat: Infinity,
-            delay: Math.random() * 2,
+            delay: p.delay,
             ease: "easeInOut"
           }}
         />
@@ -86,10 +85,10 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
         <motion.div
           key={i}
           className={`absolute ${position} hidden lg:block`}
-          animate={{
+          animate={isInView ? {
             y: [0, -20, 0],
             rotate: [0, 10, 0],
-          }}
+          } : undefined}
           transition={{
             duration: 4,
             repeat: Infinity,
@@ -115,10 +114,10 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
           <div className="relative">
             {/* Card Glow */}
             <motion.div
-              animate={{
+              animate={isInView ? {
                 opacity: [0.3, 0.6, 0.3],
                 scale: [1, 1.05, 1],
-              }}
+              } : undefined}
               transition={{
                 duration: 4,
                 repeat: Infinity,
@@ -154,10 +153,10 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
                   <div className="relative">
                     {/* Icon Glow */}
                     <motion.div
-                      animate={{
+                      animate={isInView ? {
                         scale: [1, 1.2, 1],
                         opacity: [0.5, 0.8, 0.5],
-                      }}
+                      } : undefined}
                       transition={{
                         duration: 2,
                         repeat: Infinity,
@@ -170,10 +169,10 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
                     <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-orange-500 p-0.5 shadow-2xl">
                       <div className="w-full h-full rounded-2xl bg-background/95 backdrop-blur-xl flex items-center justify-center">
                         <motion.div
-                          animate={{
+                          animate={isInView ? {
                             rotate: [0, 10, 0],
                             scale: [1, 1.1, 1],
-                          }}
+                          } : undefined}
                           transition={{
                             duration: 2,
                             repeat: Infinity,
@@ -234,9 +233,7 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
                     >
                       {/* Button Shimmer Effect */}
                       <motion.div
-                        animate={{
-                          x: ['-100%', '100%'],
-                        }}
+                        animate={isInView ? { x: ['-100%', '100%'] } : undefined}
                         transition={{
                           duration: 2,
                           repeat: Infinity,
@@ -248,7 +245,7 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
                       <span className="relative flex items-center gap-3">
                         Start Your Project
                         <motion.div
-                          animate={{ x: [0, 5, 0] }}
+                          animate={isInView ? { x: [0, 5, 0] } : undefined}
                           transition={{ duration: 1.5, repeat: Infinity }}
                         >
                           <ArrowRight className="w-5 h-5" />

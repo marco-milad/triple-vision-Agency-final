@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Quote, Sparkles, Award, Users, TrendingUp, Linkedin, Instagram, Twitter, Mail } from 'lucide-react';
 import ceoPortrait from '@/assets/ceo-portrait.jpg';
+import { useSectionInView } from '@/hooks/use-in-view-animation';
 
 const achievements = [
   { icon: Award, label: '200+ Projects', color: 'from-primary to-orange-500' },
@@ -36,20 +37,20 @@ const socialLinks = [
 ];
 
 const CEOSection = () => {
+  const { ref: sectionRef, isInView } = useSectionInView();
+
   return (
-    <section className="section-padding bg-gradient-to-br from-background via-background-secondary to-background relative overflow-hidden">
+    <section ref={sectionRef} className="section-padding bg-gradient-to-br from-background via-background-secondary to-background relative overflow-hidden">
       {/* Enhanced Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/2 left-0 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[140px] animate-pulse" />
+        <div className="absolute top-1/2 left-0 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[140px]" style={{ animationPlayState: isInView ? 'running' : 'paused' }} />
         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-orange-500/10 blur-[120px]" />
         <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-purple-500/5 blur-[100px]" />
       </div>
 
       {/* Animated Grid Background */}
       <motion.div
-        animate={{
-          backgroundPosition: ['0px 0px', '60px 60px'],
-        }}
+        animate={isInView ? { backgroundPosition: ['0px 0px', '60px 60px'] } : undefined}
         transition={{
           duration: 25,
           repeat: Infinity,
@@ -78,12 +79,12 @@ const CEOSection = () => {
             <div className="relative max-w-md mx-auto lg:mx-0">
               {/* Animated Decorative Rings */}
               <motion.div
-                animate={{ rotate: 360 }}
+                animate={isInView ? { rotate: 360 } : undefined}
                 transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
                 className="absolute -inset-8 rounded-full border-2 border-primary/10"
               />
               <motion.div
-                animate={{ rotate: -360 }}
+                animate={isInView ? { rotate: -360 } : undefined}
                 transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
                 className="absolute -inset-12 rounded-full border border-primary/5"
               />
@@ -142,10 +143,10 @@ const CEOSection = () => {
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  animate={{ 
+                  animate={isInView ? { 
                     y: [0, -10, 0],
                     rotate: [0, 5, 0]
-                  }}
+                  } : undefined}
                   transition={{
                     opacity: { duration: 0.5, delay: 0.5 + index * 0.1 },
                     scale: { duration: 0.5, delay: 0.5 + index * 0.1, type: 'spring' },
@@ -208,7 +209,7 @@ const CEOSection = () => {
               className="relative mb-10 p-6 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/5 to-transparent backdrop-blur-sm"
             >
               <motion.div
-                animate={{ rotate: [0, 5, 0], scale: [1, 1.1, 1] }}
+                animate={isInView ? { rotate: [0, 5, 0], scale: [1, 1.1, 1] } : undefined}
                 transition={{ duration: 3, repeat: Infinity }}
               >
                 <Quote className="w-12 h-12 text-primary/40 absolute -top-4 -left-4" />

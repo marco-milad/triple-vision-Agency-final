@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ExternalLink, Sparkles, Play, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useSectionInView } from '@/hooks/use-in-view-animation';
 
 const portfolioItems = [
   {
@@ -43,19 +44,19 @@ const portfolioItems = [
 ];
 
 const PortfolioPreview = () => {
+  const { ref: sectionRef, isInView } = useSectionInView();
+
   return (
-    <section className="section-padding bg-gradient-to-br from-background-secondary via-background to-background-secondary relative overflow-hidden">
+    <section ref={sectionRef} className="section-padding bg-gradient-to-br from-background-secondary via-background to-background-secondary relative overflow-hidden">
       {/* Enhanced Background */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[140px] animate-pulse" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[140px]" style={{ animationPlayState: isInView ? 'running' : 'paused' }} />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-purple-500/5 blur-[120px]" />
       </div>
 
       {/* Animated Grid */}
       <motion.div
-        animate={{
-          backgroundPosition: ['0px 0px', '60px 60px'],
-        }}
+        animate={isInView ? { backgroundPosition: ['0px 0px', '60px 60px'] } : undefined}
         transition={{
           duration: 20,
           repeat: Infinity,
@@ -143,6 +144,7 @@ const PortfolioPreview = () => {
                     <img
                       src={item.image}
                       alt={item.title}
+                      loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                   </div>
@@ -214,7 +216,7 @@ const PortfolioPreview = () => {
                       >
                         <span>View Project</span>
                         <motion.div
-                          animate={{ x: [0, 4, 0] }}
+                          animate={isInView ? { x: [0, 4, 0] } : undefined}
                           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                         >
                           <ArrowRight className="w-5 h-5" />
