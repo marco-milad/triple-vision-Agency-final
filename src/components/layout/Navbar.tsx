@@ -108,10 +108,11 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
     setIsMobileMenuOpen(prev => !prev);
   }, []);
 
-  // ARIA values - using explicit string values
+  // ARIA attributes
   const menuButtonLabel = isMobileMenuOpen 
     ? 'Close navigation menu' 
     : 'Open navigation menu';
+  const menuExpanded = isMobileMenuOpen;
 
   return (
     <>
@@ -189,7 +190,7 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
             onClick={toggleMobileMenu}
             className="md:hidden relative z-10 p-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md transition-transform hover:scale-110"
             aria-label={menuButtonLabel}
-            aria-expanded={isMobileMenuOpen ? 'true' : 'false'}
+            aria-expanded={menuExpanded}
             aria-haspopup="true"
           >
             <AnimatePresence mode="wait">
