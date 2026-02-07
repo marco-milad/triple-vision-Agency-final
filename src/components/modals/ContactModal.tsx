@@ -141,13 +141,14 @@ const ContactModal = ({ isOpen, onClose, preSelectedService }: ContactModalProps
           </motion.div>
 
           {/* Centered Modal */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[calc(100%-2rem)] max-w-3xl max-h-[90vh] overflow-hidden rounded-3xl"
-          >
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="w-full max-w-3xl max-h-[90vh] overflow-hidden rounded-3xl pointer-events-auto"
+            >
             {/* Modal Glow */}
             <div className="absolute -inset-1 rounded-3xl bg-gradient-to-br from-primary via-orange-500 to-pink-500 blur-xl opacity-30" />
             
@@ -560,7 +561,8 @@ const ContactModal = ({ isOpen, onClose, preSelectedService }: ContactModalProps
                 </AnimatePresence>
               </div>
             </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
           {/* Custom Scrollbar Styles */}
           <style>{`
