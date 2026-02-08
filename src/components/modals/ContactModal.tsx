@@ -53,7 +53,7 @@ const ContactModal = ({ isOpen, onClose, preSelectedService }: ContactModalProps
       const message = encodeURIComponent(
         `Hi! I'm ${formState.fullName} from ${formState.company}.\n\nService: ${formState.service}\nPriority: ${formState.priority}\n\nMessage: ${formState.message}`
       );
-      window.open(`https://wa.me/1234567890?text=${message}`, '_blank');
+      window.open(`https://wa.me/201098324080?text=${message}`, '_blank');
     }
 
     setIsSubmitting(false);
