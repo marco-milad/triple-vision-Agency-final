@@ -11,6 +11,7 @@ const WhyTripleVision = lazy(() => import('@/components/sections/WhyTripleVision
 const TestimonialsSection = lazy(() => import('@/components/sections/TestimonialsSection'));
 const StatsSection = lazy(() => import('@/components/sections/StatsSection'));
 const CTASection = lazy(() => import('@/components/sections/CTASection'));
+const PowerPartners = lazy(() => import('@/components/sections/PowerPartners'));
 
 const SectionPlaceholder = ({ height = '600px' }: { height?: string }) => (
   <div style={{ minHeight: height }} className="bg-background" />
@@ -39,6 +40,9 @@ const Index = () => {
       </Suspense>
       <Suspense fallback={<SectionPlaceholder height="800px" />}>
         <TestimonialsSection />
+      </Suspense>
+      <Suspense fallback={<SectionPlaceholder height="400px" />}>
+        <PowerPartners />
       </Suspense>
       <Suspense fallback={<SectionPlaceholder height="300px" />}>
         <StatsSection />
