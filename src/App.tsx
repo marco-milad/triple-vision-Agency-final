@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { ContactProvider } from "@/contexts/ContactContext";
 import { lazy, Suspense } from "react";
+import ScrollToTop from "@/components/ScrollToTop";
 
 // Lazy-load all page components for route-level code splitting
 const Index = lazy(() => import("./pages/Index"));
@@ -31,6 +32,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <Suspense fallback={<PageLoader />}>
             <AnimatePresence mode="wait">
               <Routes>
