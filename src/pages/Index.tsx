@@ -1,14 +1,20 @@
+import { lazy, Suspense } from 'react';
 import Layout from '@/components/layout/Layout';
 import HeroSection from '@/components/sections/HeroSection';
-import AboutPreview from '@/components/sections/AboutPreview';
-import CEOSection from '@/components/sections/CEOSection';
-import ServicesOverview from '@/components/sections/ServicesOverview';
-import PortfolioPreview from '@/components/sections/PortfolioPreview';
-import WhyTripleVision from '@/components/sections/WhyTripleVision';
-import TestimonialsSection from '@/components/sections/TestimonialsSection';
-import StatsSection from '@/components/sections/StatsSection';
-import CTASection from '@/components/sections/CTASection';
 import { useContact } from '@/contexts/ContactContext';
+
+const AboutPreview = lazy(() => import('@/components/sections/AboutPreview'));
+const CEOSection = lazy(() => import('@/components/sections/CEOSection'));
+const ServicesOverview = lazy(() => import('@/components/sections/ServicesOverview'));
+const PortfolioPreview = lazy(() => import('@/components/sections/PortfolioPreview'));
+const WhyTripleVision = lazy(() => import('@/components/sections/WhyTripleVision'));
+const TestimonialsSection = lazy(() => import('@/components/sections/TestimonialsSection'));
+const StatsSection = lazy(() => import('@/components/sections/StatsSection'));
+const CTASection = lazy(() => import('@/components/sections/CTASection'));
+
+const SectionPlaceholder = ({ height = '600px' }: { height?: string }) => (
+  <div style={{ minHeight: height }} className="bg-background" />
+);
 
 const Index = () => {
   const { openContact } = useContact();
@@ -16,14 +22,30 @@ const Index = () => {
   return (
     <Layout>
       <HeroSection onContactClick={() => openContact()} />
-      <AboutPreview />
-      <CEOSection />
-      <ServicesOverview />
-      <PortfolioPreview />
-      <WhyTripleVision />
-      <TestimonialsSection />
-      <StatsSection />
-      <CTASection onContactClick={() => openContact()} />
+      <Suspense fallback={<SectionPlaceholder height="800px" />}>
+        <AboutPreview />
+      </Suspense>
+      <Suspense fallback={<SectionPlaceholder height="700px" />}>
+        <CEOSection />
+      </Suspense>
+      <Suspense fallback={<SectionPlaceholder height="800px" />}>
+        <ServicesOverview />
+      </Suspense>
+      <Suspense fallback={<SectionPlaceholder height="700px" />}>
+        <PortfolioPreview />
+      </Suspense>
+      <Suspense fallback={<SectionPlaceholder height="700px" />}>
+        <WhyTripleVision />
+      </Suspense>
+      <Suspense fallback={<SectionPlaceholder height="800px" />}>
+        <TestimonialsSection />
+      </Suspense>
+      <Suspense fallback={<SectionPlaceholder height="300px" />}>
+        <StatsSection />
+      </Suspense>
+      <Suspense fallback={<SectionPlaceholder height="600px" />}>
+        <CTASection onContactClick={() => openContact()} />
+      </Suspense>
     </Layout>
   );
 };

@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useInView } from 'framer-motion';
@@ -72,4 +73,4 @@ const StatsSection = () => {
   );
 };
 
-export default StatsSection;
+export default React.memo(StatsSection);

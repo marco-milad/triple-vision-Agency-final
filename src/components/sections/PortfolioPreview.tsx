@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ExternalLink, Sparkles, Play, Eye } from 'lucide-react';
@@ -55,13 +56,7 @@ const PortfolioPreview = () => {
       </div>
 
       {/* Animated Grid */}
-      <motion.div
-        animate={isInView ? { backgroundPosition: ['0px 0px', '60px 60px'] } : undefined}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: "linear"
-        }}
+      <div
         className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `
@@ -270,4 +265,4 @@ const PortfolioPreview = () => {
   );
 };
 
-export default PortfolioPreview;
+export default React.memo(PortfolioPreview);

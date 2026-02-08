@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Target, Lightbulb, Rocket, Shield, Sparkles, ArrowRight } from 'lucide-react';
 import { useSectionInView, useParticlePositions } from '@/hooks/use-in-view-animation';
@@ -35,7 +36,7 @@ const values = [
 
 const WhyTripleVision = () => {
   const { ref: sectionRef, isInView } = useSectionInView();
-  const particles = useParticlePositions(15);
+  const particles = useParticlePositions(6);
 
   return (
     <section ref={sectionRef} className="section-padding bg-gradient-to-br from-background via-background-secondary to-background relative overflow-hidden">
@@ -47,13 +48,7 @@ const WhyTripleVision = () => {
       </div>
 
       {/* Animated Grid Background */}
-      <motion.div
-        animate={isInView ? { backgroundPosition: ['0px 0px', '60px 60px'] } : undefined}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: "linear"
-        }}
+      <div
         className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `
@@ -279,4 +274,4 @@ const WhyTripleVision = () => {
   );
 };
 
-export default WhyTripleVision;
+export default React.memo(WhyTripleVision);

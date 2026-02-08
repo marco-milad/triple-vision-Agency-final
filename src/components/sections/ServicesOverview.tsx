@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Video, Calendar, Share2, Palette, Code, Radio, Sparkles, Star } from 'lucide-react';
@@ -64,13 +65,7 @@ const ServicesOverview = () => {
       </div>
 
       {/* Animated Grid */}
-      <motion.div
-        animate={isInView ? { backgroundPosition: ['0px 0px', '60px 60px'] } : undefined}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: "linear"
-        }}
+      <div
         className="absolute inset-0 opacity-[0.03]"
         style={{
           backgroundImage: `
@@ -250,4 +245,4 @@ const ServicesOverview = () => {
   );
 };
 
-export default ServicesOverview;
+export default React.memo(ServicesOverview);

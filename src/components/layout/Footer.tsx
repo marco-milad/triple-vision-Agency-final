@@ -7,7 +7,7 @@ import { useSectionInView, useParticlePositions } from '@/hooks/use-in-view-anim
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { ref: sectionRef, isInView } = useSectionInView();
-  const particles = useParticlePositions(10);
+  const particles = useParticlePositions(5);
 
   const footerLinks = {
     services: [
@@ -41,15 +41,7 @@ const Footer = () => {
       </div>
 
       {/* Animated Grid Background */}
-      <motion.div
-        animate={isInView ? {
-          backgroundPosition: ['0px 0px', '40px 40px'],
-        } : undefined}
-        transition={{
-          duration: 30,
-          repeat: Infinity,
-          ease: "linear"
-        }}
+      <div
         className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `

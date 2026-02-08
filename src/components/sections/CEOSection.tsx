@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Quote, Sparkles, Award, Users, TrendingUp, Linkedin, Instagram, Twitter, Mail } from 'lucide-react';
 import ceoPortrait from '@/assets/ceo-portrait.jpg';
@@ -49,13 +50,7 @@ const CEOSection = () => {
       </div>
 
       {/* Animated Grid Background */}
-      <motion.div
-        animate={isInView ? { backgroundPosition: ['0px 0px', '60px 60px'] } : undefined}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: "linear"
-        }}
+      <div
         className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `
@@ -321,4 +316,4 @@ const CEOSection = () => {
   );
 };
 
-export default CEOSection;
+export default React.memo(CEOSection);
