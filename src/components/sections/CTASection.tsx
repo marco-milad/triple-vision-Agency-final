@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Zap, Rocket, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,7 @@ interface CTASectionProps {
 
 const CTASection = ({ onContactClick }: CTASectionProps) => {
   const { ref: sectionRef, isInView } = useSectionInView();
-  const particles = useParticlePositions(20);
+  const particles = useParticlePositions(8);
 
   return (
     <section ref={sectionRef} className="section-padding bg-gradient-to-br from-background via-background-secondary to-background relative overflow-hidden">
@@ -38,13 +39,7 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
       </div>
 
       {/* Animated Grid Background */}
-      <motion.div
-        animate={isInView ? { backgroundPosition: ['0px 0px', '60px 60px'] } : undefined}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: "linear"
-        }}
+      <div
         className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `
@@ -323,4 +318,4 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
   );
 };
 
-export default CTASection;
+export default React.memo(CTASection);

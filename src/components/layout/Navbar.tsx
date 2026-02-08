@@ -151,18 +151,7 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
           >
             <div className="relative">
               {/* Logo Glow */}
-              <motion.div
-                animate={{
-                  opacity: [0, 0.5, 0],
-                  scale: [0.8, 1.2, 0.8],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                className="absolute inset-0 rounded-xl bg-primary/30 blur-xl opacity-0 group-hover:opacity-50"
-              />
+              <div className="absolute inset-0 rounded-xl bg-primary/30 blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
               <motion.img
                 src={logo}
                 alt="Triple Vision Logo"
@@ -207,16 +196,8 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
                         className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary via-orange-500 to-primary rounded-full"
                         transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                       />
-                      <motion.div
-                        animate={{
-                          opacity: [0.5, 1, 0.5],
-                        }}
-                        transition={{
-                          duration: 2,
-                          repeat: Infinity,
-                          ease: "easeInOut"
-                        }}
-                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary via-orange-500 to-primary rounded-full blur-sm"
+                      <div
+                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary via-orange-500 to-primary rounded-full blur-sm opacity-70"
                       />
                     </>
                   )}

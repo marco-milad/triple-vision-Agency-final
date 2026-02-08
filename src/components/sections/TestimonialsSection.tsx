@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Quote, Sparkles, TrendingUp, Award, CheckCircle2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSectionInView, useParticlePositions } from '@/hooks/use-in-view-animation';
 
 const testimonials = [
@@ -97,7 +97,7 @@ const TestimonialsSection = () => {
   const [direction, setDirection] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const { ref: sectionRef, isInView } = useSectionInView();
-  const particles = useParticlePositions(12);
+  const particles = useParticlePositions(6);
 
   const handleNext = useCallback(() => {
     setDirection(1);
@@ -158,13 +158,7 @@ const TestimonialsSection = () => {
       </div>
 
       {/* Animated Grid Background */}
-      <motion.div
-        animate={isInView ? { backgroundPosition: ['0px 0px', '60px 60px'] } : undefined}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: "linear"
-        }}
+      <div
         className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `
@@ -472,4 +466,4 @@ const TestimonialsSection = () => {
   );
 };
 
-export default TestimonialsSection;
+export default React.memo(TestimonialsSection);

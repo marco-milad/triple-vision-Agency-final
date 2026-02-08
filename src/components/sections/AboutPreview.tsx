@@ -2,7 +2,7 @@ import { motion, useMotionValue, useTransform, animate, useInView } from 'framer
 import { ArrowRight, Award, Users, Zap, Sparkles, TrendingUp, Target } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSectionInView } from '@/hooks/use-in-view-animation';
 
 // Counter Component
@@ -85,13 +85,7 @@ const AboutPreview = () => {
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-orange-500/5 blur-[100px]" />
       
       {/* Animated Grid Background */}
-      <motion.div
-        animate={isInView ? { backgroundPosition: ['0px 0px', '60px 60px'] } : undefined}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: "linear"
-        }}
+      <div
         className="absolute inset-0 opacity-[0.03]"
         style={{
           backgroundImage: `
@@ -315,4 +309,4 @@ const AboutPreview = () => {
   );
 };
 
-export default AboutPreview;
+export default React.memo(AboutPreview);

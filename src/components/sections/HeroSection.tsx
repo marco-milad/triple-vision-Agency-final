@@ -1,7 +1,7 @@
 import { motion, type TargetAndTransition } from 'framer-motion';
 import { ArrowRight, Play, Sparkles, Zap, Rocket, Star, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useParticlePositions } from '@/hooks/use-in-view-animation';
 
 interface HeroSectionProps {
@@ -51,7 +51,7 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
   }, []);
 
   const cardCount = isLowPerformance ? 0 : isMobile ? 3 : 6;
-  const particles = useParticlePositions(15);
+  const particles = useParticlePositions(8);
 
   const getAnimationProps = (animation: TargetAndTransition): TargetAndTransition | Record<string, never> => {
     return prefersReducedMotion || isLowPerformance ? {} : animation;
@@ -109,15 +109,7 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
         />
 
         {/* Animated Grid */}
-        <motion.div
-          animate={getAnimationProps({
-            backgroundPosition: ['0px 0px', '60px 60px'],
-          })}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear"
-          }}
+        <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage: `
@@ -482,4 +474,4 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
   );
 };
 
-export default HeroSection;
+export default React.memo(HeroSection);

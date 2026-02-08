@@ -93,42 +93,12 @@ const ContactModal = ({ isOpen, onClose, preSelectedService }: ContactModalProps
           >
             {/* Background Effects */}
             <div className="absolute inset-0 overflow-hidden">
-              <motion.div
-                animate={{
-                  rotate: [0, 360],
-                  scale: [1, 1.2, 1],
-                }}
-                transition={{
-                  duration: 25,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-                className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/10 blur-[120px]"
-              />
-              <motion.div
-                animate={{
-                  rotate: [360, 0],
-                  scale: [1, 1.15, 1],
-                }}
-                transition={{
-                  duration: 20,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-                className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-orange-500/10 blur-[100px]"
-              />
+              <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/10 blur-[120px]" />
+              <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-orange-500/10 blur-[100px]" />
             </div>
 
-            {/* Animated Grid */}
-            <motion.div
-              animate={{
-                backgroundPosition: ['0px 0px', '40px 40px'],
-              }}
-              transition={{
-                duration: 20,
-                repeat: Infinity,
-                ease: "linear"
-              }}
+            {/* Static Grid */}
+            <div
               className="absolute inset-0 opacity-[0.02]"
               style={{
                 backgroundImage: `
