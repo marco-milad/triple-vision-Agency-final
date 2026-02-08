@@ -1,0 +1,27 @@
+{
+  "name": "Triple Vision Agency",
+  "short_name": "Triple Vision",
+  "description": "Premium creative agency in Cairo specializing in media production, branding, and digital innovation",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a1a",
+  "theme_color": "#ff8c00",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://res.cloudinary.com/dcui0elwh/image/upload/c_scale,w_192/v1763917799/logo2_transparent_jjpgv6.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://res.cloudinary.com/dcui0elwh/image/upload/c_scale,w_512/v1763917799/logo2_transparent_jjpgv6.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity", "lifestyle", "entertainment"],
+  "lang": "en",
+  "dir": "ltr"
+}
