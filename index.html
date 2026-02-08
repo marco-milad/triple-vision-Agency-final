@@ -1,31 +1,250 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
+    <!-- Essential Meta Tags -->
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/favicon.png" type="image/png" />
-    <title>Triple Vision Agency | Premium Creative Agency</title>
-    <meta name="description" content="Triple Vision Agency - A premium creative agency specializing in media production, branding, web development, and digital experiences. We craft cinematic stories that captivate audiences." />
-    <meta name="author" content="Triple Vision Agency" />
-    <meta name="keywords" content="creative agency, media production, branding, web development, digital marketing, event planning, PR" />
-
-    <meta property="og:title" content="Triple Vision Agency | Premium Creative Agency" />
-    <meta property="og:description" content="We craft cinematic experiences through media production, branding, and digital innovation." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@TripleVision" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"></noscript>
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    <meta name="theme-color" content="#ff8c00" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
+    
+    <!-- Favicon - Multiple Sizes -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://res.cloudinary.com/dcui0elwh/image/upload/c_scale,w_32/v1763917799/logo2_transparent_jjpgv6.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="https://res.cloudinary.com/dcui0elwh/image/upload/c_scale,w_16/v1763917799/logo2_transparent_jjpgv6.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="https://res.cloudinary.com/dcui0elwh/image/upload/c_scale,w_180/v1763917799/logo2_transparent_jjpgv6.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>Triple Vision Agency | Premium Creative Agency in Cairo - Media Production, Branding & Digital Innovation</title>
+    <meta name="title" content="Triple Vision Agency | Premium Creative Agency in Cairo, Egypt" />
+    <meta name="description" content="Triple Vision Agency - Cairo's leading creative agency specializing in media production, event planning, branding, web development, and digital experiences. Transform your vision into cinematic reality." />
+    <meta name="author" content="Triple Vision Agency" />
+    <meta name="keywords" content="creative agency cairo, media production egypt, branding agency cairo, web development egypt, event planning cairo, digital marketing egypt, video production cairo, graphics design egypt, PR services cairo, Triple Vision Agency" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://triplevision.agency/" />
+    
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://triplevision.agency/" />
+    <meta property="og:site_name" content="Triple Vision Agency" />
+    <meta property="og:title" content="Triple Vision Agency | Premium Creative Agency in Cairo" />
+    <meta property="og:description" content="Cairo's leading creative agency specializing in media production, branding, and digital innovation. We craft cinematic experiences that elevate brands." />
+    <meta property="og:image" content="https://res.cloudinary.com/dcui0elwh/image/upload/v1770565616/logo2_wmsaco.jpg" />
+    <meta property="og:image:secure_url" content="https://res.cloudinary.com/dcui0elwh/image/upload/v1770565616/logo2_wmsaco.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Triple Vision Agency - Premium Creative Solutions in Cairo" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://triplevision.agency/" />
+    <meta name="twitter:site" content="@TripleVision" />
+    <meta name="twitter:creator" content="@TripleVision" />
+    <meta name="twitter:title" content="Triple Vision Agency | Premium Creative Agency in Cairo" />
+    <meta name="twitter:description" content="Cairo's leading creative agency specializing in media production, branding, and digital innovation." />
+    <meta name="twitter:image" content="https://res.cloudinary.com/dcui0elwh/image/upload/v1770565616/logo2_wmsaco.jpg" />
+    <meta name="twitter:image:alt" content="Triple Vision Agency - Premium Creative Solutions" />
+    
+    <!-- Structured Data (JSON-LD) for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Triple Vision Agency",
+      "url": "https://triplevision.agency",
+      "logo": "https://res.cloudinary.com/dcui0elwh/image/upload/v1763917799/logo2_transparent_jjpgv6.png",
+      "image": "https://res.cloudinary.com/dcui0elwh/image/upload/v1770565616/logo2_wmsaco.jpg",
+      "description": "Premium creative agency in Cairo specializing in media production, event planning, branding, web development, and digital experiences",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "5 Al Mehwar St, Hadikat Badr from Gesr El Suez",
+        "addressLocality": "Cairo",
+        "addressCountry": "EG"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+20-10-9832-4080",
+        "contactType": "Customer Service",
+        "email": "info@triplevision.com",
+        "availableLanguage": "English"
+      },
+      "sameAs": [
+        "https://facebook.com/triplevision",
+        "https://instagram.com/triplevision",
+        "https://twitter.com/triplevision",
+        "https://linkedin.com/company/triplevision"
+      ],
+      "areaServed": {
+        "@type": "Country",
+        "name": "Egypt"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "1"
+      }
+    }
+    </script>
+
+    <!-- Local Business Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Triple Vision Agency",
+      "image": "https://res.cloudinary.com/dcui0elwh/image/upload/v1770565616/logo2_wmsaco.jpg",
+      "@id": "https://triplevision.agency",
+      "url": "https://triplevision.agency",
+      "telephone": "+201098324080",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "5 Al Mehwar St, Hadikat Badr from Gesr El Suez",
+        "addressLocality": "Cairo",
+        "addressCountry": "EG"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 30.0444,
+        "longitude": 31.2357
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Sunday"
+        ],
+        "opens": "09:00",
+        "closes": "18:00"
+      }
+    }
+    </script>
+
+    <!-- Service Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Creative Agency Services",
+      "provider": {
+        "@type": "Organization",
+        "name": "Triple Vision Agency"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Egypt"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Creative Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Media Production"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Event Planning & Coverage"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Digital Media Services"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Graphics & Branding"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Web Development"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "PR & Media Monitoring"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+    
+    <!-- Performance Optimization - Preconnect to External Domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+    
+    <!-- Optimized Font Loading with Display Swap -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" />
+    </noscript>
+    
+    <!-- Preload Critical Assets -->
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    <link rel="preload" href="https://res.cloudinary.com/dcui0elwh/image/upload/v1763917799/logo2_transparent_jjpgv6.png" as="image" />
   </head>
 
   <body>
+    <!-- No JavaScript Fallback -->
+    <noscript>
+      <div style="position: fixed; top: 0; left: 0; right: 0; background: #ff8c00; color: white; padding: 16px; text-align: center; z-index: 9999; font-family: system-ui, -apple-system, sans-serif;">
+        <strong>JavaScript Required:</strong> Please enable JavaScript in your browser to experience Triple Vision Agency's full interactive features.
+      </div>
+    </noscript>
+    
+    <!-- Main App Container -->
     <div id="root"></div>
+    
+    <!-- Main Application Script -->
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Service Worker Registration (Progressive Web App) -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {
+            // Service worker registration failed, silent fail
+          });
+        });
+      }
+    </script>
+
+    <!-- WhatsApp Click-to-Chat Widget (Optional) -->
+    <script>
+      // WhatsApp widget can be initialized here if needed
+      window.TRIPLEVISION_CONTACT = {
+        whatsapp: '201098324080',
+        email: 'info@triplevision.com',
+        phone: '+201098324080'
+      };
+    </script>
   </body>
 </html>
