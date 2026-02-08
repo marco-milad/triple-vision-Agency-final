@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Video, Calendar, Share2, Palette, Code, Radio, CheckCircle } from 'lucide-react';
+import { ArrowRight, Video, Calendar, Share2, Palette, Code, Radio, CheckCircle, Sparkles } from 'lucide-react';
 import { useContact } from '@/contexts/ContactContext';
 
 const services = [
@@ -61,9 +61,14 @@ const Services = () => {
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 relative overflow-hidden hero-gradient">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,140,0,0.1),transparent_50%)]" />
+      {/* Hero Section - Enhanced */}
+      <section className="pt-32 pb-20 px-6 relative overflow-hidden bg-gradient-to-br from-background via-background-secondary to-background">
+        {/* Background Effects */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[140px]" />
+          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-orange-500/10 blur-[120px]" />
+        </div>
+
         <div className="container mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -71,62 +76,155 @@ const Services = () => {
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <span className="text-primary font-semibold text-sm uppercase tracking-widest mb-4 block">
-              Our Services
-            </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-              Creative Solutions for <span className="text-gradient">Every Need</span>
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, type: 'spring' }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 backdrop-blur-sm mb-6"
+            >
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+                Our Services
+              </span>
+            </motion.div>
+
+            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-foreground mb-6 leading-[1.1]">
+              Creative Solutions for{' '}
+              <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">
+                Every Need
+              </span>
             </h1>
-            <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto"
+            >
               From concept to execution, we offer comprehensive creative services 
               that elevate your brand and drive real results.
-            </p>
+            </motion.p>
+
+            {/* Decorative Line */}
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 1, delay: 0.4, ease: 'easeOut' }}
+              className="mt-8 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-orange-500 to-pink-500 rounded-full shadow-lg shadow-primary/50"
+            />
           </motion.div>
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="section-padding bg-background">
-        <div className="container mx-auto">
+      {/* Services Grid - Enhanced */}
+      <section className="section-padding bg-background relative overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px]" />
+        </div>
+
+        <div className="container mx-auto relative z-10">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
               <motion.div
                 key={service.slug}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: index * 0.1,
+                  type: 'spring',
+                  stiffness: 100
+                }}
+                className="group relative"
               >
-                <Link to={`/services/${service.slug}`} className="block group h-full">
-                  <div className="card-glass card-hover p-8 h-full flex flex-col">
-                    {/* Icon */}
-                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                      <service.icon className="w-8 h-8 text-white" />
-                    </div>
+                <Link to={`/services/${service.slug}`} className="block h-full">
+                  {/* Card Container */}
+                  <div className="relative h-full">
+                    {/* Hover Glow - Static */}
+                    <div className={`absolute -inset-1 rounded-3xl bg-gradient-to-br ${service.color} blur-xl opacity-0 group-hover:opacity-30 transition-all duration-500`} />
 
-                    {/* Content */}
-                    <h3 className="text-2xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
-                      {service.title}
-                    </h3>
-                    <p className="text-muted-foreground mb-6 leading-relaxed flex-grow">
-                      {service.description}
-                    </p>
+                    {/* Main Card */}
+                    <motion.div
+                      whileHover={{ y: -10, scale: 1.02 }}
+                      transition={{ duration: 0.3 }}
+                      className="relative h-full p-8 rounded-2xl border-2 border-border/50 bg-background/80 backdrop-blur-xl hover:border-primary/50 transition-all duration-300 overflow-hidden flex flex-col"
+                    >
+                      {/* Background Pattern */}
+                      <div 
+                        className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity duration-300"
+                        style={{
+                          backgroundImage: `
+                            linear-gradient(rgba(255,140,0,0.3) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(255,140,0,0.3) 1px, transparent 1px)
+                          `,
+                          backgroundSize: '20px 20px'
+                        }}
+                      />
 
-                    {/* Features */}
-                    <ul className="space-y-2 mb-6">
-                      {service.features.map((feature) => (
-                        <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <CheckCircle className="w-4 h-4 text-primary" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
+                      {/* Icon Container */}
+                      <motion.div
+                        whileHover={{ scale: 1.15, rotate: 5 }}
+                        transition={{ duration: 0.3, type: 'spring' }}
+                        className="relative mb-6 inline-block"
+                      >
+                        {/* Icon Glow */}
+                        <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${service.color} blur-lg opacity-40`} />
+                        
+                        {/* Icon Box */}
+                        <div className={`relative w-20 h-20 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center shadow-2xl`}>
+                          <service.icon className="w-10 h-10 text-white" />
+                        </div>
+                      </motion.div>
 
-                    {/* Link */}
-                    <div className="flex items-center gap-2 text-primary font-medium mt-auto">
-                      Learn More
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
-                    </div>
+                      {/* Content */}
+                      <div className="relative flex-1 flex flex-col">
+                        <h3 className="text-2xl md:text-3xl font-black text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
+                          {service.title}
+                        </h3>
+                        
+                        <p className="text-muted-foreground text-sm md:text-base mb-6 leading-relaxed">
+                          {service.description}
+                        </p>
+
+                        {/* Features */}
+                        <ul className="space-y-3 mb-6 flex-grow">
+                          {service.features.map((feature, idx) => (
+                            <motion.li
+                              key={feature}
+                              initial={{ opacity: 0, x: -10 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              viewport={{ once: true }}
+                              transition={{ duration: 0.3, delay: 0.1 + idx * 0.05 }}
+                              className="flex items-center gap-3 text-sm text-muted-foreground group/item"
+                            >
+                              <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover/item:bg-primary/20 transition-colors">
+                                <CheckCircle className="w-3 h-3 text-primary" />
+                              </div>
+                              <span className="group-hover/item:text-foreground transition-colors">
+                                {feature}
+                              </span>
+                            </motion.li>
+                          ))}
+                        </ul>
+
+                        {/* Learn More Link */}
+                        <div className="flex items-center gap-2 text-primary font-bold text-sm">
+                          <span>Learn More</span>
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                        </div>
+                      </div>
+
+                      {/* Corner Decoration */}
+                      <div className={`absolute -bottom-8 -right-8 w-24 h-24 rounded-full bg-gradient-to-br ${service.color} opacity-10 group-hover:opacity-20 blur-2xl transition-opacity duration-500`} />
+
+                      {/* Number Badge */}
+                      <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-orange-500/20 border border-primary/30 flex items-center justify-center">
+                        <span className="text-xs font-black text-primary">0{index + 1}</span>
+                      </div>
+                    </motion.div>
                   </div>
                 </Link>
               </motion.div>
@@ -135,26 +233,53 @@ const Services = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="section-padding bg-background-secondary">
-        <div className="container mx-auto">
+      {/* CTA Section - Enhanced */}
+      <section className="section-padding bg-gradient-to-br from-background-secondary via-background to-background-secondary relative overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-primary/10 blur-[140px]" />
+        </div>
+
+        <div className="container mx-auto relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6 }}
             className="max-w-3xl mx-auto text-center"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Not Sure Which Service You Need?
-            </h2>
-            <p className="text-muted-foreground text-lg mb-8">
-              Let's discuss your project and find the perfect solution together.
-            </p>
-            <Button variant="hero" size="xl" onClick={() => openContact()} className="group">
-              Get a Free Consultation
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            {/* Static Glow Behind Card */}
+            <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-primary/20 via-orange-500/20 to-pink-500/20 blur-3xl opacity-40" />
+
+            <div className="relative p-12 md:p-16 rounded-3xl border-2 border-primary/20 bg-background/90 backdrop-blur-2xl">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground mb-6">
+                Not Sure Which Service{' '}
+                <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">
+                  You Need?
+                </span>
+              </h2>
+              
+              <p className="text-muted-foreground text-lg md:text-xl mb-10">
+                Let's discuss your project and find the perfect solution together.
+              </p>
+
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button 
+                  variant="hero" 
+                  size="xl" 
+                  onClick={() => openContact()} 
+                  className="group"
+                >
+                  <span className="flex items-center gap-3">
+                    Get a Free Consultation
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </Button>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>
