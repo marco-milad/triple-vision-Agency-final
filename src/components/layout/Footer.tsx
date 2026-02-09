@@ -2,12 +2,9 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Instagram, Twitter, Linkedin, Youtube, Mail, Phone, MapPin, ArrowRight, Sparkles, Heart } from 'lucide-react';
 import logo from '@/assets/logo.png';
-import { useSectionInView, useParticlePositions } from '@/hooks/use-in-view-animation';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const { ref: sectionRef, isInView } = useSectionInView();
-  const particles = useParticlePositions(5);
 
   const footerLinks = {
     services: [
@@ -34,50 +31,24 @@ const Footer = () => {
   ];
 
   return (
-    <footer ref={sectionRef} className="bg-gradient-to-br from-background via-background-secondary to-background border-t border-border/30 relative overflow-hidden">
-      {/* Enhanced Background Elements */}
+    <footer className="bg-gradient-to-br from-background via-background-secondary to-background border-t border-border/30 relative overflow-hidden">
+      {/* Background - reduced blur, no particles */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px]" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-orange-500/5 blur-[100px]" />
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[80px]" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-orange-500/5 blur-[60px]" />
       </div>
 
-      {/* Animated Grid Background */}
       <div
         className="absolute inset-0 opacity-[0.02]"
         style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,140,0,0.3) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,140,0,0.3) 1px, transparent 1px)
-          `,
+          backgroundImage: `linear-gradient(rgba(255,140,0,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,140,0,0.3) 1px, transparent 1px)`,
           backgroundSize: '40px 40px'
         }}
       />
 
-      {/* Floating Particles - memoized positions, viewport-gated */}
-      {particles.map((p, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 rounded-full bg-primary/20"
-          style={{
-            left: p.left,
-            top: p.top,
-          }}
-          animate={isInView ? {
-            y: [0, -20, 0],
-            opacity: [0.2, 0.5, 0.2],
-          } : undefined}
-          transition={{
-            duration: p.duration,
-            repeat: Infinity,
-            delay: p.delay,
-            ease: "easeInOut"
-          }}
-        />
-      ))}
-
       <div className="container mx-auto px-6 py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* Brand Column - Enhanced */}
+          {/* Brand Column */}
           <div className="lg:col-span-1">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -85,26 +56,19 @@ const Footer = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              {/* Logo with Glow */}
               <Link to="/" className="mb-6 block group">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="relative inline-block"
-                >
-                  {/* Logo Glow */}
+                <motion.div whileHover={{ scale: 1.05 }} className="relative inline-block">
                   <div className="absolute inset-0 rounded-xl bg-primary/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <img src={logo} alt="Triple Vision" className="h-12 w-auto relative z-10" loading="lazy" />
                 </motion.div>
               </Link>
 
-              {/* Description */}
               <p className="text-muted-foreground text-sm leading-relaxed mb-6">
                 A premium creative agency delivering{' '}
                 <span className="text-primary font-semibold">cinematic experiences</span> through 
                 media production, branding, and digital innovation.
               </p>
 
-              {/* Social Links - Enhanced */}
               <div className="flex gap-3">
                 {socialLinks.map((social, index) => (
                   <motion.a
@@ -114,11 +78,7 @@ const Footer = () => {
                     initial={{ opacity: 0, scale: 0 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    transition={{ 
-                      duration: 0.3, 
-                      delay: index * 0.1,
-                      type: 'spring'
-                    }}
+                    transition={{ duration: 0.3, delay: index * 0.1, type: 'spring' }}
                     whileHover={{ scale: 1.15, y: -3 }}
                     whileTap={{ scale: 0.95 }}
                     className={`w-11 h-11 rounded-xl bg-muted/30 border border-border/50 flex items-center justify-center text-muted-foreground hover:text-white transition-all duration-300 hover:border-transparent ${social.color}`}
@@ -130,7 +90,7 @@ const Footer = () => {
             </motion.div>
           </div>
 
-          {/* Services Column - Enhanced */}
+          {/* Services */}
           <div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -151,10 +111,7 @@ const Footer = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: 0.15 + index * 0.05 }}
                   >
-                    <Link
-                      to={link.path}
-                      className="text-muted-foreground text-sm hover:text-primary transition-all duration-300 flex items-center gap-2 group"
-                    >
+                    <Link to={link.path} className="text-muted-foreground text-sm hover:text-primary transition-all duration-300 flex items-center gap-2 group">
                       <ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
                       {link.name}
                     </Link>
@@ -164,7 +121,7 @@ const Footer = () => {
             </motion.div>
           </div>
 
-          {/* Company Column - Enhanced */}
+          {/* Company */}
           <div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -185,10 +142,7 @@ const Footer = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: 0.25 + index * 0.05 }}
                   >
-                    <Link
-                      to={link.path}
-                      className="text-muted-foreground text-sm hover:text-primary transition-all duration-300 flex items-center gap-2 group"
-                    >
+                    <Link to={link.path} className="text-muted-foreground text-sm hover:text-primary transition-all duration-300 flex items-center gap-2 group">
                       <ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
                       {link.name}
                     </Link>
@@ -198,7 +152,7 @@ const Footer = () => {
             </motion.div>
           </div>
 
-          {/* Contact Column - Enhanced */}
+          {/* Contact */}
           <div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -211,64 +165,31 @@ const Footer = () => {
                 Contact
               </h4>
               <ul className="space-y-5">
-                <motion.li
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.35 }}
-                  className="flex items-start gap-3 group"
-                >
+                <motion.li initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: 0.35 }} className="flex items-start gap-3 group">
                   <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
                     <Mail className="w-5 h-5 text-primary" />
                   </div>
                   <div className="flex-1">
                     <p className="text-xs text-muted-foreground/60 mb-1 font-semibold uppercase tracking-wider">Email</p>
-                    <a
-                      href="mailto:hello@triplevision.agency"
-                      className="text-muted-foreground text-sm hover:text-primary transition-colors font-medium"
-                    >
-                      hello@triplevision.agency
-                    </a>
+                    <a href="mailto:hello@triplevision.agency" className="text-muted-foreground text-sm hover:text-primary transition-colors font-medium">hello@triplevision.agency</a>
                   </div>
                 </motion.li>
-
-                <motion.li
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.4 }}
-                  className="flex items-start gap-3 group"
-                >
+                <motion.li initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: 0.4 }} className="flex items-start gap-3 group">
                   <div className="w-10 h-10 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-500/20 transition-colors">
                     <Phone className="w-5 h-5 text-orange-500" />
                   </div>
                   <div className="flex-1">
                     <p className="text-xs text-muted-foreground/60 mb-1 font-semibold uppercase tracking-wider">Phone</p>
-                    <a
-                      href="tel:+1234567890"
-                      className="text-muted-foreground text-sm hover:text-primary transition-colors font-medium"
-                    >
-                      +1 (234) 567-890
-                    </a>
+                    <a href="tel:+1234567890" className="text-muted-foreground text-sm hover:text-primary transition-colors font-medium">+1 (234) 567-890</a>
                   </div>
                 </motion.li>
-
-                <motion.li
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.45 }}
-                  className="flex items-start gap-3 group"
-                >
+                <motion.li initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: 0.45 }} className="flex items-start gap-3 group">
                   <div className="w-10 h-10 rounded-lg bg-pink-500/10 border border-pink-500/20 flex items-center justify-center flex-shrink-0 group-hover:bg-pink-500/20 transition-colors">
                     <MapPin className="w-5 h-5 text-pink-500" />
                   </div>
                   <div className="flex-1">
                     <p className="text-xs text-muted-foreground/60 mb-1 font-semibold uppercase tracking-wider">Location</p>
-                    <span className="text-muted-foreground text-sm font-medium">
-                      Creative District, Suite 100<br />
-                      New York, NY 10001
-                    </span>
+                    <span className="text-muted-foreground text-sm font-medium">Creative District, Suite 100<br />New York, NY 10001</span>
                   </div>
                 </motion.li>
               </ul>
@@ -276,7 +197,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Divider Line with Gradient */}
         <motion.div
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
@@ -285,7 +205,6 @@ const Footer = () => {
           className="mt-16 mb-8 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent origin-center"
         />
 
-        {/* Bottom Bar - Enhanced */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -293,7 +212,6 @@ const Footer = () => {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="flex flex-col md:flex-row items-center justify-between gap-6"
         >
-          {/* Copyright */}
           <div className="flex items-center gap-2 text-muted-foreground text-sm">
             <span>© {currentYear} Triple Vision Agency. All rights reserved.</span>
             <span className="hidden md:inline">•</span>
@@ -302,36 +220,15 @@ const Footer = () => {
               <Sparkles className="w-3 h-3 text-primary inline" />
             </span>
           </div>
-
-          {/* Links */}
           <div className="flex items-center gap-6 text-sm">
-            <motion.a
-              href="#"
-              whileHover={{ scale: 1.05 }}
-              className="text-muted-foreground hover:text-primary transition-colors font-medium"
-            >
-              Privacy Policy
-            </motion.a>
+            <a href="#" className="text-muted-foreground hover:text-primary transition-colors font-medium">Privacy Policy</a>
             <span className="w-1 h-1 rounded-full bg-border" />
-            <motion.a
-              href="#"
-              whileHover={{ scale: 1.05 }}
-              className="text-muted-foreground hover:text-primary transition-colors font-medium"
-            >
-              Terms of Service
-            </motion.a>
+            <a href="#" className="text-muted-foreground hover:text-primary transition-colors font-medium">Terms of Service</a>
             <span className="w-1 h-1 rounded-full bg-border" />
-            <motion.a
-              href="#"
-              whileHover={{ scale: 1.05 }}
-              className="text-muted-foreground hover:text-primary transition-colors font-medium"
-            >
-              Cookie Policy
-            </motion.a>
+            <a href="#" className="text-muted-foreground hover:text-primary transition-colors font-medium">Cookie Policy</a>
           </div>
         </motion.div>
 
-        {/* Back to Top Button */}
         <motion.button
           initial={{ opacity: 0, scale: 0 }}
           whileInView={{ opacity: 1, scale: 1 }}

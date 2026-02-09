@@ -1,11 +1,9 @@
-import { motion, useMotionValue, useTransform, animate, useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { ArrowRight, Award, Users, Zap, Sparkles, TrendingUp, Target } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import React, { useEffect, useRef, useState } from 'react';
-import { useSectionInView } from '@/hooks/use-in-view-animation';
 
-// Counter Component
 const Counter = ({ value, suffix = '', duration = 2 }: { value: number; suffix?: string; duration?: number }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
@@ -15,11 +13,9 @@ const Counter = ({ value, suffix = '', duration = 2 }: { value: number; suffix?:
     if (isInView) {
       let startTime: number;
       let animationFrame: number;
-
       const animate = (timestamp: number) => {
         if (!startTime) startTime = timestamp;
         const progress = (timestamp - startTime) / (duration * 1000);
-
         if (progress < 1) {
           setDisplayValue(Math.floor(value * progress));
           animationFrame = requestAnimationFrame(animate);
@@ -27,45 +23,19 @@ const Counter = ({ value, suffix = '', duration = 2 }: { value: number; suffix?:
           setDisplayValue(value);
         }
       };
-
       animationFrame = requestAnimationFrame(animate);
-
-      return () => {
-        if (animationFrame) {
-          cancelAnimationFrame(animationFrame);
-        }
-      };
+      return () => { if (animationFrame) cancelAnimationFrame(animationFrame); };
     }
   }, [isInView, value, duration]);
 
-  return (
-    <span ref={ref}>
-      {displayValue}{suffix}
-    </span>
-  );
+  return <span ref={ref}>{displayValue}{suffix}</span>;
 };
 
 const features = [
-  {
-    icon: Zap,
-    title: 'Creative Excellence',
-    description: 'Award-winning designs that captivate and convert your audience.',
-  },
-  {
-    icon: Target,
-    title: 'Strategic Approach',
-    description: 'Data-driven strategies that deliver measurable results.',
-  },
-  {
-    icon: Users,
-    title: 'Client-Focused',
-    description: 'Your vision is our mission. We listen, collaborate, and deliver.',
-  },
-  {
-    icon: Award,
-    title: 'Proven Track Record',
-    description: '200+ successful projects across diverse industries.',
-  },
+  { icon: Zap, title: 'Creative Excellence', description: 'Award-winning designs that captivate and convert your audience.' },
+  { icon: Target, title: 'Strategic Approach', description: 'Data-driven strategies that deliver measurable results.' },
+  { icon: Users, title: 'Client-Focused', description: 'Your vision is our mission. We listen, collaborate, and deliver.' },
+  { icon: Award, title: 'Proven Track Record', description: '200+ successful projects across diverse industries.' },
 ];
 
 const stats = [
@@ -76,36 +46,28 @@ const stats = [
 ];
 
 const AboutPreview = () => {
-  const { ref: sectionRef, isInView } = useSectionInView();
-
   return (
-    <section ref={sectionRef} className="section-padding bg-gradient-to-br from-background via-background to-background-secondary relative overflow-hidden">
-      {/* Enhanced Background Effects */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] rounded-full bg-primary/10 blur-[120px]" style={{ animationPlayState: isInView ? 'running' : 'paused' }} />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-orange-500/5 blur-[100px]" />
+    <section className="section-padding bg-gradient-to-br from-background via-background to-background-secondary relative overflow-hidden">
+      {/* Background - reduced blur */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] rounded-full bg-primary/10 blur-[80px]" />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-orange-500/5 blur-[80px]" />
       
-      {/* Animated Grid Background */}
       <div
         className="absolute inset-0 opacity-[0.03]"
         style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,140,0,0.3) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,140,0,0.3) 1px, transparent 1px)
-          `,
+          backgroundImage: `linear-gradient(rgba(255,140,0,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,140,0,0.3) 1px, transparent 1px)`,
           backgroundSize: '60px 60px'
         }}
       />
 
       <div className="container mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Content Side */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8 }}
           >
-            {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -114,27 +76,20 @@ const AboutPreview = () => {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 backdrop-blur-sm mb-6"
             >
               <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-                About Triple Vision
-              </span>
+              <span className="text-primary font-semibold text-sm uppercase tracking-wider">About Triple Vision</span>
             </motion.div>
 
-            {/* Heading */}
             <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-foreground mb-6 leading-[1.1]">
               Where Creativity Meets{' '}
-              <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">
-                Innovation
-              </span>
+              <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">Innovation</span>
             </h2>
 
-            {/* Description */}
             <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8">
               Triple Vision Agency is a <span className="text-foreground font-semibold">premium creative powerhouse</span> specializing in 
               3D animation, media production, branding, and digital experiences. We don't just create content—we craft 
               <span className="text-primary font-semibold"> immersive stories</span> that captivate audiences and drive real business results.
             </p>
 
-            {/* Features Grid */}
             <div className="grid sm:grid-cols-2 gap-4 mb-10">
               {features.map((feature, index) => (
                 <motion.div
@@ -146,9 +101,7 @@ const AboutPreview = () => {
                   whileHover={{ scale: 1.03, y: -5 }}
                   className="group relative p-5 rounded-2xl border border-border/50 bg-background/50 backdrop-blur-sm hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
                 >
-                  {/* Glow Effect on Hover */}
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/0 to-primary/0 group-hover:from-primary/10 group-hover:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  
                   <div className="relative flex items-start gap-3">
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
                       <feature.icon className="w-5 h-5 text-primary" />
@@ -162,16 +115,10 @@ const AboutPreview = () => {
               ))}
             </div>
 
-            {/* CTA Button */}
             <Link to="/about">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button variant="outline" size="lg" className="group relative overflow-hidden">
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-primary/20 to-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity"
-                  />
+                  <motion.div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                   <span className="relative z-10">Discover Our Story</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform relative z-10" />
                 </Button>
@@ -179,7 +126,6 @@ const AboutPreview = () => {
             </Link>
           </motion.div>
 
-          {/* Visual Side */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -187,38 +133,20 @@ const AboutPreview = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            {/* Main Card */}
             <div className="relative aspect-square rounded-3xl overflow-hidden">
-              {/* Gradient Background */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-orange-500/20 to-pink-500/20 backdrop-blur-xl">
-                {/* Animated Gradient Overlay */}
-                <motion.div
-                  animate={isInView ? { backgroundPosition: ['0% 0%', '100% 100%'] } : undefined}
-                  transition={{
-                    duration: 10,
-                    repeat: Infinity,
-                    repeatType: 'reverse',
-                  }}
+                {/* Static gradient instead of animated */}
+                <div
                   className="absolute inset-0"
                   style={{
                     backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(255,140,0,0.3), transparent 50%), radial-gradient(circle at 70% 70%, rgba(255,105,180,0.2), transparent 50%)',
-                    backgroundSize: '200% 200%',
                   }}
                 />
 
-                {/* Decorative Circles */}
-                <motion.div
-                  animate={isInView ? { rotate: 360, scale: [1, 1.1, 1] } : undefined}
-                  transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] border-2 border-primary/20 rounded-full"
-                />
-                <motion.div
-                  animate={isInView ? { rotate: -360, scale: [1, 1.05, 1] } : undefined}
-                  transition={{ duration: 35, repeat: Infinity, ease: 'linear' }}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] border border-primary/10 rounded-full"
-                />
+                {/* Static rings instead of rotating */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] border-2 border-primary/20 rounded-full" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] border border-primary/10 rounded-full" />
 
-                {/* Center Content */}
                 <div className="relative z-10 h-full flex flex-col items-center justify-center text-center p-8">
                   <motion.div
                     initial={{ scale: 0.8, opacity: 0 }}
@@ -237,7 +165,6 @@ const AboutPreview = () => {
               </div>
             </div>
 
-            {/* Floating Stats Cards */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -264,21 +191,12 @@ const AboutPreview = () => {
               <p className="text-muted-foreground text-sm font-semibold">Happy Clients</p>
             </motion.div>
 
-            {/* Decorative Floating Elements */}
-            <motion.div
-              animate={isInView ? { y: [0, -10, 0], rotate: [0, 5, 0] } : undefined}
-              transition={{ duration: 4, repeat: Infinity }}
-              className="absolute top-1/4 -right-8 w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-purple-500/10 backdrop-blur-sm border border-primary/20 shadow-xl"
-            />
-            <motion.div
-              animate={isInView ? { y: [0, 10, 0], rotate: [0, -5, 0] } : undefined}
-              transition={{ duration: 5, repeat: Infinity }}
-              className="absolute bottom-1/4 -left-8 w-16 h-16 rounded-xl bg-gradient-to-br from-orange-500/20 to-pink-500/10 backdrop-blur-sm border border-primary/20 shadow-xl"
-            />
+            {/* Static decorative elements instead of floating */}
+            <div className="absolute top-1/4 -right-8 w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-purple-500/10 backdrop-blur-sm border border-primary/20 shadow-xl" />
+            <div className="absolute bottom-1/4 -left-8 w-16 h-16 rounded-xl bg-gradient-to-br from-orange-500/20 to-pink-500/10 backdrop-blur-sm border border-primary/20 shadow-xl" />
           </motion.div>
         </div>
 
-        {/* Stats Bar at Bottom */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

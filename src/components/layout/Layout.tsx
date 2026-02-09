@@ -1,9 +1,10 @@
-import { ReactNode } from 'react';
+import { ReactNode, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import ContactModal from '@/components/modals/ContactModal';
 import { useContact } from '@/contexts/ContactContext';
+
+const ContactModal = lazy(() => import('@/components/modals/ContactModal'));
 
 interface LayoutProps {
   children: ReactNode;
@@ -13,7 +14,7 @@ const Layout = ({ children }: LayoutProps) => {
   const { isContactOpen, preSelectedService, openContact, closeContact } = useContact();
 
   return (
-    <div className="min-h-screen bg-background noise-overlay">
+    <div className="min-h-screen bg-background">
       <Navbar onContactClick={openContact} />
       <AnimatePresence mode="wait">
         <motion.main
@@ -26,7 +27,11 @@ const Layout = ({ children }: LayoutProps) => {
         </motion.main>
       </AnimatePresence>
       <Footer />
-      <ContactModal isOpen={isContactOpen} onClose={closeContact} preSelectedService={preSelectedService} />
+      {isContactOpen && (
+        <Suspense fallback={null}>
+          <ContactModal isOpen={isContactOpen} onClose={closeContact} preSelectedService={preSelectedService} />
+        </Suspense>
+      )}
     </div>
   );
 };
