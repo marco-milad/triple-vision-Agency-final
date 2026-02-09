@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useCallback } from 'react';
 import Layout from '@/components/layout/Layout';
 import HeroSection from '@/components/sections/HeroSection';
 import { useContact } from '@/contexts/ContactContext';
@@ -20,9 +20,13 @@ const SectionPlaceholder = ({ height = '600px' }: { height?: string }) => (
 const Index = () => {
   const { openContact } = useContact();
 
+  const handleContactClick = useCallback(() => {
+    openContact();
+  }, [openContact]);
+
   return (
     <Layout>
-      <HeroSection onContactClick={() => openContact()} />
+      <HeroSection onContactClick={handleContactClick} />
       <Suspense fallback={<SectionPlaceholder height="800px" />}>
         <AboutPreview />
       </Suspense>
@@ -48,7 +52,7 @@ const Index = () => {
         <StatsSection />
       </Suspense>
       <Suspense fallback={<SectionPlaceholder height="600px" />}>
-        <CTASection onContactClick={() => openContact()} />
+        <CTASection onContactClick={handleContactClick} />
       </Suspense>
     </Layout>
   );
