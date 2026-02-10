@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Facebook, Twitter, Instagram, Linkedin, Youtube, Sparkles } from 'lucide-react';
@@ -26,19 +26,39 @@ interface NavbarProps {
 }
 
 const Navbar = ({ onContactClick }: NavbarProps) => {
-  const [isScrolled, setIsScrolled] = useState(false);
+  // ✅ Combine related state
+  const [scrollState, setScrollState] = useState({
+    isScrolled: false,
+    showSocialBar: false
+  });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [showSocialBar, setShowSocialBar] = useState(false);
   const location = useLocation();
+  
+  // ✅ RAF reference for scroll throttling
+  const rafIdRef = useRef<number | null>(null);
 
+  // ✅ Throttled scroll handler with RAF
   const handleScroll = useCallback(() => {
-    setIsScrolled(window.scrollY > 50);
-    setShowSocialBar(window.scrollY > 300);
+    if (!rafIdRef.current) {
+      rafIdRef.current = requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        setScrollState({
+          isScrolled: scrollY > 50,
+          showSocialBar: scrollY > 300
+        });
+        rafIdRef.current = null;
+      });
+    }
   }, []);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+    };
   }, [handleScroll]);
 
   useEffect(() => { setIsMobileMenuOpen(false); }, [location]);
@@ -58,19 +78,77 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
 
   const toggleMobileMenu = useCallback(() => { setIsMobileMenuOpen(prev => !prev); }, []);
 
+  // ✅ Memoize desktop nav items - only re-render when route changes
+  const desktopNavItems = useMemo(() => 
+    navLinks.map((link, index) => (
+      <motion.div
+        key={link.path}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 + index * 0.1 }}
+      >
+        <Link
+          to={link.path}
+          className={`relative text-sm font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded px-3 py-2 group ${
+            location.pathname === link.path ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          {link.name}
+          {location.pathname === link.path && (
+            <>
+              <motion.div
+                layoutId="activeTab"
+                className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary via-orange-500 to-primary rounded-full"
+                transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+              />
+              <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary via-orange-500 to-primary rounded-full blur-sm opacity-70" />
+            </>
+          )}
+          {location.pathname !== link.path && (
+            <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-orange-500 rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+          )}
+        </Link>
+      </motion.div>
+    ))
+  , [location.pathname]);
+
+  // ✅ Memoize social icons - only render when visible
+  const socialIcons = useMemo(() => 
+    socialLinks.map((social, index) => (
+      <motion.a
+        key={social.name}
+        href={social.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: index * 0.1, type: 'spring' }}
+        whileHover={{ scale: 1.2, x: 5 }}
+        whileTap={{ scale: 0.9 }}
+        className={`relative w-11 h-11 rounded-xl border-2 border-border/50 bg-background/50 flex items-center justify-center text-muted-foreground transition-all duration-300 hover:text-white hover:border-transparent ${social.bgColor} focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 group will-change-transform`}
+        style={{ transform: 'translateZ(0)' }}
+        aria-label={social.label}
+      >
+        <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 blur-md transition-opacity duration-300 bg-current" />
+        <social.icon className="w-5 h-5 relative z-10" />
+      </motion.a>
+    ))
+  , []);
+
   return (
     <>
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 will-change-transform ${
+          scrollState.isScrolled
             ? 'bg-background/95 backdrop-blur-xl border-b border-border/50 shadow-xl shadow-primary/5'
             : 'bg-transparent'
         }`}
+        style={{ transform: 'translateZ(0)' }}
       >
-        {isScrolled && (
+        {scrollState.isScrolled && (
           <motion.div
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
@@ -78,11 +156,12 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
           />
         )}
 
-        <div className={`container mx-auto px-6 flex items-center justify-between transition-all duration-500 ${isScrolled ? 'py-3' : 'py-6'}`}>
+        <div className={`container mx-auto px-6 flex items-center justify-between transition-all duration-500 ${scrollState.isScrolled ? 'py-3' : 'py-6'}`}>
           <Link to="/" className="relative z-10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md group" aria-label="Triple Vision - Home">
             <div className="relative">
               <div className="absolute inset-0 rounded-xl bg-primary/30 blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
-              <motion.img
+              {/* ✅ CSS hover instead of Framer Motion */}
+              <img
                 src={logo}
                 alt="Triple Vision Logo"
                 onError={(e) => {
@@ -93,45 +172,14 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
                   fallback.className = 'text-xl font-bold text-primary';
                   target.parentElement?.appendChild(fallback);
                 }}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: 'spring', stiffness: 300 }}
-                className="h-10 w-auto relative z-10"
+                className="h-10 w-auto relative z-10 hover:scale-105 transition-transform duration-300"
                 loading="eager"
               />
             </div>
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link, index) => (
-              <motion.div
-                key={link.path}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 + index * 0.1 }}
-              >
-                <Link
-                  to={link.path}
-                  className={`relative text-sm font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded px-3 py-2 group ${
-                    location.pathname === link.path ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  {link.name}
-                  {location.pathname === link.path && (
-                    <>
-                      <motion.div
-                        layoutId="activeTab"
-                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary via-orange-500 to-primary rounded-full"
-                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                      />
-                      <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary via-orange-500 to-primary rounded-full blur-sm opacity-70" />
-                    </>
-                  )}
-                  {location.pathname !== link.path && (
-                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-orange-500 rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-                  )}
-                </Link>
-              </motion.div>
-            ))}
+            {desktopNavItems}
             
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -144,7 +192,6 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
                 onClick={onContactClick}
                 className="relative group overflow-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2"
               >
-                {/* Removed infinite shimmer - hover-only effect */}
                 <span className="relative flex items-center gap-2">
                   Get Started
                   <Sparkles className="w-4 h-4 group-hover:rotate-12 transition-transform" />
@@ -153,6 +200,7 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
             </motion.div>
           </div>
 
+          {/* ✅ CSS animations instead of Framer Motion for toggle */}
           <motion.button
             type="button"
             onClick={toggleMobileMenu}
@@ -178,9 +226,9 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
         </div>
       </motion.nav>
 
-      {/* Social Bar - no infinite animations */}
+      {/* Social Bar - ✅ Only render when visible */}
       <AnimatePresence>
-        {showSocialBar && (
+        {scrollState.showSocialBar && (
           <motion.aside
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -193,27 +241,9 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/20 to-orange-500/20 blur-xl" />
               <div className="relative bg-background/90 backdrop-blur-xl border-2 border-border/50 rounded-full p-4 shadow-2xl">
                 <nav className="flex flex-col gap-3" aria-label="Social media navigation">
-                  {socialLinks.map((social, index) => (
-                    <motion.a
-                      key={social.name}
-                      href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1, type: 'spring' }}
-                      whileHover={{ scale: 1.2, x: 5 }}
-                      whileTap={{ scale: 0.9 }}
-                      className={`relative w-11 h-11 rounded-xl border-2 border-border/50 bg-background/50 flex items-center justify-center text-muted-foreground transition-all duration-300 hover:text-white hover:border-transparent ${social.bgColor} focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 group`}
-                      aria-label={social.label}
-                    >
-                      <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 blur-md transition-opacity duration-300 bg-current" />
-                      <social.icon className="w-5 h-5 relative z-10" />
-                    </motion.a>
-                  ))}
+                  {socialIcons}
                 </nav>
                 
-                {/* Static line instead of animated */}
                 <div className="mt-4 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
                 
                 <p className="mt-3 text-xs text-center text-muted-foreground font-semibold">Follow</p>
@@ -223,7 +253,7 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
         )}
       </AnimatePresence>
 
-      {/* Mobile Menu - removed infinite background animations */}
+      {/* Mobile Menu - ✅ Removed background blobs */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -237,12 +267,6 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
             className="fixed inset-0 z-40 bg-background/98 backdrop-blur-xl md:hidden overflow-hidden"
             onClick={(e) => { if (e.target === e.currentTarget) setIsMobileMenuOpen(false); }}
           >
-            {/* Static background instead of animated */}
-            <div className="absolute inset-0">
-              <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[80px]" />
-              <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-orange-500/10 blur-[60px]" />
-            </div>
-
             <motion.div 
               className="relative flex flex-col items-center justify-center h-full gap-10 px-6"
               initial={{ scale: 0.9, opacity: 0 }}

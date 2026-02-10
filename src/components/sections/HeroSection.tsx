@@ -1,40 +1,87 @@
-import { motion, type TargetAndTransition } from 'framer-motion';
+import { motion, type TargetAndTransition, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Play, Sparkles, Zap, Rocket, Star, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import React, { useEffect, useRef, useState, useMemo } from 'react';
-import { useParticlePositions } from '@/hooks/use-in-view-animation';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 interface HeroSectionProps {
   onContactClick: () => void;
   onShowreelClick?: () => void;
 }
 
+// ✅ Constants outside component - REDUCED
+const CARD_COLORS = [
+  'from-primary/20 to-orange-500/10',
+  'from-orange-500/20 to-pink-500/10',
+  'from-pink-500/20 to-purple-500/10',
+] as const;
+
+const CARD_POSITIONS = [
+  { top: '25%', left: '8%' },
+  { top: '50%', left: '8%' },
+  { top: '25%', right: '8%' },
+] as const;
+
+const TRUST_INDICATORS = [
+  { icon: Star, label: '200+ Projects', color: 'from-primary to-orange-500' },
+  { icon: Award, label: '50+ Clients', color: 'from-orange-500 to-pink-500' },
+  { icon: Sparkles, label: '8+ Years', color: 'from-pink-500 to-purple-500' },
+] as const;
+
+const GRID_STYLE = {
+  backgroundImage: `
+    linear-gradient(rgba(255,140,0,0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,140,0,0.3) 1px, transparent 1px)
+  `,
+  backgroundSize: '60px 60px'
+} as const;
+
 const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
+  const { ref: intersectionRef, inView } = useInView({
+    threshold: 0.1,
+    triggerOnce: false,
+  });
+  
   const containerRef = useRef<HTMLElement>(null);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const rafIdRef = useRef<number | null>(null);
+  
+  const prefersReducedMotion = useReducedMotion();
   const [isMobile, setIsMobile] = useState(false);
   const [isLowPerformance, setIsLowPerformance] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // ✅ Device detection with RAF throttling and debouncing
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mediaQuery.matches);
-    const handler = () => setPrefersReducedMotion(mediaQuery.matches);
-    mediaQuery.addEventListener('change', handler);
-    return () => mediaQuery.removeEventListener('change', handler);
-  }, []);
-
-  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    
     const checkDevice = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-      const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      const cores = navigator.hardwareConcurrency || 1;
-      setIsLowPerformance(isMobileDevice && cores <= 4);
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+      
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        rafIdRef.current = requestAnimationFrame(() => {
+          const mobile = window.innerWidth < 768;
+          setIsMobile(mobile);
+          const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+          const cores = navigator.hardwareConcurrency || 1;
+          setIsLowPerformance(isMobileDevice && cores <= 4);
+          rafIdRef.current = null;
+        });
+      }, 150);
     };
+    
     checkDevice();
-    window.addEventListener('resize', checkDevice);
-    return () => window.removeEventListener('resize', checkDevice);
+    window.addEventListener('resize', checkDevice, { passive: true });
+    
+    return () => {
+      window.removeEventListener('resize', checkDevice);
+      clearTimeout(timeoutId);
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -42,119 +89,77 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
     return () => clearTimeout(timer);
   }, []);
 
-  const cardCount = isLowPerformance ? 0 : isMobile ? 0 : 6;
-  const particleCount = isMobile ? 0 : 8;
-  const particles = useParticlePositions(particleCount);
+  // ✅ Reduced card count from 6 to 3
+  const cardCount = useMemo(() => 
+    isLowPerformance ? 0 : isMobile ? 0 : 3
+  , [isLowPerformance, isMobile]);
 
-  const getAnimationProps = (animation: TargetAndTransition): TargetAndTransition | Record<string, never> => {
-    return prefersReducedMotion || isLowPerformance ? {} : animation;
-  };
+  const shouldAnimate = useMemo(() => 
+    inView && !prefersReducedMotion && !isLowPerformance
+  , [inView, prefersReducedMotion, isLowPerformance]);
+
+  const getAnimationProps = useCallback((animation: TargetAndTransition): TargetAndTransition | Record<string, never> => {
+    return shouldAnimate ? animation : {};
+  }, [shouldAnimate]);
+
+  const blurClass = useMemo(() => 
+    isMobile ? 'blur-[30px]' : 'blur-[60px]'
+  , [isMobile]);
+
+  const setRefs = useCallback((node: HTMLElement | null) => {
+    containerRef.current = node;
+    intersectionRef(node);
+  }, [intersectionRef]);
 
   return (
     <motion.section 
-      ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-background-secondary to-background"
+      ref={setRefs}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-background-secondary to-background will-change-transform"
+      style={{ contentVisibility: 'auto', containIntrinsicSize: '100vh' }}
       aria-label="Hero section"
       initial={{ opacity: 0 }}
       animate={{ opacity: isLoaded ? 1 : 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      {/* Background Elements - reduced blur on mobile */}
+      {/* Background Elements - REDUCED from 3 blobs to 2 */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        <motion.div
-          animate={getAnimationProps({
-            rotate: [0, 360],
-            scale: [1, 1.2, 1],
-          })}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className={`absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-r from-primary/20 to-purple-500/20 ${isMobile ? 'blur-[60px]' : 'blur-[100px]'} animate-pulse`}
+        <div
+          className={`absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-r from-primary/20 to-purple-500/20 ${blurClass} will-change-transform`}
+          style={{ 
+            transform: 'translateZ(0)',
+            backfaceVisibility: 'hidden',
+            animation: shouldAnimate ? 'heroRotate 25s linear infinite, heroPulse 4s ease-in-out infinite' : 'none'
+          }}
         />
         
-        <motion.div
-          animate={getAnimationProps({
-            rotate: [360, 0],
-            scale: [1, 1.15, 1],
-          })}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className={`absolute bottom-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-l from-orange-500/20 to-pink-500/20 ${isMobile ? 'blur-[60px]' : 'blur-[100px]'}`}
-        />
-
-        {!isMobile && (
-          <motion.div
-            animate={getAnimationProps({
-              y: [0, -30, 0],
-              x: [0, 20, 0],
-            })}
-            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-primary/15 to-transparent blur-[80px]"
-          />
-        )}
-
-        {/* Static Grid */}
         <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(255,140,0,0.3) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,140,0,0.3) 1px, transparent 1px)
-            `,
-            backgroundSize: '60px 60px'
+          className={`absolute bottom-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-l from-orange-500/20 to-pink-500/20 ${blurClass} will-change-transform`}
+          style={{ 
+            transform: 'translateZ(0)',
+            backfaceVisibility: 'hidden',
+            animation: shouldAnimate ? 'heroRotateReverse 20s linear infinite' : 'none'
           }}
         />
 
-        {/* Floating Particles - desktop only */}
-        {particles.map((p, i) => (
-          <motion.div
+        {/* Static Grid */}
+        <div className="absolute inset-0 opacity-[0.03]" style={GRID_STYLE} />
+
+        {/* ❌ REMOVED: Floating Particles */}
+        {/* ❌ REMOVED: Floating Icons */}
+
+        {/* Floating 3D Cards - REDUCED from 6 to 3 */}
+        {cardCount > 0 && shouldAnimate && Array.from({ length: cardCount }, (_, i) => (
+          <div
             key={i}
-            className="absolute w-2 h-2 rounded-full bg-primary/30"
-            style={{ left: p.left, top: p.top }}
-            animate={getAnimationProps({
-              y: [0, -30, 0],
-              opacity: [0.2, 0.8, 0.2],
-              scale: [1, 1.5, 1],
-            })}
-            transition={{
-              duration: p.duration,
-              repeat: Infinity,
-              delay: p.delay,
-              ease: "easeInOut"
+            style={{
+              ...CARD_POSITIONS[i],
+              transform: 'translateZ(0)',
+              backfaceVisibility: 'hidden',
+              animation: `heroCardFloat ${6 + i}s ease-in-out infinite ${i * 0.5}s`
             }}
+            className={`absolute w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-gradient-to-br ${CARD_COLORS[i]} backdrop-blur-sm border border-primary/20 shadow-2xl will-change-transform`}
           />
         ))}
-
-        {/* Floating 3D Cards - desktop only */}
-        {cardCount > 0 && [...Array(cardCount)].map((_, i) => {
-          const colors = [
-            'from-primary/20 to-orange-500/10',
-            'from-orange-500/20 to-pink-500/10',
-            'from-pink-500/20 to-purple-500/10',
-            'from-purple-500/20 to-blue-500/10',
-            'from-blue-500/20 to-primary/10',
-            'from-primary/15 to-pink-500/15',
-          ];
-          
-          return (
-            <motion.div
-              key={i}
-              style={{
-                top: `${15 + (i % 3) * 30}%`,
-                left: `${5 + Math.floor(i / 3) * 45}%`,
-              }}
-              animate={getAnimationProps({
-                y: [0, -25, 0],
-                rotate: [0, 10, 0],
-                scale: [1, 1.1, 1],
-              })}
-              transition={{
-                duration: 6 + i,
-                repeat: Infinity,
-                delay: i * 0.5,
-                ease: "easeInOut"
-              }}
-              className={`absolute w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-gradient-to-br ${colors[i]} backdrop-blur-sm border border-primary/20 shadow-2xl`}
-            />
-          );
-        })}
       </div>
 
       {/* Main Content */}
@@ -164,27 +169,29 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.6, ease: "easeOut", type: 'spring' }}
+            transition={{ duration: 0.6, ease: "easeOut", type: 'spring' as const }}
             className="mb-8 md:mb-10"
           >
             <motion.div
               whileHover={{ scale: 1.05, y: -5 }}
               className="inline-flex items-center gap-3 px-6 md:px-8 py-3 md:py-4 rounded-2xl border-2 border-primary/30 bg-gradient-to-r from-primary/10 via-orange-500/10 to-pink-500/10 backdrop-blur-xl shadow-2xl shadow-primary/20 group relative overflow-hidden"
             >
-              {!isMobile && (
-                <motion.div
-                  animate={getAnimationProps({ x: ['-100%', '100%'] })}
-                  transition={{ duration: 3, repeat: Infinity, ease: "linear", repeatDelay: 2 }}
-                  className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"
+              {!isMobile && shouldAnimate && (
+                <div
+                  className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 will-change-transform"
+                  style={{ animation: 'heroShimmer 3s linear infinite 2s' }}
                 />
               )}
               
-              <motion.div
-                animate={getAnimationProps({ rotate: [0, 360], scale: [1, 1.2, 1] })}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              <div 
+                className="will-change-transform"
+                style={{ 
+                  transform: 'translateZ(0)',
+                  animation: shouldAnimate ? 'heroSpin 3s linear infinite' : 'none'
+                }}
               >
                 <Zap className="w-5 h-5 text-primary" aria-hidden="true" />
-              </motion.div>
+              </div>
               
               <span className="text-primary text-sm md:text-base font-black uppercase tracking-wider relative z-10">
                 Premium Creative Agency
@@ -194,37 +201,24 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
             </motion.div>
           </motion.div>
 
-          {/* Main Headline */}
-          <div className="relative mb-8 md:mb-10">
-            {!isLowPerformance && !isMobile && (
-              <motion.div
-                animate={getAnimationProps({
-                  opacity: [0.1, 0.3, 0.1],
-                  scale: [0.95, 1.05, 0.95],
-                })}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute inset-0 blur-3xl bg-gradient-to-r from-primary/20 via-orange-500/20 to-pink-500/20"
-              />
-            )}
-
-            <motion.h1
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-              className="relative text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-black leading-[1.1] mb-6"
-            >
-              <span className="inline-block text-foreground">Transform Your </span>
-              <br className="hidden sm:block" />
-              <span className="inline-block bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">
-                Vision
-              </span>
-              <br />
-              <span className="inline-block text-foreground">Into </span>
-              <span className="inline-block bg-gradient-to-r from-pink-500 via-purple-500 to-primary bg-clip-text text-transparent">
-                Reality
-              </span>
-            </motion.h1>
-          </div>
+          {/* Main Headline - ❌ REMOVED Title Glow */}
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            className="relative text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-black leading-[1.1] mb-6"
+          >
+            <span className="inline-block text-foreground">Transform Your </span>
+            <br className="hidden sm:block" />
+            <span className="inline-block bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">
+              Vision
+            </span>
+            <br />
+            <span className="inline-block text-foreground">Into </span>
+            <span className="inline-block bg-gradient-to-r from-pink-500 via-purple-500 to-primary bg-clip-text text-transparent">
+              Reality
+            </span>
+          </motion.h1>
 
           {/* Subheadline */}
           <motion.p
@@ -261,21 +255,15 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
                 className="group w-full sm:w-auto relative overflow-hidden shadow-2xl shadow-primary/30"
                 aria-label="Start your project with us"
               >
-                {!isMobile && (
-                  <motion.div
-                    animate={getAnimationProps({ x: ['-100%', '100%'] })}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear", repeatDelay: 1 }}
-                    className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
+                {!isMobile && shouldAnimate && (
+                  <div
+                    className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 will-change-transform"
+                    style={{ animation: 'heroShimmer 2s linear infinite 1s' }}
                   />
                 )}
                 <span className="relative z-10 flex items-center gap-3">
                   Start Your Project
-                  <motion.div
-                    animate={getAnimationProps({ x: [0, 5, 0] })}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  >
-                    <ArrowRight className="w-5 h-5" aria-hidden="true" />
-                  </motion.div>
+                  <ArrowRight className="w-5 h-5" aria-hidden="true" />
                 </span>
               </Button>
             </motion.div>
@@ -289,12 +277,7 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
                 aria-label="Watch our showreel video"
               >
                 <span className="relative z-10 flex items-center gap-3">
-                  <motion.div
-                    animate={getAnimationProps({ scale: [1, 1.2, 1] })}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    <Play className="w-5 h-5" aria-hidden="true" />
-                  </motion.div>
+                  <Play className="w-5 h-5" aria-hidden="true" />
                   Watch Showreel
                 </span>
               </Button>
@@ -308,11 +291,7 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
             transition={{ duration: 0.8, delay: 0.8 }}
             className="mt-16 md:mt-20 flex flex-wrap items-center justify-center gap-8 md:gap-12"
           >
-            {[
-              { icon: Star, label: '200+ Projects', color: 'from-primary to-orange-500' },
-              { icon: Award, label: '50+ Clients', color: 'from-orange-500 to-pink-500' },
-              { icon: Sparkles, label: '8+ Years', color: 'from-pink-500 to-purple-500' },
-            ].map((item, index) => (
+            {TRUST_INDICATORS.map((item, index) => (
               <motion.div
                 key={item.label}
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -332,38 +311,6 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
               </motion.div>
             ))}
           </motion.div>
-
-          {/* Floating Icons - Desktop Only */}
-          {!isMobile && !isLowPerformance && (
-            <div className="hidden lg:block absolute inset-0 pointer-events-none" aria-hidden="true">
-              {[
-                { Icon: Sparkles, pos: { top: '20%', left: '10%' } },
-                { Icon: Zap, pos: { top: '30%', right: '15%' } },
-                { Icon: Rocket, pos: { bottom: '30%', left: '12%' } },
-                { Icon: Star, pos: { bottom: '25%', right: '10%' } },
-              ].map(({ Icon, pos }, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute"
-                  style={pos}
-                  animate={getAnimationProps({
-                    y: [0, -20, 0],
-                    rotate: [0, 360],
-                    scale: [1, 1.2, 1],
-                  })}
-                  transition={{
-                    duration: 5 + i * 2,
-                    repeat: Infinity,
-                    delay: i * 0.5,
-                  }}
-                >
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/10 to-orange-500/10 backdrop-blur-sm border border-primary/20 flex items-center justify-center shadow-xl">
-                    <Icon className="w-8 h-8 text-primary/50" />
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          )}
         </div>
       </motion.div>
 
@@ -376,8 +323,46 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
       {/* Corner Decorations */}
       <div className="absolute top-0 left-0 w-40 h-40 rounded-br-full bg-gradient-to-br from-primary/5 to-transparent" />
       <div className="absolute bottom-0 right-0 w-40 h-40 rounded-tl-full bg-gradient-to-tl from-orange-500/5 to-transparent" />
+
+      {/* ✅ CSS Keyframes - Removed unused animations */}
+      <style>{`
+        @keyframes heroRotate {
+          from { transform: translateZ(0) rotate(0deg) scale(1); }
+          50% { transform: translateZ(0) rotate(180deg) scale(1.2); }
+          to { transform: translateZ(0) rotate(360deg) scale(1); }
+        }
+        
+        @keyframes heroRotateReverse {
+          from { transform: translateZ(0) rotate(360deg) scale(1); }
+          50% { transform: translateZ(0) rotate(180deg) scale(1.15); }
+          to { transform: translateZ(0) rotate(0deg) scale(1); }
+        }
+        
+        @keyframes heroCardFloat {
+          0%, 100% { transform: translateZ(0) translateY(0) rotate(0deg); }
+          50% { transform: translateZ(0) translateY(-25px) rotate(10deg); }
+        }
+        
+        @keyframes heroSpin {
+          from { transform: translateZ(0) rotate(0deg); }
+          to { transform: translateZ(0) rotate(360deg); }
+        }
+        
+        @keyframes heroPulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.8; }
+        }
+        
+        @keyframes heroShimmer {
+          from { transform: translateX(-150%) skewX(-12deg); }
+          to { transform: translateX(150%) skewX(-12deg); }
+        }
+      `}</style>
     </motion.section>
   );
 };
 
-export default React.memo(HeroSection);
+export default React.memo(HeroSection, (prevProps, nextProps) => {
+  return prevProps.onContactClick === nextProps.onContactClick &&
+         prevProps.onShowreelClick === nextProps.onShowreelClick;
+});
