@@ -109,6 +109,7 @@
     @apply rounded-2xl border border-border/50;
     background: var(--gradient-card);
     box-shadow: var(--shadow-card);
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
   }
 
