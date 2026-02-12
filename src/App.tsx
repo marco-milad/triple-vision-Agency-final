@@ -7,6 +7,7 @@ import { AnimatePresence } from "framer-motion";
 import { ContactProvider } from "@/contexts/ContactContext";
 import { lazy, Suspense } from "react";
 import ScrollToTop from "@/components/ScrollToTop";
+import Preloader from "@/components/Preloader";
 
 // Lazy-load all page components for route-level code splitting
 const Index = lazy(() => import("./pages/Index"));
@@ -30,6 +31,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <ContactProvider>
+        <Preloader />
         <Toaster />
         <Sonner />
         <BrowserRouter>
