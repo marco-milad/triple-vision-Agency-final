@@ -1,84 +1,247 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
+// ============================================================================
+// TYPES
+// ============================================================================
+type Phase = 'draw' | 'reveal' | 'fadeout' | 'done';
+
+interface StrokeConfig {
+  className: string;
+  len: number;
+  delay: number;
+  duration: number;
+}
+
+// ============================================================================
+// CONSTANTS
+// ============================================================================
 const SESSION_KEY = 'preloaderShown';
 
+const PRELOADER_CONFIG = {
+  TIMINGS: {
+    DRAW: 2500,    // الرسم: 2.5 ثانية (كان 1.5)
+    REVEAL: 3200,  // بداية الظهور: 3.2 ثانية (كان 1.9)
+    FADEOUT: 4800, // بداية الاختفاء: 4.8 ثانية (كان 3.5)
+  },
+  COLORS: {
+    BACKGROUND: 'hsl(280, 100%, 8%)',
+    STROKE: 'hsl(32, 100%, 50%)',
+  },
+  SIZES: {
+    WIDTH: 320,
+    HEIGHT: 64,
+    SVG_VIEWBOX: '0 0 400 80',
+    DRAW_WIDTH: 640,   // ← ضعف الحجم للـ draw
+    DRAW_HEIGHT: 128,  // ← ضعف الحجم للـ draw
+  },
+  LOGO_URL: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1763917799/logo2_transparent_jjpgv6.png',
+} as const;
+
+const STROKE_CONFIGS: StrokeConfig[] = [
+  { className: 'd1', len: 120, delay: 0, duration: 1.2 },
+  { className: 'd2', len: 100, delay: 0.1, duration: 1.2 },
+  { className: 'd3', len: 80, delay: 0.15, duration: 1.1 },
+  { className: 'd4', len: 90, delay: 0.2, duration: 1.1 },
+  { className: 'd5', len: 70, delay: 0.25, duration: 1.0 },
+  { className: 'd6', len: 100, delay: 0.3, duration: 1.2 },
+  { className: 'd7', len: 90, delay: 0.15, duration: 1.1 },
+  { className: 'd8', len: 80, delay: 0.2, duration: 1.0 },
+  { className: 'd9', len: 70, delay: 0.25, duration: 1.0 },
+  { className: 'd10', len: 80, delay: 0.3, duration: 1.0 },
+  { className: 'd11', len: 100, delay: 0.35, duration: 1.2 },
+];
+
+const SPECIAL_PATHS = {
+  circle: { len: 126, delay: 0.4, duration: 1.3, strokeWidth: 2.5 },
+  underline: { len: 200, delay: 0.8, duration: 0.8, strokeWidth: 1, opacity: 0.5 },
+};
+
+// ============================================================================
+// HELPER FUNCTIONS
+// ============================================================================
+const generateStrokeStyles = (): string => {
+  const baseStyles = `
+    @keyframes draw {
+      from { stroke-dashoffset: var(--len); }
+      to { stroke-dashoffset: 0; }
+    }
+    .stroke-path {
+      stroke: ${PRELOADER_CONFIG.COLORS.STROKE};
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      will-change: stroke-dashoffset;
+    }
+  `;
+
+  const strokeStyles = STROKE_CONFIGS.map(
+    ({ className, len, delay, duration }) => `
+    .${className} { 
+      --len: ${len}; 
+      stroke-dasharray: ${len}; 
+      animation: draw ${duration}s ${delay}s ease-out forwards; 
+      stroke-dashoffset: ${len}; 
+    }
+  `
+  ).join('');
+
+  const specialStyles = `
+    .circle-path { 
+      --len: ${SPECIAL_PATHS.circle.len}; 
+      stroke-dasharray: ${SPECIAL_PATHS.circle.len}; 
+      animation: draw ${SPECIAL_PATHS.circle.duration}s ${SPECIAL_PATHS.circle.delay}s ease-out forwards; 
+      stroke-dashoffset: ${SPECIAL_PATHS.circle.len}; 
+      stroke-width: ${SPECIAL_PATHS.circle.strokeWidth}; 
+    }
+    .underline-path { 
+      --len: ${SPECIAL_PATHS.underline.len}; 
+      stroke-dasharray: ${SPECIAL_PATHS.underline.len}; 
+      animation: draw ${SPECIAL_PATHS.underline.duration}s ${SPECIAL_PATHS.underline.delay}s ease-out forwards; 
+      stroke-dashoffset: ${SPECIAL_PATHS.underline.len}; 
+      stroke-width: ${SPECIAL_PATHS.underline.strokeWidth}; 
+      opacity: ${SPECIAL_PATHS.underline.opacity}; 
+    }
+  `;
+
+  return baseStyles + strokeStyles + specialStyles;
+};
+
+// ============================================================================
+// COMPONENT - VERSION 2: Constant Large Scale (1.2 طول الوقت)
+// ============================================================================
 const Preloader = () => {
-  const [phase, setPhase] = useState<'draw' | 'reveal' | 'fadeout' | 'done'>(() =>
+  const [phase, setPhase] = useState<Phase>(() =>
     sessionStorage.getItem(SESSION_KEY) ? 'done' : 'draw'
   );
+  const [imageLoaded, setImageLoaded] = useState(false);
 
+  // Check for prefers-reduced-motion and skip animation if needed
   useEffect(() => {
-    if (phase === 'done') return;
-
-    const t1 = setTimeout(() => setPhase('reveal'), 1500);
-    const t2 = setTimeout(() => setPhase('fadeout'), 1900);
-    const t3 = setTimeout(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    if (prefersReducedMotion) {
       sessionStorage.setItem(SESSION_KEY, 'true');
       setPhase('done');
-    }, 2200);
+      return;
+    }
 
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    if (phase === 'done') return;
+
+    let mounted = true;
+
+    const t1 = setTimeout(() => {
+      if (mounted) setPhase('reveal');
+    }, PRELOADER_CONFIG.TIMINGS.DRAW);
+
+    const t2 = setTimeout(() => {
+      if (mounted) setPhase('fadeout');
+    }, PRELOADER_CONFIG.TIMINGS.REVEAL);
+
+    const t3 = setTimeout(() => {
+      if (mounted) {
+        sessionStorage.setItem(SESSION_KEY, 'true');
+        setPhase('done');
+      }
+    }, PRELOADER_CONFIG.TIMINGS.FADEOUT);
+
+    return () => {
+      mounted = false;
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
   }, []);
+
+  // Memoized styles for performance
+  const containerStyle = useMemo(
+    () => ({
+      background: PRELOADER_CONFIG.COLORS.BACKGROUND,
+      opacity: phase === 'fadeout' ? 0 : 1,
+      transition: 'opacity 0.3s ease-out',
+      pointerEvents: phase === 'fadeout' ? ('none' as const) : ('auto' as const),
+    }),
+    [phase]
+  );
+
+  // VERSION 2: كبير طول الوقت (1.2)
+  const wrapperStyle = useMemo(
+    () => ({
+      transform: 'scale(1.2)', // كبير من البداية للنهاية
+      transition: 'transform 0.4s ease-out',
+    }),
+    []
+  );
+
+  // حجم الـ SVG يتغير حسب الـ phase
+  const svgSize = useMemo(() => ({
+    width: phase === 'draw' ? PRELOADER_CONFIG.SIZES.DRAW_WIDTH : PRELOADER_CONFIG.SIZES.WIDTH,
+    height: phase === 'draw' ? PRELOADER_CONFIG.SIZES.DRAW_HEIGHT : PRELOADER_CONFIG.SIZES.HEIGHT,
+  }), [phase]);
+
+  const svgStyle = useMemo(
+    () => ({
+      opacity: phase === 'reveal' || phase === 'fadeout' ? 0 : 1,
+      transition: 'opacity 0.3s ease-out',
+    }),
+    [phase]
+  );
+
+  const imageStyle = useMemo(
+    () => ({
+      opacity: (phase === 'reveal' || phase === 'fadeout') && imageLoaded ? 1 : 0,
+      transition: 'opacity 0.4s ease-in',
+    }),
+    [phase, imageLoaded]
+  );
+
+  const skipButtonStyle = useMemo(
+    () => ({
+      opacity: phase === 'draw' ? 1 : 0,
+      transition: 'opacity 0.3s ease-out',
+      pointerEvents: phase === 'draw' ? ('auto' as const) : ('none' as const),
+    }),
+    [phase]
+  );
+
+  // Skip handler
+  const handleSkip = () => {
+    sessionStorage.setItem(SESSION_KEY, 'true');
+    setPhase('done');
+  };
+
+  // Image handlers
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
+  const handleImageError = () => {
+    console.error('Preloader logo failed to load');
+    setImageLoaded(true);
+  };
 
   if (phase === 'done') return null;
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex items-center justify-center`}
-      style={{
-        background: 'hsl(280, 100%, 8%)',
-        opacity: phase === 'fadeout' ? 0 : 1,
-        transition: 'opacity 0.3s ease-out',
-        pointerEvents: phase === 'fadeout' ? 'none' : 'auto',
-      }}
+      className="fixed inset-0 z-[9999] flex items-center justify-center"
+      style={containerStyle}
     >
-      {/* SVG stroke drawing */}
-      <div
-        className="relative flex items-center justify-center"
-        style={{
-          transform: phase === 'reveal' || phase === 'fadeout' ? 'scale(1.03)' : 'scale(1)',
-          transition: 'transform 0.4s ease-out',
-        }}
-      >
+      <div className="relative flex items-center justify-center" style={wrapperStyle}>
+        {/* SVG stroke drawing */}
         <svg
-          viewBox="0 0 400 80"
-          width="320"
-          height="64"
+          viewBox={PRELOADER_CONFIG.SIZES.SVG_VIEWBOX}
+          width={svgSize.width}
+          height={svgSize.height}
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
           style={{
-            opacity: phase === 'reveal' || phase === 'fadeout' ? 0 : 1,
-            transition: 'opacity 0.3s ease-out',
+            ...svgStyle,
+            transition: 'opacity 0.3s ease-out, width 0.4s ease-out, height 0.4s ease-out',
           }}
         >
-          <style>{`
-            @keyframes draw {
-              from { stroke-dashoffset: var(--len); }
-              to { stroke-dashoffset: 0; }
-            }
-            .stroke-path {
-              stroke: hsl(32, 100%, 50%);
-              stroke-width: 2;
-              stroke-linecap: round;
-              stroke-linejoin: round;
-              fill: none;
-              will-change: stroke-dashoffset;
-            }
-            .d1 { --len: 120; stroke-dasharray: 120; animation: draw 1.2s ease-out forwards; }
-            .d2 { --len: 100; stroke-dasharray: 100; animation: draw 1.2s 0.1s ease-out forwards; stroke-dashoffset: 100; }
-            .d3 { --len: 80; stroke-dasharray: 80; animation: draw 1.1s 0.15s ease-out forwards; stroke-dashoffset: 80; }
-            .d4 { --len: 90; stroke-dasharray: 90; animation: draw 1.1s 0.2s ease-out forwards; stroke-dashoffset: 90; }
-            .d5 { --len: 70; stroke-dasharray: 70; animation: draw 1s 0.25s ease-out forwards; stroke-dashoffset: 70; }
-            .d6 { --len: 100; stroke-dasharray: 100; animation: draw 1.2s 0.3s ease-out forwards; stroke-dashoffset: 100; }
-            .d7 { --len: 90; stroke-dasharray: 90; animation: draw 1.1s 0.15s ease-out forwards; stroke-dashoffset: 90; }
-            .d8 { --len: 80; stroke-dasharray: 80; animation: draw 1s 0.2s ease-out forwards; stroke-dashoffset: 80; }
-            .d9 { --len: 70; stroke-dasharray: 70; animation: draw 1s 0.25s ease-out forwards; stroke-dashoffset: 70; }
-            .d10 { --len: 80; stroke-dasharray: 80; animation: draw 1s 0.3s ease-out forwards; stroke-dashoffset: 80; }
-            .d11 { --len: 100; stroke-dasharray: 100; animation: draw 1.2s 0.35s ease-out forwards; stroke-dashoffset: 100; }
-            .circle-path { --len: 126; stroke-dasharray: 126; animation: draw 1.3s 0.4s ease-out forwards; stroke-dashoffset: 126; stroke-width: 2.5; }
-            .underline-path { --len: 200; stroke-dasharray: 200; animation: draw 0.8s 0.8s ease-out forwards; stroke-dashoffset: 200; stroke-width: 1; opacity: 0.5; }
-          `}</style>
+          <style>{generateStrokeStyles()}</style>
 
           {/* T */}
           <path className="stroke-path d1" d="M10,20 L30,20 M20,20 L20,50" />
@@ -112,17 +275,26 @@ const Preloader = () => {
 
         {/* Actual logo fade-in */}
         <img
-          src="https://res.cloudinary.com/dcui0elwh/image/upload/v1763917799/logo2_transparent_jjpgv6.png"
+          src={PRELOADER_CONFIG.LOGO_URL}
           alt="Triple Vision Agency"
-          width={320}
-          height={64}
+          width={PRELOADER_CONFIG.SIZES.WIDTH}
+          height={PRELOADER_CONFIG.SIZES.HEIGHT}
           className="absolute"
-          style={{
-            opacity: phase === 'reveal' || phase === 'fadeout' ? 1 : 0,
-            transition: 'opacity 0.4s ease-in',
-          }}
+          style={imageStyle}
+          onLoad={handleImageLoad}
+          onError={handleImageError}
         />
       </div>
+
+      {/* Skip button */}
+      <button
+        onClick={handleSkip}
+        className="absolute bottom-8 text-white/60 text-sm hover:text-white/90 transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-white/50 rounded px-3 py-1"
+        style={skipButtonStyle}
+        aria-label="Skip preloader animation"
+      >
+        Skip →
+      </button>
     </div>
   );
 };
