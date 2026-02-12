@@ -30,7 +30,7 @@ const PRELOADER_CONFIG = {
   SIZES: {
     WIDTH: 320,
     HEIGHT: 64,
-    SVG_VIEWBOX: '0 0 400 80',
+    SVG_VIEWBOX: '0 0 400 110', // ← زودنا الارتفاع من 80 لـ 110 عشان AGENCY
     DRAW_WIDTH: 640,   // ← ضعف الحجم للـ draw
     DRAW_HEIGHT: 128,  // ← ضعف الحجم للـ draw
   },
@@ -38,22 +38,29 @@ const PRELOADER_CONFIG = {
 } as const;
 
 const STROKE_CONFIGS: StrokeConfig[] = [
-  { className: 'd1', len: 120, delay: 0, duration: 1.2 },
-  { className: 'd2', len: 100, delay: 0.1, duration: 1.2 },
-  { className: 'd3', len: 80, delay: 0.15, duration: 1.1 },
-  { className: 'd4', len: 90, delay: 0.2, duration: 1.1 },
-  { className: 'd5', len: 70, delay: 0.25, duration: 1.0 },
-  { className: 'd6', len: 100, delay: 0.3, duration: 1.2 },
-  { className: 'd7', len: 90, delay: 0.15, duration: 1.1 },
-  { className: 'd8', len: 80, delay: 0.2, duration: 1.0 },
-  { className: 'd9', len: 70, delay: 0.25, duration: 1.0 },
-  { className: 'd10', len: 80, delay: 0.3, duration: 1.0 },
-  { className: 'd11', len: 100, delay: 0.35, duration: 1.2 },
+  { className: 'd1', len: 120, delay: 0, duration: 1.2 },      // T
+  { className: 'd2', len: 100, delay: 0.1, duration: 1.2 },    // R
+  { className: 'd3', len: 80, delay: 0.2, duration: 1.1 },     // I
+  { className: 'd4', len: 90, delay: 0.3, duration: 1.1 },     // P
+  { className: 'd5', len: 70, delay: 0.4, duration: 1.0 },     // L
+  { className: 'd6', len: 100, delay: 0.5, duration: 1.2 },    // E
+  { className: 'd7', len: 90, delay: 0.6, duration: 1.1 },     // V ← كان 0.15
+  { className: 'd8', len: 80, delay: 0.7, duration: 1.0 },     // I ← كان 0.2
+  { className: 'd9', len: 70, delay: 0.8, duration: 1.0 },     // S ← كان 0.25
+  { className: 'd10', len: 80, delay: 0.9, duration: 1.0 },    // I ← كان 0.3
+  { className: 'd11', len: 100, delay: 1.1, duration: 1.2 },   // N ← كان 0.35
+  // AGENCY - السطر التاني
+  { className: 'd12', len: 90, delay: 1.4, duration: 1.1 },    // A
+  { className: 'd13', len: 95, delay: 1.5, duration: 1.2 },    // G
+  { className: 'd14', len: 100, delay: 1.6, duration: 1.2 },   // E
+  { className: 'd15', len: 80, delay: 1.7, duration: 1.0 },    // N
+  { className: 'd16', len: 95, delay: 1.8, duration: 1.1 },    // C
+  { className: 'd17', len: 85, delay: 1.9, duration: 1.0 },    // Y
 ];
 
 const SPECIAL_PATHS = {
-  circle: { len: 126, delay: 0.4, duration: 1.3, strokeWidth: 2.5 },
-  underline: { len: 200, delay: 0.8, duration: 0.8, strokeWidth: 1, opacity: 0.5 },
+  circle: { len: 94, delay: 1.0, duration: 1.3, strokeWidth: 5 }, // O (في VISION)
+  underline: { len: 300, delay: 2.1, duration: 0.8, strokeWidth: 2, opacity: 0.5 }, // ← بعد AGENCY، وأطول
 };
 
 // ============================================================================
@@ -67,7 +74,7 @@ const generateStrokeStyles = (): string => {
     }
     .stroke-path {
       stroke: ${PRELOADER_CONFIG.COLORS.STROKE};
-      stroke-width: 2;
+      stroke-width: 4; /* ← كان 2، دلوقتي 4 (ضعف السُمك) */
       stroke-linecap: round;
       stroke-linejoin: round;
       fill: none;
@@ -173,11 +180,19 @@ const Preloader = () => {
     []
   );
 
-  // حجم الـ SVG يتغير حسب الـ phase
-  const svgSize = useMemo(() => ({
-    width: phase === 'draw' ? PRELOADER_CONFIG.SIZES.DRAW_WIDTH : PRELOADER_CONFIG.SIZES.WIDTH,
-    height: phase === 'draw' ? PRELOADER_CONFIG.SIZES.DRAW_HEIGHT : PRELOADER_CONFIG.SIZES.HEIGHT,
-  }), [phase]);
+  // حجم الـ SVG يتغير حسب الـ phase والشاشة
+  const svgSize = useMemo(() => {
+    const baseWidth = phase === 'draw' ? PRELOADER_CONFIG.SIZES.DRAW_WIDTH : PRELOADER_CONFIG.SIZES.WIDTH;
+    const baseHeight = phase === 'draw' ? PRELOADER_CONFIG.SIZES.DRAW_HEIGHT : PRELOADER_CONFIG.SIZES.HEIGHT;
+    
+    // Responsive: تصغير على الشاشات الصغيرة
+    const scale = typeof window !== 'undefined' && window.innerWidth < 768 ? 0.7 : 1;
+    
+    return {
+      width: baseWidth * scale,
+      height: baseHeight * scale,
+    };
+  }, [phase]);
 
   const svgStyle = useMemo(
     () => ({
@@ -227,7 +242,7 @@ const Preloader = () => {
       className="fixed inset-0 z-[9999] flex items-center justify-center"
       style={containerStyle}
     >
-      <div className="relative flex items-center justify-center" style={wrapperStyle}>
+      <div className="relative flex items-center justify-center px-4" style={wrapperStyle}>
         {/* SVG stroke drawing */}
         <svg
           viewBox={PRELOADER_CONFIG.SIZES.SVG_VIEWBOX}
@@ -236,6 +251,7 @@ const Preloader = () => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
+          className="max-w-[90vw]" 
           style={{
             ...svgStyle,
             transition: 'opacity 0.3s ease-out, width 0.4s ease-out, height 0.4s ease-out',
@@ -260,17 +276,34 @@ const Preloader = () => {
           <path className="stroke-path d7" d="M155,20 L165,50 L175,20" />
           {/* I */}
           <path className="stroke-path d8" d="M182,20 L182,50" />
-          {/* S */}
-          <path className="stroke-path d9" d="M200,25 Q200,20 205,20 L215,20 Q220,20 220,25 Q220,32 210,35 Q195,38 195,45 Q195,50 200,50 L215,50 Q220,50 220,45" />
+          {/* S - معدّل عشان يرسم من فوق لتحت */}
+          <path className="stroke-path d9" d="M220,25 Q220,20 215,20 L205,20 Q200,20 200,25 Q200,32 210,35 Q220,38 220,45 Q220,50 215,50 L200,50 Q195,50 195,45" />
           {/* I */}
           <path className="stroke-path d10" d="M228,20 L228,50" />
-          {/* O (the iconic circle/eye) */}
-          <circle className="stroke-path circle-path" cx="252" cy="35" r="20" />
+          {/* O (the iconic circle/eye) - حجم متوسط */}
+          <circle className="stroke-path circle-path" cx="252" cy="35" r="15" />
           {/* N */}
           <path className="stroke-path d11" d="M280,50 L280,20 L300,50 L300,20" />
 
+          {/* AGENCY - السطر التاني */}
+          {/* A */}
+          <path className="stroke-path d12" d="M80,85 L90,60 L100,85 M85,75 L95,75" />
+          {/* G */}
+          <path className="stroke-path d13" d="M120,60 Q105,60 105,72.5 Q105,85 120,85 L130,85 L130,72.5 L120,72.5" />
+          {/* E */}
+          <path className="stroke-path d14" d="M140,60 L140,85 L155,85 M140,60 L155,60 M140,72.5 L152,72.5" />
+          {/* N */}
+          <path className="stroke-path d15" d="M165,85 L165,60 L180,85 L180,60" />
+          {/* C */}
+          <path className="stroke-path d16" d="M205,60 Q190,60 190,72.5 Q190,85 205,85" />
+          {/* Y */}
+          <path className="stroke-path d17" d="M215,60 L222.5,72.5 L230,60 M222.5,72.5 L222.5,85" />
+
+          {/* O (the iconic circle/eye) - حجم متوسط */}
+          <circle className="stroke-path circle-path" cx="252" cy="35" r="15" />
+
           {/* Subtle underline */}
-          <path className="stroke-path underline-path" d="M10,65 L300,65" />
+          <path className="stroke-path underline-path" d="M10,95 L300,95" />
         </svg>
 
         {/* Actual logo fade-in */}
@@ -279,7 +312,7 @@ const Preloader = () => {
           alt="Triple Vision Agency"
           width={PRELOADER_CONFIG.SIZES.WIDTH}
           height={PRELOADER_CONFIG.SIZES.HEIGHT}
-          className="absolute"
+          className="absolute max-w-[90vw]"
           style={imageStyle}
           onLoad={handleImageLoad}
           onError={handleImageError}
