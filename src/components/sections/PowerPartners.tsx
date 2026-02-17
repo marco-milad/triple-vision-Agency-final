@@ -8,15 +8,53 @@ interface Partner {
 }
 
 const partners: Partner[] = [
-  { name: 'Google', logo: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg' },
-  { name: 'Microsoft', logo: 'https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg' },
-  { name: 'Adobe', logo: 'https://upload.wikimedia.org/wikipedia/commons/8/8d/Adobe_Corporate_Logo.svg' },
-  { name: 'Meta', logo: 'https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg' },
-  { name: 'Netflix', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg' },
-  { name: 'Spotify', logo: 'https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg' },
+  { name: 'Partner 1', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349748/Screenshot_2026-02-17_170506_znfadw.jpg' },
+  { name: 'Partner 2', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349748/Screenshot_2026-02-17_172714_ycjpnt.jpg' },
+  { name: 'Partner 3', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349748/Screenshot_2026-02-17_170646_pnandr.jpg' },
+  { name: 'Partner 4', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349748/Screenshot_2026-02-17_170729_hjkucm.jpg' },
+  { name: 'Partner 5', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349748/Screenshot_2026-02-17_172724_qvgj8x.jpg' },
+  { name: 'Partner 6', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349749/Screenshot_2026-02-17_170930_nccfjx.jpg' },
+  { name: 'Partner 7', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349749/Screenshot_2026-02-17_172748_iezuwv.jpg' },
+  { name: 'Partner 8', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349749/Screenshot_2026-02-17_172737_lpwowo.jpg' },
+  { name: 'Partner 9', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349749/Screenshot_2026-02-17_170919_l7xmiv.jpg' },
+  { name: 'Partner 10', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349749/Screenshot_2026-02-17_172756_ni1rgb.jpg' },
+  { name: 'Partner 11', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349749/Screenshot_2026-02-17_170952_dygpqz.jpg' },
+  { name: 'Partner 12', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349750/Screenshot_2026-02-17_171106_kk2y4z.jpg' },
+  { name: 'Partner 13', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349749/Screenshot_2026-02-17_172805_ul55wr.jpg' },
+  { name: 'Partner 14', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349750/Screenshot_2026-02-17_172835_xamsqe.jpg' },
+  { name: 'Partner 15', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349750/Screenshot_2026-02-17_172826_rhde0i.jpg' },
+  { name: 'Partner 16', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349750/Screenshot_2026-02-17_172849_ngzhsu.jpg' },
+  { name: 'Partner 17', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349750/Screenshot_2026-02-17_172815_y8cshs.jpg' },
+  { name: 'Partner 18', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349749/Screenshot_2026-02-17_171058_kd1xcj.jpg' },
+  { name: 'Partner 19', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349751/Screenshot_2026-02-17_173329_oj0yhr.jpg' },
+  { name: 'Partner 20', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349751/Screenshot_2026-02-17_172900_mcefyo.jpg' },
+  { name: 'Partner 21', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349751/Screenshot_2026-02-17_173321_oldwsr.jpg' },
+  { name: 'Partner 22', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349751/Screenshot_2026-02-17_173259_lu2eq5.jpg' },
+  { name: 'Partner 23', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349751/Screenshot_2026-02-17_173338_qqyesc.jpg' },
+  { name: 'Partner 24', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349749/Screenshot_2026-02-17_171013_ifrphh.jpg' },
+  { name: 'Partner 25', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349753/Screenshot_2026-02-17_173347_zzso93.jpg' },
+  { name: 'Partner 26', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349763/Screenshot_2026-02-17_173356_svhl5o.jpg' },
+  { name: 'Partner 27', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349763/Screenshot_2026-02-17_173405_a21usn.jpg' },
+  { name: 'Partner 28', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349763/Screenshot_2026-02-17_173447_mlboyl.jpg' },
+  { name: 'Partner 29', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349764/Screenshot_2026-02-17_173537_xizpfm.jpg' },
+  { name: 'Partner 30', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349764/Screenshot_2026-02-17_173558_ev3jab.jpg' },
+  { name: 'Partner 31', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349764/Screenshot_2026-02-17_173519_keldcj.jpg' },
+  { name: 'Partner 32', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349764/Screenshot_2026-02-17_173656_oyoztr.jpg' },
+  { name: 'Partner 33', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349764/Screenshot_2026-02-17_173649_dks6bh.jpg' },
+  { name: 'Partner 34', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349764/Screenshot_2026-02-17_173621_e8dwrl.jpg' },
+  { name: 'Partner 35', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349765/Screenshot_2026-02-17_173704_oo3ium.jpg' },
+  { name: 'Partner 36', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349764/Screenshot_2026-02-17_173609_tv5mbb.jpg' },
+  { name: 'Partner 37', logo: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1771349774/Screenshot_2026-02-17_173713_wslub5.jpg' },
 ];
 
+const MARQUEE_DURATION = 120;
+
 const PowerPartners = React.memo(() => {
+  const third = Math.ceil(partners.length / 3);
+  const firstRow = partners.slice(0, third);
+  const secondRow = partners.slice(third, third * 2);
+  const thirdRow = partners.slice(third * 2);
+
   return (
     <section className="section-padding bg-gradient-to-br from-background-secondary via-background to-background-secondary relative overflow-hidden">
       {/* Background */}
@@ -79,33 +117,71 @@ const PowerPartners = React.memo(() => {
           />
         </motion.div>
 
-        {/* Partners Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8">
-          {partners.map((partner, index) => (
+        {/* Marquee Rows */}
+        <div className="space-y-8 overflow-hidden">
+          {/* Row 1 - Left to Right */}
+          <div className="flex gap-8 overflow-hidden">
             <motion.div
-              key={partner.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
-              whileHover={{ scale: 1.08, y: -5 }}
-              className="group relative"
+              className="flex gap-8 shrink-0"
+              animate={{ x: ['0%', '-50%'] }}
+              transition={{ duration: MARQUEE_DURATION, repeat: Infinity, ease: 'linear' }}
             >
-              <div className="relative flex items-center justify-center h-28 md:h-32 rounded-2xl border-2 border-border/50 bg-background/60 backdrop-blur-sm hover:border-primary/40 hover:bg-primary/5 transition-all duration-300">
-                <img
-                  src={partner.logo}
-                  alt={partner.name}
-                  loading="lazy"
-                  className="h-8 md:h-10 w-auto max-w-[80%] object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
-                />
-              </div>
+              {[...firstRow, ...firstRow].map((partner, index) => (
+                <PartnerCard key={`row1-${index}`} partner={partner} />
+              ))}
             </motion.div>
-          ))}
+          </div>
+
+          {/* Row 2 - Right to Left */}
+          <div className="flex gap-8 overflow-hidden">
+            <motion.div
+              className="flex gap-8 shrink-0"
+              animate={{ x: ['-50%', '0%'] }}
+              transition={{ duration: MARQUEE_DURATION, repeat: Infinity, ease: 'linear' }}
+            >
+              {[...secondRow, ...secondRow].map((partner, index) => (
+                <PartnerCard key={`row2-${index}`} partner={partner} />
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Row 3 - Left to Right */}
+          <div className="flex gap-8 overflow-hidden">
+            <motion.div
+              className="flex gap-8 shrink-0"
+              animate={{ x: ['0%', '-50%'] }}
+              transition={{ duration: MARQUEE_DURATION * 1.2, repeat: Infinity, ease: 'linear' }}
+            >
+              {[...thirdRow, ...thirdRow].map((partner, index) => (
+                <PartnerCard key={`row3-${index}`} partner={partner} />
+              ))}
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
   );
 });
+
+const PartnerCard = ({ partner }: { partner: Partner }) => (
+  <motion.div
+    className="group relative shrink-0"
+    whileHover={{ scale: 1.15, y: -8 }}
+    transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+  >
+    {/* Glow effect on hover */}
+    <div className="absolute inset-0 rounded-2xl bg-primary/0 group-hover:bg-primary/20 blur-xl transition-all duration-300 scale-110" />
+
+    <div className="relative flex items-center justify-center h-24 w-40 rounded-2xl border-2 border-border/50 bg-background/60 backdrop-blur-sm hover:border-primary/40 transition-all duration-300">
+      <img
+        src={partner.logo}
+        alt={partner.name}
+        loading="lazy"
+        className="h-20 w-36 object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:drop-shadow-[0_0_12px_rgba(255,140,0,0.6)] transition-all duration-400 rounded-lg"
+      />
+    </div>
+  </motion.div>
+);
 
 PowerPartners.displayName = 'PowerPartners';
 
