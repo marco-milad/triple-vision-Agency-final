@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 // ============================================================================
 // TYPES
@@ -10,6 +10,7 @@ interface StrokeConfig {
   len: number;
   delay: number;
   duration: number;
+  strokeWidth?: number;
 }
 
 // ============================================================================
@@ -19,312 +20,303 @@ const SESSION_KEY = 'preloaderShown';
 
 const PRELOADER_CONFIG = {
   TIMINGS: {
-    DRAW: 3500,    // الرسم: 3.5 ثانية (كان 2.5) ← +1 ثانية
-    REVEAL: 4200,  // بداية الظهور: 4.2 ثانية (كان 3.2)
-    FADEOUT: 5800, // بداية الاختفاء: 5.8 ثانية (كان 4.8)
+    DRAW: 2800,
+    REVEAL: 3400,
+    FADEOUT: 4600,
   },
   COLORS: {
     BACKGROUND: 'hsl(280, 100%, 8%)',
     STROKE: 'hsl(32, 100%, 50%)',
   },
   SIZES: {
-    WIDTH: 320,
-    HEIGHT: 64,
-    SVG_VIEWBOX: '0 0 400 110', // ← زودنا الارتفاع من 80 لـ 110 عشان AGENCY
-    DRAW_WIDTH: 640,   // ← ضعف الحجم للـ draw
-    DRAW_HEIGHT: 128,  // ← ضعف الحجم للـ draw
+    SVG_VIEWBOX: '0 0 340 115',
+    DISPLAY_WIDTH: 340,
+    DISPLAY_HEIGHT: 115,
+    LOGO_WIDTH: 320,
+    LOGO_HEIGHT: 64,
   },
   LOGO_URL: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1763917799/logo2_transparent_jjpgv6.png',
 } as const;
 
 const STROKE_CONFIGS: StrokeConfig[] = [
-  { className: 'd1', len: 120, delay: 0, duration: 1.2 },      // T
-  { className: 'd2', len: 100, delay: 0.1, duration: 1.2 },    // R
-  { className: 'd3', len: 80, delay: 0.2, duration: 1.1 },     // I
-  { className: 'd4', len: 90, delay: 0.3, duration: 1.1 },     // P
-  { className: 'd5', len: 70, delay: 0.4, duration: 1.0 },     // L
-  { className: 'd6', len: 100, delay: 0.5, duration: 1.2 },    // E
-  { className: 'd7', len: 90, delay: 0.6, duration: 1.1 },     // V ← كان 0.15
-  { className: 'd8', len: 80, delay: 0.7, duration: 1.0 },     // I ← كان 0.2
-  { className: 'd9', len: 70, delay: 0.8, duration: 1.0 },     // S ← كان 0.25
-  { className: 'd10', len: 80, delay: 0.9, duration: 1.0 },    // I ← كان 0.3
-  { className: 'd11', len: 100, delay: 1.1, duration: 1.2 },   // N ← كان 0.35
-  // AGENCY - السطر التاني
-  { className: 'd12', len: 90, delay: 1.4, duration: 1.1 },    // A
-  { className: 'd13', len: 95, delay: 1.5, duration: 1.2 },    // G
-  { className: 'd14', len: 100, delay: 1.6, duration: 1.2 },   // E
-  { className: 'd15', len: 80, delay: 1.7, duration: 1.0 },    // N
-  { className: 'd16', len: 95, delay: 1.8, duration: 1.1 },    // C
-  { className: 'd17', len: 85, delay: 1.9, duration: 1.0 },    // Y
+  // ── TRIPLE ──
+  { className: 'd-T',    len: 70,  delay: 0.0,  duration: 0.9 },
+  { className: 'd-R',    len: 130, delay: 0.1,  duration: 1.0 },
+  { className: 'd-I1',   len: 35,  delay: 0.2,  duration: 0.7 },
+  { className: 'd-P',    len: 110, delay: 0.3,  duration: 1.0 },
+  { className: 'd-L',    len: 65,  delay: 0.4,  duration: 0.8 },
+  { className: 'd-E1',   len: 100, delay: 0.5,  duration: 1.0 },
+  // ── VISION ──
+  { className: 'd-V',    len: 75,  delay: 0.65, duration: 0.9 },
+  { className: 'd-I2',   len: 35,  delay: 0.75, duration: 0.7 },
+  { className: 'd-S',    len: 160, delay: 0.85, duration: 1.1 },
+  { className: 'd-I3',   len: 35,  delay: 0.95, duration: 0.7 },
+  { className: 'd-O',    len: 95,  delay: 1.05, duration: 1.1, strokeWidth: 5 },
+  { className: 'd-N',    len: 105, delay: 1.2,  duration: 1.0 },
+  // ── AGENCY ──
+  { className: 'd-A',    len: 90,  delay: 1.45, duration: 1.0 },
+  { className: 'd-G',    len: 115, delay: 1.55, duration: 1.1 },
+  { className: 'd-E2',   len: 100, delay: 1.65, duration: 1.0 },
+  { className: 'd-N2',   len: 105, delay: 1.75, duration: 1.0 },
+  { className: 'd-C',    len: 90,  delay: 1.85, duration: 1.0 },
+  { className: 'd-Y',    len: 80,  delay: 1.95, duration: 0.9 },
+  // ── underline ──
+  { className: 'd-line', len: 320, delay: 2.1,  duration: 0.7, strokeWidth: 1.5 },
 ];
 
-const SPECIAL_PATHS = {
-  circle: { len: 94, delay: 1.0, duration: 1.3, strokeWidth: 5 }, // O (في VISION)
-  underline: { len: 300, delay: 2.1, duration: 0.8, strokeWidth: 2, opacity: 0.5 }, // ← بعد AGENCY، وأطول
-};
+// CSS بيتولّد مرة واحدة خارج الـ component
+const STYLES = (() => {
+  const defs = STROKE_CONFIGS.map(
+    ({ className, len, delay, duration, strokeWidth }) => `
+    .${className} {
+      stroke-dasharray: ${len};
+      stroke-dashoffset: ${len};
+      stroke-width: ${strokeWidth ?? 3.5};
+      animation: svgDraw ${duration}s ${delay}s ease-out forwards;
+    }`
+  ).join('');
 
-// ============================================================================
-// HELPER FUNCTIONS
-// ============================================================================
-const generateStrokeStyles = (): string => {
-  const baseStyles = `
-    @keyframes draw {
-      from { stroke-dashoffset: var(--len); }
-      to { stroke-dashoffset: 0; }
-    }
-    .stroke-path {
-      stroke: ${PRELOADER_CONFIG.COLORS.STROKE};
-      stroke-width: 4; /* ← كان 2، دلوقتي 4 (ضعف السُمك) */
+  return `
+    @keyframes svgDraw { to { stroke-dashoffset: 0; } }
+    .sp {
+      stroke: hsl(32, 100%, 50%);
       stroke-linecap: round;
       stroke-linejoin: round;
       fill: none;
       will-change: stroke-dashoffset;
     }
+    ${defs}
+    .d-line { opacity: 0.4; }
   `;
-
-  const strokeStyles = STROKE_CONFIGS.map(
-    ({ className, len, delay, duration }) => `
-    .${className} { 
-      --len: ${len}; 
-      stroke-dasharray: ${len}; 
-      animation: draw ${duration}s ${delay}s ease-out forwards; 
-      stroke-dashoffset: ${len}; 
-    }
-  `
-  ).join('');
-
-  const specialStyles = `
-    .circle-path { 
-      --len: ${SPECIAL_PATHS.circle.len}; 
-      stroke-dasharray: ${SPECIAL_PATHS.circle.len}; 
-      animation: draw ${SPECIAL_PATHS.circle.duration}s ${SPECIAL_PATHS.circle.delay}s ease-out forwards; 
-      stroke-dashoffset: ${SPECIAL_PATHS.circle.len}; 
-      stroke-width: ${SPECIAL_PATHS.circle.strokeWidth}; 
-    }
-    .underline-path { 
-      --len: ${SPECIAL_PATHS.underline.len}; 
-      stroke-dasharray: ${SPECIAL_PATHS.underline.len}; 
-      animation: draw ${SPECIAL_PATHS.underline.duration}s ${SPECIAL_PATHS.underline.delay}s ease-out forwards; 
-      stroke-dashoffset: ${SPECIAL_PATHS.underline.len}; 
-      stroke-width: ${SPECIAL_PATHS.underline.strokeWidth}; 
-      opacity: ${SPECIAL_PATHS.underline.opacity}; 
-    }
-  `;
-
-  return baseStyles + strokeStyles + specialStyles;
-};
+})();
 
 // ============================================================================
-// COMPONENT - VERSION 2: Constant Large Scale (1.2 طول الوقت)
+// COMPONENT
 // ============================================================================
 const Preloader = () => {
   const [phase, setPhase] = useState<Phase>(() =>
     sessionStorage.getItem(SESSION_KEY) ? 'done' : 'draw'
   );
   const [imageLoaded, setImageLoaded] = useState(false);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-  // Check for prefers-reduced-motion and skip animation if needed
+  // preload الصورة من أول لحظة — مفيش flash وقت الـ reveal
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
-    if (prefersReducedMotion) {
+    const img = new Image();
+    img.src = PRELOADER_CONFIG.LOGO_URL;
+    img.onload  = () => setImageLoaded(true);
+    img.onerror = () => setImageLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    // prefers-reduced-motion — skip animation تماماً
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced || sessionStorage.getItem(SESSION_KEY)) {
       sessionStorage.setItem(SESSION_KEY, 'true');
       setPhase('done');
       return;
     }
 
-    if (phase === 'done') return;
+    const add = (fn: () => void, ms: number) => {
+      const t = setTimeout(fn, ms);
+      timersRef.current.push(t);
+    };
 
-    let mounted = true;
-
-    const t1 = setTimeout(() => {
-      if (mounted) setPhase('reveal');
-    }, PRELOADER_CONFIG.TIMINGS.DRAW);
-
-    const t2 = setTimeout(() => {
-      if (mounted) setPhase('fadeout');
-    }, PRELOADER_CONFIG.TIMINGS.REVEAL);
-
-    const t3 = setTimeout(() => {
-      if (mounted) {
-        sessionStorage.setItem(SESSION_KEY, 'true');
-        setPhase('done');
-      }
+    add(() => setPhase('reveal'),  PRELOADER_CONFIG.TIMINGS.DRAW);
+    add(() => setPhase('fadeout'), PRELOADER_CONFIG.TIMINGS.REVEAL);
+    add(() => {
+      sessionStorage.setItem(SESSION_KEY, 'true');
+      setPhase('done');
     }, PRELOADER_CONFIG.TIMINGS.FADEOUT);
 
     return () => {
-      mounted = false;
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
+      timersRef.current.forEach(clearTimeout);
+      timersRef.current = [];
     };
   }, []);
 
-  // Memoized styles for performance
-  const containerStyle = useMemo(
-    () => ({
-      background: PRELOADER_CONFIG.COLORS.BACKGROUND,
-      opacity: phase === 'fadeout' ? 0 : 1,
-      transition: 'opacity 0.3s ease-out',
-      pointerEvents: phase === 'fadeout' ? ('none' as const) : ('auto' as const),
-    }),
-    [phase]
-  );
-
-  // VERSION 2: كبير طول الوقت (1.2)
-  const wrapperStyle = useMemo(
-    () => ({
-      transform: 'scale(1.2)', // كبير من البداية للنهاية
-      transition: 'transform 0.4s ease-out',
-    }),
-    []
-  );
-
-  // حجم الـ SVG يتغير حسب الـ phase والشاشة
-  const svgSize = useMemo(() => {
-    const baseWidth = phase === 'draw' ? PRELOADER_CONFIG.SIZES.DRAW_WIDTH : PRELOADER_CONFIG.SIZES.WIDTH;
-    const baseHeight = phase === 'draw' ? PRELOADER_CONFIG.SIZES.DRAW_HEIGHT : PRELOADER_CONFIG.SIZES.HEIGHT;
-    
-    // Responsive: تصغير على الشاشات الصغيرة
-    const scale = typeof window !== 'undefined' && window.innerWidth < 768 ? 0.7 : 1;
-    
-    return {
-      width: baseWidth * scale,
-      height: baseHeight * scale,
-    };
-  }, [phase]);
-
-  const svgStyle = useMemo(
-    () => ({
-      opacity: phase === 'reveal' || phase === 'fadeout' ? 0 : 1,
-      transition: 'opacity 0.3s ease-out',
-    }),
-    [phase]
-  );
-
-  const imageStyle = useMemo(
-    () => ({
-      opacity: (phase === 'reveal' || phase === 'fadeout') && imageLoaded ? 1 : 0,
-      transition: 'opacity 0.4s ease-in',
-    }),
-    [phase, imageLoaded]
-  );
-
-  const skipButtonStyle = useMemo(
-    () => ({
-      opacity: phase === 'draw' ? 1 : 0,
-      transition: 'opacity 0.3s ease-out',
-      pointerEvents: phase === 'draw' ? ('auto' as const) : ('none' as const),
-    }),
-    [phase]
-  );
-
-  // Skip handler
-  const handleSkip = () => {
+  // skip بيمسح الـ timers فوراً
+  const handleSkip = useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
     sessionStorage.setItem(SESSION_KEY, 'true');
     setPhase('done');
-  };
-
-  // Image handlers
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
-
-  const handleImageError = () => {
-    console.error('Preloader logo failed to load');
-    setImageLoaded(true);
-  };
+  }, []);
 
   if (phase === 'done') return null;
+
+  const isDrawing  = phase === 'draw';
+  const isRevealed = phase === 'reveal' || phase === 'fadeout';
+  const isFading   = phase === 'fadeout';
 
   return (
     <div
       className="fixed inset-0 z-[9999] flex items-center justify-center"
-      style={containerStyle}
+      style={{
+        background: PRELOADER_CONFIG.COLORS.BACKGROUND,
+        opacity: isFading ? 0 : 1,
+        transition: 'opacity 0.5s ease-out',
+        willChange: 'opacity',
+        pointerEvents: isFading ? 'none' : 'auto',
+      }}
     >
-      <div className="relative flex items-center justify-center px-4" style={wrapperStyle}>
-        {/* SVG stroke drawing */}
+      <div
+        className="relative flex items-center justify-center px-4"
+        style={{ transform: 'scale(1.15)' }}
+      >
+        {/* SVG Stroke Animation */}
         <svg
           viewBox={PRELOADER_CONFIG.SIZES.SVG_VIEWBOX}
-          width={svgSize.width}
-          height={svgSize.height}
+          width={PRELOADER_CONFIG.SIZES.DISPLAY_WIDTH}
+          height={PRELOADER_CONFIG.SIZES.DISPLAY_HEIGHT}
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
-          className="max-w-[90vw]" 
+          className="max-w-[85vw]"
           style={{
-            ...svgStyle,
-            transition: 'opacity 0.3s ease-out, width 0.4s ease-out, height 0.4s ease-out',
+            opacity: isRevealed ? 0 : 1,
+            transition: 'opacity 0.35s ease-out',
+            willChange: 'opacity',
           }}
         >
-          <style>{generateStrokeStyles()}</style>
+          <style>{STYLES}</style>
 
-          {/* T */}
-          <path className="stroke-path d1" d="M10,20 L30,20 M20,20 L20,50" />
-          {/* R */}
-          <path className="stroke-path d2" d="M35,50 L35,20 L48,20 Q55,20 55,28 Q55,36 48,36 L35,36 L55,50" />
-          {/* I */}
-          <path className="stroke-path d3" d="M62,20 L62,50" />
-          {/* P */}
-          <path className="stroke-path d4" d="M70,50 L70,20 L83,20 Q90,20 90,28 Q90,36 83,36 L70,36" />
-          {/* L */}
-          <path className="stroke-path d5" d="M97,20 L97,50 L112,50" />
-          {/* E */}
-          <path className="stroke-path d6" d="M119,20 L119,50 L134,50 M119,20 L134,20 M119,35 L131,35" />
+          {/* ══ TRIPLE ══ */}
 
-          {/* V */}
-          <path className="stroke-path d7" d="M155,20 L165,50 L175,20" />
-          {/* I */}
-          <path className="stroke-path d8" d="M182,20 L182,50" />
-          {/* S - معدّل عشان يرسم من فوق لتحت */}
-          <path className="stroke-path d9" d="M220,25 Q220,20 215,20 L205,20 Q200,20 200,25 Q200,32 210,35 Q220,38 220,45 Q220,50 215,50 L200,50 Q195,50 195,45" />
-          {/* I */}
-          <path className="stroke-path d10" d="M228,20 L228,50" />
-          {/* O (the iconic circle/eye) - حجم متوسط */}
-          <circle className="stroke-path circle-path" cx="252" cy="35" r="15" />
-          {/* N */}
-          <path className="stroke-path d11" d="M280,50 L280,20 L300,50 L300,20" />
+          {/* T — top bar + vertical stem */}
+          <path className="sp d-T"
+            d="M5,18 L25,18
+               M15,18 L15,50" />
 
-          {/* AGENCY - السطر التاني */}
+          {/* R — vertical + bump + diagonal leg */}
+          <path className="sp d-R"
+            d="M30,50 L30,18
+               L43,18 Q51,18 51,27 Q51,36 43,36
+               L30,36
+               L51,50" />
+
+          {/* I */}
+          <path className="sp d-I1" d="M58,18 L58,50" />
+
+          {/* P — vertical + closed bump */}
+          <path className="sp d-P"
+            d="M65,50 L65,18
+               L78,18 Q86,18 86,27 Q86,36 78,36
+               L65,36" />
+
+          {/* L — vertical + floor */}
+          <path className="sp d-L"
+            d="M93,18 L93,50 L108,50" />
+
+          {/* E — vertical + top + mid + bottom */}
+          <path className="sp d-E1"
+            d="M115,18 L115,50
+               M115,18 L130,18
+               M115,34 L127,34
+               M115,50 L130,50" />
+
+          {/* ══ VISION ══ */}
+
+          {/* V — top-left → bottom-center → top-right */}
+          <path className="sp d-V"
+            d="M140,18 L152,50 L164,18" />
+
+          {/* I */}
+          <path className="sp d-I2" d="M171,18 L171,50" />
+
+          {/* S — cubic bezier صح: يبدأ أعلى يمين، upper curve، ينزل للوسط، lower curve، ينتهي أسفل يمين */}
+          <path className="sp d-S"
+            d="M197,24
+               C197,18 191,18 186,18
+               C181,18 178,22 178,26
+               C178,31 183,33 188,35
+               C193,37 198,39 198,44
+               C198,48 195,52 190,52
+               C185,52 181,49 181,44" />
+
+          {/* I */}
+          <path className="sp d-I3" d="M206,18 L206,50" />
+
+          {/* O — circle واحدة بس */}
+          <circle className="sp d-O" cx="226" cy="34" r="15" />
+
+          {/* N — vertical + diagonal + vertical */}
+          <path className="sp d-N"
+            d="M248,50 L248,18
+               L268,50
+               L268,18" />
+
+          {/* ══ AGENCY ══ */}
+
           {/* A */}
-          <path className="stroke-path d12" d="M80,85 L90,60 L100,85 M85,75 L95,75" />
+          <path className="sp d-A"
+            d="M30,100 L42,68 L54,100
+               M35,86 L49,86" />
+
           {/* G */}
-          <path className="stroke-path d13" d="M120,60 Q105,60 105,72.5 Q105,85 120,85 L130,85 L130,72.5 L120,72.5" />
+          <path className="sp d-G"
+            d="M85,68 Q70,68 70,84 Q70,100 85,100
+               L97,100 L97,84 L85,84" />
+
           {/* E */}
-          <path className="stroke-path d14" d="M140,60 L140,85 L155,85 M140,60 L155,60 M140,72.5 L152,72.5" />
+          <path className="sp d-E2"
+            d="M107,68 L107,100
+               M107,68 L122,68
+               M107,84 L119,84
+               M107,100 L122,100" />
+
           {/* N */}
-          <path className="stroke-path d15" d="M165,85 L165,60 L180,85 L180,60" />
+          <path className="sp d-N2"
+            d="M131,100 L131,68
+               L148,100
+               L148,68" />
+
           {/* C */}
-          <path className="stroke-path d16" d="M205,60 Q190,60 190,72.5 Q190,85 205,85" />
+          <path className="sp d-C"
+            d="M182,68 Q165,68 165,84 Q165,100 182,100" />
+
           {/* Y */}
-          <path className="stroke-path d17" d="M215,60 L222.5,72.5 L230,60 M222.5,72.5 L222.5,85" />
+          <path className="sp d-Y"
+            d="M193,68 L202,82 L211,68
+               M202,82 L202,100" />
 
-          {/* O (the iconic circle/eye) - حجم متوسط */}
-          <circle className="stroke-path circle-path" cx="252" cy="35" r="15" />
+          {/* underline */}
+          <path className="sp d-line" d="M5,110 L280,110" />
 
-          {/* Subtle underline */}
-          <path className="stroke-path underline-path" d="M10,95 L300,95" />
         </svg>
 
-        {/* Actual logo fade-in */}
+        {/* Logo — بيظهر بعد ما الـ SVG يختفي */}
         <img
           src={PRELOADER_CONFIG.LOGO_URL}
           alt="Triple Vision Agency"
-          width={PRELOADER_CONFIG.SIZES.WIDTH}
-          height={PRELOADER_CONFIG.SIZES.HEIGHT}
-          className="absolute max-w-[90vw]"
-          style={imageStyle}
-          onLoad={handleImageLoad}
-          onError={handleImageError}
+          width={PRELOADER_CONFIG.SIZES.LOGO_WIDTH}
+          height={PRELOADER_CONFIG.SIZES.LOGO_HEIGHT}
+          className="absolute max-w-[85vw]"
+          style={{
+            opacity: isRevealed && imageLoaded ? 1 : 0,
+            transition: 'opacity 0.45s ease-in',
+            willChange: 'opacity',
+          }}
+          onError={() => setImageLoaded(true)}
         />
       </div>
 
-      {/* Skip button */}
+      {/* Skip button — keyboard accessible */}
       <button
         onClick={handleSkip}
-        className="absolute bottom-8 text-white/60 text-sm hover:text-white/90 transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-white/50 rounded px-3 py-1"
-        style={skipButtonStyle}
-        aria-label="Skip preloader animation"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleSkip();
+          }
+        }}
+        className="absolute bottom-8 text-white/50 text-sm hover:text-white/90 transition-colors duration-200 rounded px-3 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+        style={{
+          opacity: isDrawing ? 1 : 0,
+          pointerEvents: isDrawing ? 'auto' : 'none',
+          transition: 'opacity 0.3s ease-out',
+        }}
+        aria-label="Skip intro animation"
       >
         Skip →
       </button>
