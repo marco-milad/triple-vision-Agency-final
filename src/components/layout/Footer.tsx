@@ -171,7 +171,7 @@ const Footer = () => {
                   </div>
                   <div className="flex-1">
                     <p className="text-xs text-muted-foreground/60 mb-1 font-semibold uppercase tracking-wider">Email</p>
-                    <a href="mailto:hello@triplevision.agency" className="text-muted-foreground text-sm hover:text-primary transition-colors font-medium">hello@triplevision.agency</a>
+                    <a href="mailto:info@triplevisionagency.com" className="text-muted-foreground text-sm hover:text-primary transition-colors font-medium">info@triplevisionagency.com</a>
                   </div>
                 </motion.li>
                 <motion.li initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: 0.4 }} className="flex items-start gap-3 group">
@@ -180,7 +180,7 @@ const Footer = () => {
                   </div>
                   <div className="flex-1">
                     <p className="text-xs text-muted-foreground/60 mb-1 font-semibold uppercase tracking-wider">Phone</p>
-                    <a href="tel:+1234567890" className="text-muted-foreground text-sm hover:text-primary transition-colors font-medium">+1 (234) 567-890</a>
+                    <a href="tel:+20 10 98324080" className="text-muted-foreground text-sm hover:text-primary transition-colors font-medium">+20 10 98324080</a>
                   </div>
                 </motion.li>
                 <motion.li initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: 0.45 }} className="flex items-start gap-3 group">
@@ -189,7 +189,7 @@ const Footer = () => {
                   </div>
                   <div className="flex-1">
                     <p className="text-xs text-muted-foreground/60 mb-1 font-semibold uppercase tracking-wider">Location</p>
-                    <span className="text-muted-foreground text-sm font-medium">Creative District, Suite 100<br />New York, NY 10001</span>
+                    <span className="text-muted-foreground text-sm font-medium">Abd El-Aziz Ismail, Triumph Square, Heliopolis, Cairo, Egypt.<br /></span>
                   </div>
                 </motion.li>
               </ul>
