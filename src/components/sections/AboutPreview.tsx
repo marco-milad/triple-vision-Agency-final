@@ -40,9 +40,9 @@ const features = [
 
 const stats = [
   { value: 200, suffix: '+', label: 'Projects Completed' },
-  { value: 50, suffix: '+', label: 'Happy Clients' },
-  { value: 8, suffix: '+', label: 'Years Experience' },
-  { value: 15, suffix: '+', label: 'Team Members' },
+  { value: 250, suffix: '+', label: 'Happy Clients' },
+  { value: 11, suffix: '+', label: 'Years Experience' },
+  { value: 10, suffix: '+', label: 'Team Members' },
 ];
 
 const AboutPreview = () => {
@@ -156,7 +156,7 @@ const AboutPreview = () => {
                   >
                     <TrendingUp className="w-16 h-16 text-primary mb-6 mx-auto" />
                     <div className="text-6xl md:text-7xl font-black bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent mb-3">
-                      <Counter value={8} suffix="+" duration={2.5} />
+                      <Counter value={11} suffix="+" duration={2.5} />
                     </div>
                     <p className="text-foreground font-bold text-xl md:text-2xl mb-2">Years of Excellence</p>
                     <p className="text-muted-foreground">Crafting Digital Masterpieces</p>
@@ -186,7 +186,7 @@ const AboutPreview = () => {
               className="absolute -top-6 -right-6 bg-gradient-to-br from-background to-background-secondary border-2 border-primary/30 rounded-2xl p-6 backdrop-blur-xl shadow-2xl"
             >
               <p className="text-4xl font-black text-primary mb-1">
-                <Counter value={50} suffix="+" duration={2} />
+                <Counter value={250} suffix="+" duration={2} />
               </p>
               <p className="text-muted-foreground text-sm font-semibold">Happy Clients</p>
             </motion.div>

@@ -26,8 +26,7 @@ const TestimonialsSection = () => {
   const [direction, setDirection] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { margin: '200px' as any, once: false });
-
+const isInView = useInView(sectionRef, { margin: "-200px 0px -200px 0px", once: false });
   const handleNext = useCallback(() => {
     setDirection(1);
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
@@ -264,7 +263,7 @@ const TestimonialsSection = () => {
             { icon: Star, value: '4.9/5', label: 'Average Rating', color: 'text-primary' },
             { icon: Award, value: '100%', label: 'Client Satisfaction', color: 'text-orange-500' },
             { icon: TrendingUp, value: '300%', label: 'Avg. ROI Increase', color: 'text-pink-500' },
-            { icon: CheckCircle2, value: '200+', label: 'Projects Delivered', color: 'text-purple-500' },
+            { icon: CheckCircle2, value: '250+', label: 'Projects Delivered', color: 'text-purple-500' },
           ].map((stat, index) => (
             <motion.div
               key={stat.label}

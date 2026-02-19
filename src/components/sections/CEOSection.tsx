@@ -4,9 +4,9 @@ import { Quote, Sparkles, Award, Users, TrendingUp, Linkedin, Instagram, Twitter
 import ceoPortrait from '@/assets/ceo-portrait.jpg';
 
 const achievements = [
-  { icon: Award, label: '200+ Projects', color: 'from-primary to-orange-500' },
-  { icon: Users, label: '50+ Clients', color: 'from-orange-500 to-pink-500' },
-  { icon: TrendingUp, label: '8+ Years', color: 'from-pink-500 to-purple-500' },
+  { icon: Award, label: '250+ Projects', color: 'from-primary to-orange-500' },
+  { icon: Users, label: '200+ Clients', color: 'from-orange-500 to-pink-500' },
+  { icon: TrendingUp, label: '11+ Years', color: 'from-pink-500 to-purple-500' },
 ];
 
 const socialLinks = [
@@ -81,7 +81,7 @@ const CEOSection = () => {
               >
                 <div className="flex items-center gap-2 mb-1">
                   <Sparkles className="w-5 h-5 text-white" />
-                  <p className="text-white font-black text-2xl">8+ Years</p>
+                  <p className="text-white font-black text-2xl">11+ Years</p>
                 </div>
                 <p className="text-white/90 text-sm font-semibold">Leading Innovation</p>
               </motion.div>
@@ -192,13 +192,13 @@ const CEOSection = () => {
               className="space-y-4"
             >
               <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-                With over <span className="text-foreground font-semibold">8 years of experience</span> in media production and creative direction, 
+                With over <span className="text-foreground font-semibold">11 years of experience</span> in media production and creative direction, 
                 Mario founded Triple Vision Agency with a singular mission: to transform bold 
                 ideas into <span className="text-primary font-semibold">cinematic realities</span>.
               </p>
               <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
                 His passion for storytelling and unwavering commitment to 
-                excellence has helped <span className="text-foreground font-semibold">200+ brands</span> elevate their presence and connect with 
+                excellence has helped <span className="text-foreground font-semibold">250+ brands</span> elevate their presence and connect with 
                 audiences on a deeper, more meaningful level.
               </p>
             </motion.div>

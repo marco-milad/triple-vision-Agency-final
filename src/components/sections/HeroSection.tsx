@@ -23,9 +23,9 @@ const CARD_POSITIONS = [
 ] as const;
 
 const TRUST_INDICATORS = [
-  { icon: Star, label: '200+ Projects', color: 'from-primary to-orange-500' },
-  { icon: Award, label: '50+ Clients', color: 'from-orange-500 to-pink-500' },
-  { icon: Sparkles, label: '8+ Years', color: 'from-pink-500 to-purple-500' },
+  { icon: Star, label: '600+ Projects', color: 'from-primary to-orange-500' },
+  { icon: Award, label: '250+ Clients', color: 'from-orange-500 to-pink-500' },
+  { icon: Sparkles, label: '11+ Years', color: 'from-pink-500 to-purple-500' },
 ] as const;
 
 const GRID_STYLE = {
@@ -206,7 +206,7 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="relative text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-black leading-[1.1] mb-6"
+            className="relative text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-bold leading-[1.1] mb-6"
           >
             <span className="inline-block text-foreground">Transform Your </span>
             <br className="hidden sm:block" />

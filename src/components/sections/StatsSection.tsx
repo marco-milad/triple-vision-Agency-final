@@ -5,10 +5,10 @@ import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 
 const stats = [
-  { value: 200, suffix: '+', label: 'Projects Completed' },
-  { value: 50, suffix: '+', label: 'Happy Clients' },
-  { value: 8, suffix: '+', label: 'Years Experience' },
-  { value: 15, suffix: '', label: 'Team Members' },
+  { value: 250, suffix: '+', label: 'Projects Completed' },
+  { value: 500, suffix: '+', label: 'Happy Clients' },
+  { value: 11, suffix: '+', label: 'Years Experience' },
+  { value: 10, suffix: '', label: 'Team Members' },
 ];
 
 interface CounterProps {
