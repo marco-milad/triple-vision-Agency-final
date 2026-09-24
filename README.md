@@ -1,73 +1,74 @@
-# Welcome to your Lovable project
+# Triple Vision Agency — Website
 
-## Project info
+Marketing website for **Triple Vision Agency**, a fully integrated digital agency based in Heliopolis, Cairo (founded 2015).
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+- **Live (temporary):** https://triple-vision-cinematics.vercel.app
+- **Production domain:** not decided yet — see [Deployment](#deployment).
 
-## How can I edit this code?
+## Source of truth for content
 
-There are several ways of editing your application.
+All company facts (stats, services, clients, contact details, mission/vision) come from the official
+**Triple Vision Agency Company Profile 2026** provided by the client. Do not add company facts that are
+not in the profile or confirmed by the client in writing.
 
-**Use Lovable**
+The profile PDF is intentionally **not** committed (it is ~28 MB and git-ignored). Ask the project owner for a copy.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Tech stack
 
-Changes made via Lovable will be committed automatically to this repo.
+- [Vite 5](https://vitejs.dev/) + React 18 + TypeScript (client-side rendered SPA)
+- React Router 6
+- Tailwind CSS 3 + [shadcn/ui](https://ui.shadcn.com/) (Radix primitives)
+- Framer Motion for animation
+- Hosted on [Vercel](https://vercel.com/)
 
-**Use your preferred IDE**
+## Getting started
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+Requires Node.js 22 and npm.
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+npm ci          # install exact dependency versions from package-lock.json
+npm run dev     # dev server on http://localhost:8080
 ```
 
-**Edit a file directly in GitHub**
+## Scripts
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+| Script | What it does |
+|---|---|
+| `npm run dev` | Start the dev server |
+| `npm run build` | Production build into `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | ESLint |
+| `npm run typecheck` | TypeScript type check (no emit) |
+| `npm test` | Vitest (single run) |
 
-**Use GitHub Codespaces**
+CI (`.github/workflows/ci.yml`) runs lint, typecheck, tests and build on every pull request and on pushes to `main`.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Project structure
 
-## What technologies are used for this project?
+```
+src/
+  App.tsx              routes and app-wide providers
+  pages/               one file per route
+  components/
+    layout/            Navbar, Footer, Layout
+    sections/          home page sections
+    modals/            contact modal
+    ui/                shadcn/ui primitives
+  contexts/            ContactContext (opens the contact modal)
+  hooks/
+  assets/
+public/                static files served as-is (robots.txt, sitemap.xml, manifest)
+```
 
-This project is built with:
+## Deployment
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Vercel builds every push. Each pull request gets its own preview URL; merging to `main` deploys production.
 
-## How can I deploy this project?
+The production domain is still to be confirmed with the client (the company email uses `triplevisionagency.com`).
+Until then the site runs on the `vercel.app` URL.
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## Workflow
 
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- Work on a feature branch and open a pull request into `main`.
+- Check the Vercel preview (desktop and mobile) before merging.
+- This repository is no longer synced with Lovable — edit the code directly.

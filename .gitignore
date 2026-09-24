@@ -11,6 +11,11 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+.vercel
+
+# Client source material (large, not part of the site)
+*Company Profile*.pdf
 
 # Editor directories and files
 .vscode/*
