@@ -595,19 +595,8 @@ const ProjectModal = ({ project, onClose }) => {
 
 const Portfolio = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [isLoading, setIsLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState(null);
   const { openContact } = useContact();
-
-  // Simulate loading when category changes
-  useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 600);
-
-    return () => clearTimeout(timer);
-  }, [selectedCategory]);
 
   const filteredProjects = selectedCategory === 'All'
     ? projects
@@ -672,7 +661,7 @@ const Portfolio = () => {
       </section>
 
       {/* Filter Section - Improved Mobile */}
-      <section className="py-6 md:py-12 px-6 bg-background-secondary border-y-2 border-border/50 sticky top-0 z-40 backdrop-blur-xl">
+      <section className="py-6 md:py-12 px-6 bg-background-secondary border-y-2 border-border/50 sticky top-[72px] z-30 backdrop-blur-xl">
         <style>{`
           .scrollbar-hide {
             -ms-overflow-style: none;
@@ -707,7 +696,7 @@ const Portfolio = () => {
                   aria-pressed={selectedCategory === category}
                   className={`px-4 md:px-6 py-2 md:py-3 rounded-2xl text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap ${
                     selectedCategory === category
-                      ? 'bg-gradient-to-r from-primary to-orange-500 text-white shadow-lg shadow-primary/30'
+                      ? 'bg-gradient-to-r from-primary to-orange-500 text-primary-foreground shadow-lg shadow-primary/30'
                       : 'bg-background border-2 border-border/50 text-muted-foreground hover:border-primary/50 hover:text-foreground hover:bg-primary/5'
                   }`}
                 >
@@ -728,28 +717,20 @@ const Portfolio = () => {
 
         <div className="container mx-auto relative z-10">
           <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-            {isLoading ? (
-              // Skeleton Loading
-              [...Array(9)].map((_, i) => (
-                <ProjectSkeleton key={i} />
-              ))
-            ) : (
-              // Actual Projects
-              <AnimatePresence mode="popLayout">
-                {filteredProjects.map((project, index) => (
-                  <ProjectCard
-                    key={project.id}
-                    project={project}
-                    index={index}
-                    onClick={() => setSelectedProject(project)}
-                  />
-                ))}
-              </AnimatePresence>
-            )}
+            <AnimatePresence mode="popLayout">
+              {filteredProjects.map((project, index) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  index={index}
+                  onClick={() => setSelectedProject(project)}
+                />
+              ))}
+            </AnimatePresence>
           </motion.div>
 
           {/* No Results Message */}
-          {!isLoading && filteredProjects.length === 0 && (
+          {filteredProjects.length === 0 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

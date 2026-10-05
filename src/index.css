@@ -18,7 +18,10 @@
     --popover-foreground: 0 0% 100%;
 
     --primary: 32 100% 50%;
-    --primary-foreground: 0 0% 100%;
+    /* Dark ink on the orange fill: white text on #FF8800 is only ~2.4:1, which
+       fails WCAG AA even for large text. This keeps the brand orange exactly as
+       it is and lifts the contrast to ~7.5:1. */
+    --primary-foreground: 280 100% 8%;
 
     --secondary: 280 100% 15%;
     --secondary-foreground: 0 0% 100%;

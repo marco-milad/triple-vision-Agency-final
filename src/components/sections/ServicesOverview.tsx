@@ -97,7 +97,7 @@ const ServicesOverview = () => {
                       transition={{ duration: 0.3, delay: index * 0.1 + 0.2 }}
                       className="absolute top-4 right-4"
                     >
-                      <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-primary to-orange-500 text-white text-xs font-bold">
+                      <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-primary to-orange-500 text-primary-foreground text-xs font-bold">
                         <Star className="w-3 h-3" />
                         {service.badge}
                       </div>
@@ -144,15 +144,15 @@ const ServicesOverview = () => {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="text-center mt-16"
         >
-          <Link to="/services">
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button variant="outline" size="lg" className="group relative overflow-hidden">
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="inline-block">
+            <Button variant="outline" size="lg" className="group relative overflow-hidden" asChild>
+              <Link to="/services">
                 <motion.div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                 <span className="relative z-10">Explore All Services</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform relative z-10" />
-              </Button>
-            </motion.div>
-          </Link>
+              </Link>
+            </Button>
+          </motion.div>
         </motion.div>
       </div>
     </section>

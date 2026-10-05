@@ -116,15 +116,15 @@ const AboutPreview = () => {
               ))}
             </div>
 
-            <Link to="/about">
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button variant="outline" size="lg" className="group relative overflow-hidden">
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="inline-block">
+              <Button variant="outline" size="lg" className="group relative overflow-hidden" asChild>
+                <Link to="/about">
                   <motion.div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                   <span className="relative z-10">Discover Our Story</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform relative z-10" />
-                </Button>
-              </motion.div>
-            </Link>
+                </Link>
+              </Button>
+            </motion.div>
           </motion.div>
 
           <motion.div

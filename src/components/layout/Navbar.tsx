@@ -272,7 +272,7 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-background/98 backdrop-blur-xl md:hidden overflow-hidden"
+            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl md:hidden overflow-hidden"
             onClick={(e) => { if (e.target === e.currentTarget) setIsMobileMenuOpen(false); }}
           >
             <motion.div 

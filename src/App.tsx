@@ -3,7 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
+import { MotionConfig } from "framer-motion";
 import { ContactProvider } from "@/contexts/ContactContext";
 import { lazy, Suspense } from "react";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -29,15 +29,16 @@ const PageLoader = () => (
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <ContactProvider>
-        <Preloader />
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <ScrollToTop />
-          <Suspense fallback={<PageLoader />}>
-            <AnimatePresence mode="wait">
+    {/* Respects the visitor's "reduce motion" system setting across the site. */}
+    <MotionConfig reducedMotion="user">
+      <TooltipProvider>
+        <ContactProvider>
+          <Preloader />
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <ScrollToTop />
+            <Suspense fallback={<PageLoader />}>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/about" element={<About />} />
@@ -48,11 +49,11 @@ const App = () => (
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
-            </AnimatePresence>
-          </Suspense>
-        </BrowserRouter>
-      </ContactProvider>
-    </TooltipProvider>
+            </Suspense>
+          </BrowserRouter>
+        </ContactProvider>
+      </TooltipProvider>
+    </MotionConfig>
   </QueryClientProvider>
 );
 

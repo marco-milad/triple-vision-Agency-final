@@ -158,7 +158,7 @@ const WhyTripleVision = () => {
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-primary via-orange-500 to-pink-500 text-white font-bold shadow-2xl shadow-primary/50 cursor-pointer group"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-primary via-orange-500 to-pink-500 text-primary-foreground font-bold shadow-2xl shadow-primary/50 cursor-pointer group"
           >
             <span>Ready to Get Started?</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

@@ -195,16 +195,17 @@ const NotFound = () => {
           variants={itemVariants}
           className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4"
         >
-          <Link to="/" className="w-full sm:w-auto">
-            <Button
-              variant="hero"
-              size="lg"
-              className="group w-full sm:w-auto"
-            >
+          <Button
+            variant="hero"
+            size="lg"
+            className="group w-full sm:w-auto"
+            asChild
+          >
+            <Link to="/">
               <Home className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
               Back to Home
-            </Button>
-          </Link>
+            </Link>
+          </Button>
           
           <Button
             variant="outline"
