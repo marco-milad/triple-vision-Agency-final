@@ -127,11 +127,17 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
                   </motion.div>
 
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Button variant="hero-outline" size="xl" className="group">
-                      <span className="flex items-center gap-2">
-                        Schedule a Call
-                        <Sparkles className="w-4 h-4 group-hover:rotate-12 transition-transform" />
-                      </span>
+                    <Button variant="hero-outline" size="xl" className="group" asChild>
+                      <a
+                        href={`https://wa.me/${company.contact.whatsapp}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span className="flex items-center gap-2">
+                          Schedule a Call
+                          <Sparkles className="w-4 h-4 group-hover:rotate-12 transition-transform" />
+                        </span>
+                      </a>
                     </Button>
                   </motion.div>
                 </motion.div>

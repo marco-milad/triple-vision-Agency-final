@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import { useContact } from '@/contexts/ContactContext';
+import WhatsAppButton from '@/components/WhatsAppButton';
 
 const ContactModal = lazy(() => import('@/components/modals/ContactModal'));
 
@@ -27,6 +28,7 @@ const Layout = ({ children }: LayoutProps) => {
         </motion.main>
       </AnimatePresence>
       <Footer />
+      <WhatsAppButton />
       {isContactOpen && (
         <Suspense fallback={null}>
           <ContactModal isOpen={isContactOpen} onClose={closeContact} preSelectedService={preSelectedService} />

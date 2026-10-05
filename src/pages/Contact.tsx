@@ -1,20 +1,8 @@
-import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, Loader2, CheckCircle, Sparkles, MessageCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Sparkles, MessageCircle } from 'lucide-react';
 import Layout from '@/components/layout/Layout';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useToast } from '@/hooks/use-toast';
-import { services as officialServices } from '@/data/services';
-import { company, addressLine } from '@/data/company';
-
-const services = [
-  ...officialServices.map((service) => ({ value: service.slug, label: service.title })),
-  { value: 'other', label: 'Other' },
-];
+import { company } from '@/data/company';
+import ContactForm from '@/components/forms/ContactForm';
 
 const contactInfo = [
   {
@@ -57,46 +45,6 @@ const contactInfo = [
 ];
 
 const Contact = () => {
-  const { toast } = useToast();
-  const [formState, setFormState] = useState({
-    fullName: '',
-    email: '',
-    service: '',
-    message: '',
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-
-  const handleInputChange = (field: string, value: string) => {
-    setFormState((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!formState.fullName.trim() || !formState.email.trim() || !formState.message.trim()) {
-      toast({ title: 'Please fill all required fields', variant: 'destructive' });
-      return;
-    }
-
-    setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // WhatsApp fallback since no backend
-    const message = encodeURIComponent(
-      `Hi! I'm ${formState.fullName}.\n\nService: ${formState.service || 'Not specified'}\n\nMessage: ${formState.message}`
-    );
-    window.open(`https://wa.me/201098324080?text=${message}`, '_blank');
-
-    setIsSubmitting(false);
-    setIsSuccess(true);
-
-    setTimeout(() => {
-      setIsSuccess(false);
-      setFormState({ fullName: '', email: '', service: '', message: '' });
-    }, 3000);
-  };
-
   return (
     <Layout>
       {/* Hero */}
@@ -206,112 +154,7 @@ const Contact = () => {
                 Fill out the form below and we'll get back to you within 24 hours.
               </p>
 
-              {isSuccess ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center justify-center text-center py-16"
-                >
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center mb-6">
-                    <CheckCircle className="w-12 h-12 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-black text-foreground mb-2">Message Sent!</h3>
-                  <p className="text-muted-foreground">
-                    Thank you for reaching out. We'll get back to you within{' '}
-                    <span className="text-primary font-bold">24 hours</span>.
-                  </p>
-                </motion.div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div className="space-y-2">
-                      <Label htmlFor="contact-name" className="text-foreground font-semibold text-sm">
-                        Full Name <span className="text-primary">*</span>
-                      </Label>
-                      <Input
-                        id="contact-name"
-                        placeholder="Your name"
-                        value={formState.fullName}
-                        onChange={(e) => handleInputChange('fullName', e.target.value)}
-                        required
-                        maxLength={100}
-                        className="bg-muted/30 border-2 border-border/50 focus:border-primary transition-all h-11"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="contact-email" className="text-foreground font-semibold text-sm">
-                        Email <span className="text-primary">*</span>
-                      </Label>
-                      <Input
-                        id="contact-email"
-                        type="email"
-                        placeholder="you@example.com"
-                        value={formState.email}
-                        onChange={(e) => handleInputChange('email', e.target.value)}
-                        required
-                        maxLength={255}
-                        className="bg-muted/30 border-2 border-border/50 focus:border-primary transition-all h-11"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="contact-service" className="text-foreground font-semibold text-sm">
-                      Subject / Service
-                    </Label>
-                    <Select value={formState.service} onValueChange={(v) => handleInputChange('service', v)}>
-                      <SelectTrigger className="bg-muted/30 border-2 border-border/50 focus:border-primary h-11">
-                        <SelectValue placeholder="Select a service" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {services.map((s) => (
-                          <SelectItem key={s.value} value={s.value}>
-                            {s.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="contact-message" className="text-foreground font-semibold text-sm">
-                      Message <span className="text-primary">*</span>
-                    </Label>
-                    <Textarea
-                      id="contact-message"
-                      placeholder="Tell us about your project..."
-                      value={formState.message}
-                      onChange={(e) => handleInputChange('message', e.target.value)}
-                      required
-                      maxLength={2000}
-                      rows={5}
-                      className="bg-muted/30 border-2 border-border/50 focus:border-primary transition-all resize-none"
-                    />
-                  </div>
-
-                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button
-                      type="submit"
-                      variant="hero"
-                      size="lg"
-                      disabled={isSubmitting}
-                      className="w-full relative overflow-hidden"
-                    >
-                      {isSubmitting ? (
-                        <span className="flex items-center gap-2">
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                          Sending...
-                        </span>
-                      ) : (
-                        <span className="flex items-center gap-2">
-                          <Send className="w-5 h-5" />
-                          Send Message
-                        </span>
-                      )}
-                    </Button>
-                  </motion.div>
-                </form>
-              )}
+              <ContactForm />
             </motion.div>
 
             {/* Map */}

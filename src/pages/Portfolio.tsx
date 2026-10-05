@@ -519,17 +519,7 @@ const ProjectModal = ({ project, onClose }) => {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
           
-          {/* Video Play Button */}
-          {project.video && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <button 
-                className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-orange-600 flex items-center justify-center shadow-2xl border-4 border-white/20"
-                aria-label={`Play video for ${project.title}`}
-              >
-                <Play className="w-8 h-8 text-white fill-white ml-1" />
-              </button>
-            </div>
-          )}
+          {/* TODO(client): play button returns once real video links are supplied. */}
         </div>
 
         {/* Content */}
@@ -585,11 +575,8 @@ const ProjectModal = ({ project, onClose }) => {
 
           {/* Actions */}
           <div className="flex flex-wrap gap-4">
-            <Button variant="hero" size="lg" className="flex-1">
-              <ExternalLink className="w-4 h-4 mr-2" />
-              View Live Project
-            </Button>
-            <Button 
+            {/* TODO(client): "View Live Project" returns once projects have real URLs. */}
+            <Button
               variant="outline" 
               size="lg"
               onClick={handleShare}

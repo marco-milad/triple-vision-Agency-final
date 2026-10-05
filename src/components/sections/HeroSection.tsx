@@ -269,20 +269,23 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
               </Button>
             </motion.div>
 
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                variant="hero-outline"
-                size="xl"
-                onClick={() => onShowreelClick?.()}
-                className="group w-full sm:w-auto relative backdrop-blur-xl border-2 shadow-2xl overflow-hidden"
-                aria-label="Watch our showreel video"
-              >
-                <span className="relative z-10 flex items-center gap-3">
-                  <Play className="w-5 h-5" aria-hidden="true" />
-                  Watch Showreel
-                </span>
-              </Button>
-            </motion.div>
+            {/* TODO(client): shown again once a real showreel is supplied. */}
+            {onShowreelClick && (
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  variant="hero-outline"
+                  size="xl"
+                  onClick={() => onShowreelClick()}
+                  className="group w-full sm:w-auto relative backdrop-blur-xl border-2 shadow-2xl overflow-hidden"
+                  aria-label="Watch our showreel video"
+                >
+                  <span className="relative z-10 flex items-center gap-3">
+                    <Play className="w-5 h-5" aria-hidden="true" />
+                    Watch Showreel
+                  </span>
+                </Button>
+              </motion.div>
+            )}
           </motion.div>
 
           {/* Trust Indicators */}

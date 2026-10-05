@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Target, Lightbulb, Rocket, Shield, Sparkles, ArrowRight } from 'lucide-react';
+import { company } from '@/data/company';
 
 const values = [
   { icon: Target, title: 'Precision Focus', description: 'Every pixel, every frame, every detail matters. We obsess over quality so you don\'t have to.', color: 'from-primary to-orange-500', delay: 0 },
@@ -125,10 +126,6 @@ const WhyTripleVision = () => {
                     <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
                       {value.description}
                     </p>
-                    <div className="mt-4 flex items-center gap-2 text-primary font-semibold text-sm opacity-0 group-hover:opacity-100 transition-all duration-300">
-                      <span>Learn more</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </div>
                   </div>
 
                   <div className={`absolute -bottom-8 -right-8 w-24 h-24 rounded-full bg-gradient-to-br ${value.color} opacity-10 group-hover:opacity-20 blur-2xl transition-opacity duration-500`} />
@@ -155,14 +152,17 @@ const WhyTripleVision = () => {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="mt-16 text-center"
         >
-          <motion.div
+          <motion.a
+            href={`https://wa.me/${company.contact.whatsapp}`}
+            target="_blank"
+            rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-primary via-orange-500 to-pink-500 text-white font-bold shadow-2xl shadow-primary/50 cursor-pointer group"
           >
             <span>Ready to Get Started?</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </motion.div>
+          </motion.a>
         </motion.div>
       </div>
     </section>
