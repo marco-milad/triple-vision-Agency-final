@@ -4,6 +4,7 @@ import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Play, X, Eye, Heart, Share2, ExternalLink, Sparkles } from 'lucide-react';
 import { useContact } from '@/contexts/ContactContext';
+import { company } from '@/data/company';
 
 const categories = ['All', 'Media Production', 'Branding', 'Web Development', 'Events', 'Digital Media'];
 
@@ -668,8 +669,8 @@ const Portfolio = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto"
             >
-              Explore our portfolio of award-winning projects across media production, 
-              branding, web development, and more.
+              Explore our work across media production, social media, branding,
+              web development and more.
             </motion.p>
 
             {/* Decorative Line */}
@@ -778,10 +779,10 @@ const Portfolio = () => {
         <div className="container mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
             {[
-              { number: '350+', label: 'Projects Completed' },
-              { number: '80+', label: 'Happy Clients' },
-              { number: '25+', label: 'Awards Won' },
-              { number: '98%', label: 'Satisfaction Rate' },
+              { number: `${company.stats.projects}+`, label: 'Projects Completed' },
+              { number: `${company.stats.clients}+`, label: 'Happy Clients' },
+              { number: `${company.stats.industries}+`, label: 'Industries Served' },
+              { number: `${company.stats.countries}+`, label: 'Countries' },
             ].map((stat, idx) => (
               <motion.div
                 key={stat.label}

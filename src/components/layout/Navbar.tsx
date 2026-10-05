@@ -1,25 +1,33 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Facebook, Twitter, Instagram, Linkedin, Youtube, Sparkles } from 'lucide-react';
+import { Menu, X, Facebook, Twitter, Instagram, Linkedin, Youtube, Sparkles, type LucideIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logo from '@/assets/logo.png';
+import { company } from '@/data/company';
+import { mainNav } from '@/data/navigation';
 
-const navLinks = [
-  { name: 'Home', path: '/' },
-  { name: 'About', path: '/about' },
-  { name: 'Services', path: '/services' },
-  { name: 'Portfolio', path: '/portfolio' },
-  { name: 'Contact', path: '/contact' },
-] as const;
+const navLinks = mainNav;
 
-const socialLinks = [
-  { name: 'Facebook', icon: Facebook, url: 'https://facebook.com/triplevision', color: 'hover:text-[#1877F2]', bgColor: 'hover:bg-[#1877F2]', label: 'Visit our Facebook page' },
-  { name: 'Twitter', icon: Twitter, url: 'https://twitter.com/triplevision', color: 'hover:text-[#1DA1F2]', bgColor: 'hover:bg-[#1DA1F2]', label: 'Visit our Twitter profile' },
-  { name: 'Instagram', icon: Instagram, url: 'https://instagram.com/triplevision', color: 'hover:text-[#E4405F]', bgColor: 'hover:bg-[#E4405F]', label: 'Visit our Instagram page' },
-  { name: 'LinkedIn', icon: Linkedin, url: 'https://linkedin.com/company/triplevision', color: 'hover:text-[#0A66C2]', bgColor: 'hover:bg-[#0A66C2]', label: 'Visit our LinkedIn company page' },
-  { name: 'Youtube', icon: Youtube, url: 'https://youtube.com/@triplevision', color: 'hover:text-[#FF0000]', bgColor: 'hover:bg-[#FF0000]', label: 'Visit our YouTube channel' },
-] as const;
+/**
+ * Icon + brand colour per network. Links come from company.socials, which is
+ * empty until the client supplies the official accounts — the social bar stays
+ * hidden while that is the case.
+ */
+const SOCIAL_STYLES: Record<string, { icon: LucideIcon; bgColor: string }> = {
+  Facebook: { icon: Facebook, bgColor: 'hover:bg-[#1877F2]' },
+  Twitter: { icon: Twitter, bgColor: 'hover:bg-[#1DA1F2]' },
+  Instagram: { icon: Instagram, bgColor: 'hover:bg-[#E4405F]' },
+  LinkedIn: { icon: Linkedin, bgColor: 'hover:bg-[#0A66C2]' },
+  YouTube: { icon: Youtube, bgColor: 'hover:bg-[#FF0000]' },
+};
+
+const socialLinks = company.socials.flatMap((social) => {
+  const style = SOCIAL_STYLES[social.name];
+  return style
+    ? [{ name: social.name, url: social.url, icon: style.icon, bgColor: style.bgColor, label: `Visit our ${social.name} page` }]
+    : [];
+});
 
 interface NavbarProps {
   onContactClick: () => void;
@@ -226,9 +234,9 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
         </div>
       </motion.nav>
 
-      {/* Social Bar - ✅ Only render when visible */}
+      {/* Social Bar - only once scrolled, and only when real accounts exist */}
       <AnimatePresence>
-        {scrollState.showSocialBar && (
+        {scrollState.showSocialBar && socialLinks.length > 0 && (
           <motion.aside
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
@@ -321,6 +329,7 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
                 </Button>
               </motion.div>
 
+              {socialLinks.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -349,6 +358,7 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
                   ))}
                 </nav>
               </motion.div>
+              )}
             </motion.div>
           </motion.div>
         )}

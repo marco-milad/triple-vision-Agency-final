@@ -4,6 +4,13 @@
   "installCommand": "npm ci",
   "framework": "vite",
   "outputDirectory": "dist",
+  "redirects": [
+    { "source": "/services/graphics-branding", "destination": "/services/branding", "permanent": true },
+    { "source": "/services/digital-media", "destination": "/services/social-media-management", "permanent": true },
+    { "source": "/services/event-planning", "destination": "/services/event-management", "permanent": true },
+    { "source": "/services/pr-media-monitoring", "destination": "/services", "permanent": true },
+    { "source": "/services/pr-media", "destination": "/services", "permanent": true }
+  ],
   "rewrites": [
     {
       "source": "/:path*",

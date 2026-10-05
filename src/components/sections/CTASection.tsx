@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Zap, Rocket, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { company } from '@/data/company';
 
 interface CTASectionProps {
   onContactClick: () => void;
@@ -150,7 +151,7 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
                         </div>
                       ))}
                     </div>
-                    <span className="font-semibold">200+ Projects Delivered</span>
+                    <span className="font-semibold">{company.stats.projects}+ Projects Delivered</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Zap className="w-5 h-5 text-primary" />

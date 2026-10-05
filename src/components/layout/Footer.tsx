@@ -1,34 +1,26 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Instagram, Twitter, Linkedin, Youtube, Mail, Phone, MapPin, ArrowRight, Sparkles, Heart } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Linkedin, Youtube, Mail, Phone, MapPin, ArrowRight, Sparkles, Heart, type LucideIcon } from 'lucide-react';
 import logo from '@/assets/logo.png';
+import { company, addressLine } from '@/data/company';
+import { servicesNav, companyNav } from '@/data/navigation';
+
+/** Icon + brand colour per network, used once real accounts are supplied. */
+const SOCIAL_STYLES: Record<string, { icon: LucideIcon; color: string }> = {
+  Facebook: { icon: Facebook, color: 'hover:bg-[#1877F2]' },
+  Instagram: { icon: Instagram, color: 'hover:bg-[#E4405F]' },
+  Twitter: { icon: Twitter, color: 'hover:bg-[#1DA1F2]' },
+  LinkedIn: { icon: Linkedin, color: 'hover:bg-[#0077B5]' },
+  YouTube: { icon: Youtube, color: 'hover:bg-[#FF0000]' },
+};
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const footerLinks = {
-    services: [
-      { name: 'Media Production', path: '/services/media-production' },
-      { name: 'Event Planning', path: '/services/event-planning' },
-      { name: 'Digital Media', path: '/services/digital-media' },
-      { name: 'Graphics & Branding', path: '/services/graphics-branding' },
-      { name: 'Web Development', path: '/services/web-development' },
-      { name: 'PR & Media Monitoring', path: '/services/pr-media-monitoring' },
-    ],
-    company: [
-      { name: 'About Us', path: '/about' },
-      { name: 'Portfolio', path: '/portfolio' },
-      { name: 'Services', path: '/services' },
-      { name: 'Contact Us', path: '/contact' },
-    ],
+    services: servicesNav,
+    company: companyNav,
   };
-
-  const socialLinks = [
-    { icon: Instagram, href: '#', label: 'Instagram', color: 'hover:bg-[#E4405F]' },
-    { icon: Twitter, href: '#', label: 'Twitter', color: 'hover:bg-[#1DA1F2]' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn', color: 'hover:bg-[#0077B5]' },
-    { icon: Youtube, href: '#', label: 'YouTube', color: 'hover:bg-[#FF0000]' },
-  ];
 
   return (
     <footer className="bg-gradient-to-br from-background via-background-secondary to-background border-t border-border/30 relative overflow-hidden">
@@ -64,29 +56,38 @@ const Footer = () => {
               </Link>
 
               <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                A premium creative agency delivering{' '}
-                <span className="text-primary font-semibold">cinematic experiences</span> through 
-                media production, branding, and digital innovation.
+                A <span className="text-primary font-semibold">fully integrated digital agency</span>,
+                partnering with brands across Egypt since {company.foundedYear}.
               </p>
 
-              <div className="flex gap-3">
-                {socialLinks.map((social, index) => (
-                  <motion.a
-                    key={social.label}
-                    href={social.href}
-                    aria-label={social.label}
-                    initial={{ opacity: 0, scale: 0 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: index * 0.1, type: 'spring' }}
-                    whileHover={{ scale: 1.15, y: -3 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`w-11 h-11 rounded-xl bg-muted/30 border border-border/50 flex items-center justify-center text-muted-foreground hover:text-white transition-all duration-300 hover:border-transparent ${social.color}`}
-                  >
-                    <social.icon className="w-5 h-5" />
-                  </motion.a>
-                ))}
-              </div>
+              {/* Rendered once official accounts are added to company.socials. */}
+              {company.socials.length > 0 && (
+                <div className="flex gap-3">
+                  {company.socials.map((social, index) => {
+                    const style = SOCIAL_STYLES[social.name];
+                    if (!style) return null;
+                    const Icon = style.icon;
+                    return (
+                      <motion.a
+                        key={social.name}
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Visit our ${social.name} page`}
+                        initial={{ opacity: 0, scale: 0 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.3, delay: index * 0.1, type: 'spring' }}
+                        whileHover={{ scale: 1.15, y: -3 }}
+                        whileTap={{ scale: 0.95 }}
+                        className={`w-11 h-11 rounded-xl bg-muted/30 border border-border/50 flex items-center justify-center text-muted-foreground hover:text-white transition-all duration-300 hover:border-transparent ${style.color}`}
+                      >
+                        <Icon className="w-5 h-5" />
+                      </motion.a>
+                    );
+                  })}
+                </div>
+              )}
             </motion.div>
           </div>
 
@@ -171,7 +172,7 @@ const Footer = () => {
                   </div>
                   <div className="flex-1">
                     <p className="text-xs text-muted-foreground/60 mb-1 font-semibold uppercase tracking-wider">Email</p>
-                    <a href="mailto:info@triplevisionagency.com" className="text-muted-foreground text-sm hover:text-primary transition-colors font-medium">info@triplevisionagency.com</a>
+                    <a href={`mailto:${company.contact.email}`} className="text-muted-foreground text-sm hover:text-primary transition-colors font-medium">{company.contact.email}</a>
                   </div>
                 </motion.li>
                 <motion.li initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: 0.4 }} className="flex items-start gap-3 group">
@@ -180,7 +181,15 @@ const Footer = () => {
                   </div>
                   <div className="flex-1">
                     <p className="text-xs text-muted-foreground/60 mb-1 font-semibold uppercase tracking-wider">Phone</p>
-                    <a href="tel:+20 10 98324080" className="text-muted-foreground text-sm hover:text-primary transition-colors font-medium">+20 10 98324080</a>
+                    {company.contact.phones.map((phone) => (
+                      <a
+                        key={phone.e164}
+                        href={`tel:${phone.e164}`}
+                        className="block text-muted-foreground text-sm hover:text-primary transition-colors font-medium"
+                      >
+                        {phone.display}
+                      </a>
+                    ))}
                   </div>
                 </motion.li>
                 <motion.li initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: 0.45 }} className="flex items-start gap-3 group">
@@ -189,7 +198,7 @@ const Footer = () => {
                   </div>
                   <div className="flex-1">
                     <p className="text-xs text-muted-foreground/60 mb-1 font-semibold uppercase tracking-wider">Location</p>
-                    <span className="text-muted-foreground text-sm font-medium">Abd El-Aziz Ismail, Triumph Square, Heliopolis, Cairo, Egypt.<br /></span>
+                    <span className="text-muted-foreground text-sm font-medium">{addressLine}, {company.contact.address.country}.</span>
                   </div>
                 </motion.li>
               </ul>
@@ -213,7 +222,7 @@ const Footer = () => {
           className="flex flex-col md:flex-row items-center justify-between gap-6"
         >
           <div className="flex items-center gap-2 text-muted-foreground text-sm">
-            <span>© {currentYear} Triple Vision Agency. All rights reserved.</span>
+            <span>© {currentYear} {company.name}. All rights reserved.</span>
             <span className="hidden md:inline">•</span>
             <span className="hidden md:inline flex items-center gap-1">
               Made with <Heart className="w-3 h-3 text-red-500 fill-red-500 inline" /> and{' '}

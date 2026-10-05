@@ -3,6 +3,7 @@ import { Star, Quote, Sparkles, TrendingUp, Award, CheckCircle2, ChevronLeft, Ch
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useInView } from 'framer-motion';
+import { company } from '@/data/company';
 
 const testimonials = [
   { name: 'Sarah Mitchell', role: 'Marketing Director', company: 'TechFlow Inc.', avatar: '', rating: 5, review: 'Triple Vision transformed our brand identity completely. Their cinematic approach to our product videos increased our engagement by 300%. Absolutely phenomenal work!', metric: '300% Engagement', color: 'from-primary to-orange-500' },
@@ -263,7 +264,7 @@ const isInView = useInView(sectionRef, { margin: "-200px 0px -200px 0px", once: 
             { icon: Star, value: '4.9/5', label: 'Average Rating', color: 'text-primary' },
             { icon: Award, value: '100%', label: 'Client Satisfaction', color: 'text-orange-500' },
             { icon: TrendingUp, value: '300%', label: 'Avg. ROI Increase', color: 'text-pink-500' },
-            { icon: CheckCircle2, value: '250+', label: 'Projects Delivered', color: 'text-purple-500' },
+            { icon: CheckCircle2, value: `${company.stats.projects}+`, label: 'Projects Delivered', color: 'text-purple-500' },
           ].map((stat, index) => (
             <motion.div
               key={stat.label}

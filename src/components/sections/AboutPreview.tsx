@@ -3,6 +3,7 @@ import { ArrowRight, Award, Users, Zap, Sparkles, TrendingUp, Target } from 'luc
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import React, { useEffect, useRef, useState } from 'react';
+import { company, yearsInBusiness } from '@/data/company';
 
 const Counter = ({ value, suffix = '', duration = 2 }: { value: number; suffix?: string; duration?: number }) => {
   const ref = useRef(null);
@@ -32,17 +33,17 @@ const Counter = ({ value, suffix = '', duration = 2 }: { value: number; suffix?:
 };
 
 const features = [
-  { icon: Zap, title: 'Creative Excellence', description: 'Award-winning designs that captivate and convert your audience.' },
+  { icon: Zap, title: 'Creative Excellence', description: 'Designs that captivate and convert your audience.' },
   { icon: Target, title: 'Strategic Approach', description: 'Data-driven strategies that deliver measurable results.' },
   { icon: Users, title: 'Client-Focused', description: 'Your vision is our mission. We listen, collaborate, and deliver.' },
-  { icon: Award, title: 'Proven Track Record', description: '200+ successful projects across diverse industries.' },
+  { icon: Award, title: 'Proven Track Record', description: `${company.stats.projects}+ projects across ${company.stats.industries}+ industries.` },
 ];
 
 const stats = [
-  { value: 200, suffix: '+', label: 'Projects Completed' },
-  { value: 250, suffix: '+', label: 'Happy Clients' },
-  { value: 11, suffix: '+', label: 'Years Experience' },
-  { value: 10, suffix: '+', label: 'Team Members' },
+  { value: company.stats.projects, suffix: '+', label: 'Projects Completed' },
+  { value: company.stats.clients, suffix: '+', label: 'Happy Clients' },
+  { value: yearsInBusiness(), suffix: '+', label: 'Years Experience' },
+  { value: company.stats.team, suffix: '+', label: 'Team Members' },
 ];
 
 const AboutPreview = () => {
@@ -85,9 +86,9 @@ const AboutPreview = () => {
             </h2>
 
             <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8">
-              Triple Vision Agency is a <span className="text-foreground font-semibold">premium creative powerhouse</span> specializing in 
-              3D animation, media production, branding, and digital experiences. We don't just create content—we craft 
-              <span className="text-primary font-semibold"> immersive stories</span> that captivate audiences and drive real business results.
+              Triple Vision Agency is a <span className="text-foreground font-semibold">fully integrated digital agency</span> covering
+              social media, media buying, media production, branding, events and web. We serve as the
+              <span className="text-primary font-semibold"> digital arm</span> of our clients, with everything focused on maximizing your ROI.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-4 mb-10">
@@ -156,7 +157,7 @@ const AboutPreview = () => {
                   >
                     <TrendingUp className="w-16 h-16 text-primary mb-6 mx-auto" />
                     <div className="text-6xl md:text-7xl font-black bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent mb-3">
-                      <Counter value={11} suffix="+" duration={2.5} />
+                      <Counter value={yearsInBusiness()} suffix="+" duration={2.5} />
                     </div>
                     <p className="text-foreground font-bold text-xl md:text-2xl mb-2">Years of Excellence</p>
                     <p className="text-muted-foreground">Crafting Digital Masterpieces</p>
@@ -173,7 +174,7 @@ const AboutPreview = () => {
               className="absolute -bottom-6 -left-6 bg-gradient-to-br from-primary to-orange-600 rounded-2xl p-6 shadow-2xl shadow-primary/40"
             >
               <p className="text-5xl font-black text-white mb-1">
-                <Counter value={200} suffix="+" duration={2.5} />
+                <Counter value={company.stats.projects} suffix="+" duration={2.5} />
               </p>
               <p className="text-white/90 text-sm font-semibold">Projects Delivered</p>
             </motion.div>
@@ -186,7 +187,7 @@ const AboutPreview = () => {
               className="absolute -top-6 -right-6 bg-gradient-to-br from-background to-background-secondary border-2 border-primary/30 rounded-2xl p-6 backdrop-blur-xl shadow-2xl"
             >
               <p className="text-4xl font-black text-primary mb-1">
-                <Counter value={250} suffix="+" duration={2} />
+                <Counter value={company.stats.clients} suffix="+" duration={2} />
               </p>
               <p className="text-muted-foreground text-sm font-semibold">Happy Clients</p>
             </motion.div>

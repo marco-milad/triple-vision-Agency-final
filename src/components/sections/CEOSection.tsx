@@ -2,19 +2,20 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Quote, Sparkles, Award, Users, TrendingUp, Linkedin, Instagram, Twitter, Mail } from 'lucide-react';
 import ceoPortrait from '@/assets/ceo-portrait.jpg';
+import { company, yearsInBusiness } from '@/data/company';
 
 const achievements = [
-  { icon: Award, label: '250+ Projects', color: 'from-primary to-orange-500' },
-  { icon: Users, label: '200+ Clients', color: 'from-orange-500 to-pink-500' },
-  { icon: TrendingUp, label: '11+ Years', color: 'from-pink-500 to-purple-500' },
+  { icon: Award, label: `${company.stats.projects}+ Projects`, color: 'from-primary to-orange-500' },
+  { icon: Users, label: `${company.stats.clients}+ Clients`, color: 'from-orange-500 to-pink-500' },
+  { icon: TrendingUp, label: `${yearsInBusiness()}+ Years`, color: 'from-pink-500 to-purple-500' },
 ];
 
-const socialLinks = [
-  { icon: Linkedin, label: 'LinkedIn', url: 'https://linkedin.com/in/mariondungu', color: 'hover:text-[#0077B5]' },
-  { icon: Instagram, label: 'Instagram', url: 'https://instagram.com/mariondungu', color: 'hover:text-[#E4405F]' },
-  { icon: Twitter, label: 'Twitter', url: 'https://twitter.com/mariondungu', color: 'hover:text-[#1DA1F2]' },
-  { icon: Mail, label: 'Email', url: 'mailto:mario@triplevision.agency', color: 'hover:text-primary' },
-];
+/**
+ * TODO(client): the founder's name, portrait and personal accounts are not in
+ * the Company Profile. The template handles that used to be here pointed at
+ * someone else's profiles and have been removed. Add real links once confirmed.
+ */
+const socialLinks: { icon: typeof Mail; label: string; url: string; color: string }[] = [];
 
 const CEOSection = () => {
   return (
@@ -64,7 +65,7 @@ const CEOSection = () => {
               >
                 <img
                   src={ceoPortrait}
-                  alt="Mario Ndungu - CEO & Founder"
+                  alt="Mario Maged - CEO & Founder"
                   loading="lazy"
                   className="w-full aspect-[3/4] object-cover"
                 />
@@ -81,7 +82,7 @@ const CEOSection = () => {
               >
                 <div className="flex items-center gap-2 mb-1">
                   <Sparkles className="w-5 h-5 text-white" />
-                  <p className="text-white font-black text-2xl">11+ Years</p>
+                  <p className="text-white font-black text-2xl">{yearsInBusiness()}+ Years</p>
                 </div>
                 <p className="text-white/90 text-sm font-semibold">Leading Innovation</p>
               </motion.div>
@@ -192,14 +193,14 @@ const CEOSection = () => {
               className="space-y-4"
             >
               <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-                With over <span className="text-foreground font-semibold">11 years of experience</span> in media production and creative direction, 
-                Mario founded Triple Vision Agency with a singular mission: to transform bold 
-                ideas into <span className="text-primary font-semibold">cinematic realities</span>.
+                Our founder set out in {company.foundedYear} to redefine the media landscape, establishing a
+                <span className="text-primary font-semibold"> fully integrated digital agency</span> that serves as the
+                digital arm of its clients across every channel.
               </p>
               <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-                His passion for storytelling and unwavering commitment to 
-                excellence has helped <span className="text-foreground font-semibold">250+ brands</span> elevate their presence and connect with 
-                audiences on a deeper, more meaningful level.
+                That vision is carried by a team of <span className="text-foreground font-semibold">{company.stats.team}+ specialists</span> who have
+                since delivered <span className="text-foreground font-semibold">{company.stats.projects}+ projects</span> for
+                {' '}{company.stats.clients}+ clients across {company.stats.industries}+ industries.
               </p>
             </motion.div>
 

@@ -3,6 +3,7 @@ import { ArrowRight, Play, Sparkles, Zap, Rocket, Star, Award } from 'lucide-rea
 import { Button } from '@/components/ui/button';
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { company, yearsInBusiness } from '@/data/company';
 
 interface HeroSectionProps {
   onContactClick: () => void;
@@ -23,9 +24,9 @@ const CARD_POSITIONS = [
 ] as const;
 
 const TRUST_INDICATORS = [
-  { icon: Star, label: '600+ Projects', color: 'from-primary to-orange-500' },
-  { icon: Award, label: '250+ Clients', color: 'from-orange-500 to-pink-500' },
-  { icon: Sparkles, label: '11+ Years', color: 'from-pink-500 to-purple-500' },
+  { icon: Star, label: `${company.stats.projects}+ Projects`, color: 'from-primary to-orange-500' },
+  { icon: Award, label: `${company.stats.clients}+ Clients`, color: 'from-orange-500 to-pink-500' },
+  { icon: Sparkles, label: `${yearsInBusiness()}+ Years`, color: 'from-pink-500 to-purple-500' },
 ] as const;
 
 const GRID_STYLE = {

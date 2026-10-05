@@ -1,17 +1,24 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Video, Calendar, Share2, Palette, Code, Radio, Sparkles, Star } from 'lucide-react';
+import { ArrowRight, Sparkles, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { services as officialServices } from '@/data/services';
 
-const services = [
-  { icon: Video, title: 'Media Production', description: 'Cinematic video production, commercials, and brand films that tell your story.', path: '/services/media-production', color: 'from-orange-500 to-red-500', badge: 'Popular' },
-  { icon: Calendar, title: 'Event Planning', description: 'Seamless event planning and coverage for unforgettable experiences.', path: '/services/event-planning', color: 'from-purple-500 to-pink-500' },
-  { icon: Share2, title: 'Digital Media', description: 'Social media management, content creation, and digital marketing.', path: '/services/digital-media', color: 'from-blue-500 to-cyan-500', badge: 'Trending' },
-  { icon: Palette, title: 'Graphics & Branding', description: 'Logo design, brand identity, and visual systems that stand out.', path: '/services/graphics-branding', color: 'from-green-500 to-emerald-500' },
-  { icon: Code, title: 'Web Development', description: 'Custom websites and web applications that perform and convert.', path: '/services/web-development', color: 'from-indigo-500 to-violet-500' },
-  { icon: Radio, title: 'PR & Media Monitoring', description: 'Strategic PR campaigns and real-time media monitoring.', path: '/services/pr-media-monitoring', color: 'from-amber-500 to-orange-500' },
-];
+/** Marketing badges, kept on the same two services they were on before. */
+const BADGES: Record<string, string> = {
+  'media-production': 'Popular',
+  'social-media-management': 'Trending',
+};
+
+const services = officialServices.map((service) => ({
+  icon: service.icon,
+  title: service.title,
+  description: service.summary,
+  path: `/services/${service.slug}`,
+  color: service.color,
+  badge: BADGES[service.slug],
+}));
 
 const ServicesOverview = () => {
   return (

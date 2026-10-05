@@ -3,12 +3,13 @@ import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { company, yearsInBusiness } from '@/data/company';
 
 const stats = [
-  { value: 250, suffix: '+', label: 'Projects Completed' },
-  { value: 500, suffix: '+', label: 'Happy Clients' },
-  { value: 11, suffix: '+', label: 'Years Experience' },
-  { value: 10, suffix: '', label: 'Team Members' },
+  { value: company.stats.projects, suffix: '+', label: 'Projects Completed' },
+  { value: company.stats.clients, suffix: '+', label: 'Happy Clients' },
+  { value: yearsInBusiness(), suffix: '+', label: 'Years Experience' },
+  { value: company.stats.team, suffix: '+', label: 'Team Members' },
 ];
 
 interface CounterProps {

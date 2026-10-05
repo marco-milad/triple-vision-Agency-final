@@ -3,6 +3,7 @@ import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Target, Eye, Heart, Users, Sparkles, Award, TrendingUp } from 'lucide-react';
 import { useContact } from '@/contexts/ContactContext';
+import { company, yearsInBusiness } from '@/data/company';
 
 const values = [
   {
@@ -39,9 +40,9 @@ const team = [
 ];
 
 const stats = [
-  { icon: Award, number: '200+', label: 'Projects Completed' },
-  { icon: Users, number: '50+', label: 'Happy Clients' },
-  { icon: TrendingUp, number: '8+', label: 'Years Experience' },
+  { icon: Award, number: `${company.stats.projects}+`, label: 'Projects Completed' },
+  { icon: Users, number: `${company.stats.clients}+`, label: 'Happy Clients' },
+  { icon: TrendingUp, number: `${yearsInBusiness()}+`, label: 'Years Experience' },
 ];
 
 const About = () => {
@@ -124,7 +125,7 @@ const About = () => {
                 Digital Excellence
               </span>
               <br />
-              Since 2016
+              Since {company.foundedYear}
             </h1>
             
             <motion.p
@@ -133,8 +134,8 @@ const About = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto"
             >
-              Triple Vision Agency was born from a passion for creating meaningful 
-              visual experiences that connect brands with their audiences.
+              {company.tagline} We have been partnering with brands across Egypt since {company.foundedYear}
+              to deliver impactful media solutions and drive real growth.
             </motion.p>
 
             {/* Decorative Line */}
@@ -171,20 +172,19 @@ const About = () => {
               </h2>
               <div className="space-y-4 text-muted-foreground text-base md:text-lg leading-relaxed">
                 <p>
-                  What started as a small team of passionate creatives has grown into 
-                  a <span className="text-primary font-semibold">full-service agency</span> serving clients across the globe. Our journey 
-                  has been defined by innovation, creativity, and an unwavering 
-                  commitment to excellence.
+                  It all started in {company.foundedYear} when our founder set out to redefine the media
+                  landscape, establishing a <span className="text-primary font-semibold">fully integrated digital agency</span>.
                 </p>
                 <p>
-                  We've had the privilege of working with startups, Fortune 500 
-                  companies, and everything in between. Each project has taught us 
-                  something new and pushed us to <span className="text-orange-500 font-semibold">evolve our craft</span>.
+                  Our mission is to serve as the ultimate digital arm for our clients, fulfilling their
+                  marketing and advertising needs across all channels. We leverage our core strengths in
+                  media buying, creative content production, digital art, photography and
+                  {' '}<span className="text-orange-500 font-semibold">high-end video production</span>.
                 </p>
                 <p>
-                  Today, Triple Vision stands as a testament to what's possible when 
-                  creativity meets strategy. We continue to push boundaries and 
-                  redefine what's possible in <span className="text-pink-500 font-semibold">digital media and branding</span>.
+                  This is driven by a passionate, talented team of marketing experts who push creative
+                  boundaries to deliver outstanding executions — all focused on
+                  {' '}<span className="text-pink-500 font-semibold">maximizing your ROI</span>.
                 </p>
               </div>
 
@@ -252,7 +252,7 @@ const About = () => {
                 whileHover={{ scale: 1.1, rotate: 3 }}
                 className="absolute -bottom-8 -left-8 bg-gradient-to-br from-primary to-orange-600 rounded-2xl p-6 shadow-2xl shadow-primary/50 border border-primary/30"
               >
-                <p className="text-4xl font-black text-white">2016</p>
+                <p className="text-4xl font-black text-white">{company.foundedYear}</p>
                 <p className="text-white/90 text-sm font-semibold">Founded</p>
               </motion.div>
             </motion.div>
@@ -298,9 +298,7 @@ const About = () => {
                   Our Vision
                 </h3>
                 <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-                  To be the leading creative agency that transforms how brands connect 
-                  with their audiences through innovative, cinematic, and impactful 
-                  digital experiences.
+                  {company.vision}
                 </p>
               </div>
             </motion.div>
@@ -334,9 +332,7 @@ const About = () => {
                   Our Mission
                 </h3>
                 <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-                  To deliver exceptional creative solutions that exceed expectations, 
-                  drive results, and help our clients achieve their vision through 
-                  strategic storytelling and design excellence.
+                  {company.mission}
                 </p>
               </div>
             </motion.div>

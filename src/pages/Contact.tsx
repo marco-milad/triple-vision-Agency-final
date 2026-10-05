@@ -8,14 +8,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
+import { services as officialServices } from '@/data/services';
+import { company, addressLine } from '@/data/company';
 
 const services = [
-  { value: 'media-production', label: 'Media Production' },
-  { value: 'event-planning', label: 'Event Planning & Coverage' },
-  { value: 'digital-media', label: 'Digital Media Services' },
-  { value: 'graphics-branding', label: 'Graphics & Branding' },
-  { value: 'web-development', label: 'Web Development' },
-  { value: 'pr-media', label: 'PR & Media Monitoring' },
+  ...officialServices.map((service) => ({ value: service.slug, label: service.title })),
   { value: 'other', label: 'Other' },
 ];
 
@@ -23,8 +20,8 @@ const contactInfo = [
   {
     icon: MapPin,
     label: 'Location',
-    value: 'Cairo, Egypt',
-    detail: 'Creative District, Suite 100',
+    value: `${company.contact.address.city}, ${company.contact.address.country}`,
+    detail: `${company.contact.address.street}, ${company.contact.address.area}`,
     color: 'from-pink-500 to-purple-500',
     iconColor: 'text-pink-500',
     bgColor: 'bg-pink-500/10 border-pink-500/20 group-hover:bg-pink-500/20',
@@ -32,8 +29,8 @@ const contactInfo = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'hello@triplevision.agency',
-    href: 'mailto:hello@triplevision.agency',
+    value: company.contact.email,
+    href: `mailto:${company.contact.email}`,
     color: 'from-primary to-orange-500',
     iconColor: 'text-primary',
     bgColor: 'bg-primary/10 border-primary/20 group-hover:bg-primary/20',
@@ -41,8 +38,9 @@ const contactInfo = [
   {
     icon: Phone,
     label: 'Phone',
-    value: '+20 109 832 4080',
-    href: 'tel:+201098324080',
+    value: company.contact.phones[0].display,
+    detail: company.contact.phones[1]?.display,
+    href: `tel:${company.contact.phones[0].e164}`,
     color: 'from-orange-500 to-pink-500',
     iconColor: 'text-orange-500',
     bgColor: 'bg-orange-500/10 border-orange-500/20 group-hover:bg-orange-500/20',
@@ -51,7 +49,7 @@ const contactInfo = [
     icon: MessageCircle,
     label: 'WhatsApp',
     value: 'Chat with us',
-    href: 'https://wa.me/201098324080',
+    href: `https://wa.me/${company.contact.whatsapp}`,
     color: 'from-green-500 to-emerald-500',
     iconColor: 'text-green-500',
     bgColor: 'bg-green-500/10 border-green-500/20 group-hover:bg-green-500/20',

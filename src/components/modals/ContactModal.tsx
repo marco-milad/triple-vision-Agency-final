@@ -8,6 +8,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { services as officialServices } from '@/data/services';
+import { company } from '@/data/company';
 
 // ============================================================================
 // EMAILJS CONFIG — غيّر القيم دي بقيم حسابك على emailjs.com
@@ -48,16 +50,9 @@ interface FormErrors {
 // ============================================================================
 // CONSTANTS
 // ============================================================================
-const WHATSAPP_NUMBER = '201098324080';
+const WHATSAPP_NUMBER = company.contact.whatsapp;
 
-const services = [
-  { value: 'media-production',  label: 'Media Production' },
-  { value: 'event-planning',    label: 'Event Planning & Coverage' },
-  { value: 'digital-media',     label: 'Digital Media Services' },
-  { value: 'graphics-branding', label: 'Graphics & Branding' },
-  { value: 'web-development',   label: 'Web Development' },
-  { value: 'pr-media',          label: 'PR & Media Monitoring' },
-];
+const services = officialServices.map((service) => ({ value: service.slug, label: service.title }));
 
 const priorities = [
   { value: 'low',    label: 'Low',    gradient: 'from-green-500 to-emerald-500' },

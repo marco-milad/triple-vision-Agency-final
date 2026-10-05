@@ -2,59 +2,9 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Video, Calendar, Share2, Palette, Code, Radio, CheckCircle, Sparkles } from 'lucide-react';
+import { ArrowRight, CheckCircle, Sparkles } from 'lucide-react';
 import { useContact } from '@/contexts/ContactContext';
-
-const services = [
-  {
-    icon: Video,
-    title: 'Media Production',
-    slug: 'media-production',
-    description: 'Cinematic video production, commercials, documentaries, and brand films that captivate audiences.',
-    features: ['Commercial Videos', 'Corporate Films', 'Documentaries', 'Motion Graphics'],
-    color: 'from-orange-500 to-red-500',
-  },
-  {
-    icon: Calendar,
-    title: 'Event Planning & Coverage',
-    slug: 'event-planning',
-    description: 'End-to-end event planning and professional coverage for memorable experiences.',
-    features: ['Corporate Events', 'Product Launches', 'Live Coverage', 'Post-Event Content'],
-    color: 'from-purple-500 to-pink-500',
-  },
-  {
-    icon: Share2,
-    title: 'Digital Media Services',
-    slug: 'digital-media',
-    description: 'Strategic social media management and content creation to grow your digital presence.',
-    features: ['Social Media Strategy', 'Content Creation', 'Community Management', 'Analytics & Reporting'],
-    color: 'from-blue-500 to-cyan-500',
-  },
-  {
-    icon: Palette,
-    title: 'Graphics & Branding',
-    slug: 'graphics-branding',
-    description: 'Comprehensive brand identity design that makes your business unforgettable.',
-    features: ['Logo Design', 'Brand Guidelines', 'Print Design', 'Packaging Design'],
-    color: 'from-green-500 to-emerald-500',
-  },
-  {
-    icon: Code,
-    title: 'Web Development',
-    slug: 'web-development',
-    description: 'Custom websites and web applications that deliver exceptional user experiences.',
-    features: ['Custom Websites', 'E-Commerce', 'Web Applications', 'UI/UX Design'],
-    color: 'from-indigo-500 to-violet-500',
-  },
-  {
-    icon: Radio,
-    title: 'PR & Media Monitoring',
-    slug: 'pr-media-monitoring',
-    description: 'Strategic PR campaigns and real-time media monitoring for brand reputation.',
-    features: ['Press Releases', 'Media Relations', 'Crisis Management', 'Brand Monitoring'],
-    color: 'from-amber-500 to-orange-500',
-  },
-];
+import { services } from '@/data/services';
 
 const Services = () => {
   const { openContact } = useContact();
@@ -186,7 +136,7 @@ const Services = () => {
                         </h3>
                         
                         <p className="text-muted-foreground text-sm md:text-base mb-6 leading-relaxed">
-                          {service.description}
+                          {service.summary}
                         </p>
 
                         {/* Features */}

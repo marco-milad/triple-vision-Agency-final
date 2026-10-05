@@ -1,5 +1,5 @@
 # robots.txt for Triple Vision Agency
-# https://triplevision.agency
+# TODO(client): update once the production domain is live
 
 User-agent: *
 Allow: /
@@ -10,7 +10,7 @@ Allow: /
 # Disallow: /api/
 
 # Sitemap location
-Sitemap: https://triplevision.agency/sitemap.xml
+Sitemap: https://triple-vision-cinematics.vercel.app/sitemap.xml
 
 # Crawl-delay for general bots
 Crawl-delay: 1
@@ -75,5 +75,3 @@ Disallow: /
 User-agent: EmailWolf
 Disallow: /
 
-# Host (optional - uncomment when ready)
-# Host: https://triplevision.agency

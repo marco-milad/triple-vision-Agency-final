@@ -1,92 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!--
+  TODO(client): regenerate with the final production domain once it is decided.
+  The URLs below use the live Vercel domain; triplevision.agency has no DNS.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- Homepage -->
   <url>
-    <loc>https://triplevision.agency/</loc>
-    <lastmod>2026-02-08</lastmod>
+    <loc>https://triple-vision-cinematics.vercel.app/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- Services Pages (add these as you create them) -->
   <url>
-    <loc>https://triplevision.agency/services/media-production</loc>
-    <lastmod>2026-02-08</lastmod>
+    <loc>https://triple-vision-cinematics.vercel.app/services</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://triple-vision-cinematics.vercel.app/services/branding</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://triplevision.agency/services/event-planning</loc>
-    <lastmod>2026-02-08</lastmod>
+    <loc>https://triple-vision-cinematics.vercel.app/services/social-media-management</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://triplevision.agency/services/digital-media</loc>
-    <lastmod>2026-02-08</lastmod>
+    <loc>https://triple-vision-cinematics.vercel.app/services/photography</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://triplevision.agency/services/graphics-branding</loc>
-    <lastmod>2026-02-08</lastmod>
+    <loc>https://triple-vision-cinematics.vercel.app/services/media-buying</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://triplevision.agency/services/web-development</loc>
-    <lastmod>2026-02-08</lastmod>
+    <loc>https://triple-vision-cinematics.vercel.app/services/media-production</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://triplevision.agency/services/pr-media</loc>
-    <lastmod>2026-02-08</lastmod>
+    <loc>https://triple-vision-cinematics.vercel.app/services/event-management</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- About Page -->
   <url>
-    <loc>https://triplevision.agency/about</loc>
-    <lastmod>2026-02-08</lastmod>
+    <loc>https://triple-vision-cinematics.vercel.app/services/print-manufacture</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://triple-vision-cinematics.vercel.app/services/web-development</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://triple-vision-cinematics.vercel.app/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
-  <!-- Portfolio/Work Page -->
   <url>
-    <loc>https://triplevision.agency/portfolio</loc>
-    <lastmod>2026-02-08</lastmod>
+    <loc>https://triple-vision-cinematics.vercel.app/portfolio</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- Contact Page -->
   <url>
-    <loc>https://triplevision.agency/contact</loc>
-    <lastmod>2026-02-08</lastmod>
+    <loc>https://triple-vision-cinematics.vercel.app/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-
-  <!-- Blog (if exists) -->
-  <!-- 
-  <url>
-    <loc>https://triplevision.agency/blog</loc>
-    <lastmod>2026-02-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  -->
 
 </urlset>

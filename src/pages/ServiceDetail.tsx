@@ -1,196 +1,60 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Navigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, CheckCircle, Video, Calendar, Share2, Palette, Code, Radio, Sparkles } from 'lucide-react';
+import { ArrowRight, CheckCircle, Sparkles } from 'lucide-react';
 import { useContact } from '@/contexts/ContactContext';
+import { services, getServiceBySlug, legacyServiceRedirects } from '@/data/services';
+import { company, yearsInBusiness } from '@/data/company';
+import NotFound from '@/pages/NotFound';
 
-const servicesData = {
-  'media-production': {
-    icon: Video,
-    title: 'Media Production',
-    tagline: 'Cinematic storytelling that captivates and converts.',
-    description: 'Our media production team crafts compelling visual narratives that bring your brand to life. From concept to final cut, we deliver cinematic experiences that resonate with your audience.',
-    color: 'from-orange-500 to-red-500',
-    offerings: [
-      { title: 'Commercial Videos', description: 'High-impact ads that drive conversions and brand awareness.' },
-      { title: 'Corporate Films', description: 'Professional company profiles and internal communications.' },
-      { title: 'Documentaries', description: 'In-depth storytelling that showcases your brand\'s journey.' },
-      { title: 'Motion Graphics', description: 'Animated content that explains complex ideas simply.' },
-      { title: 'Product Videos', description: 'Showcase your products with stunning visual presentations.' },
-      { title: 'Social Media Content', description: 'Short-form video optimized for social platforms.' },
-    ],
-    process: [
-      { step: 1, title: 'Discovery', description: 'We dive deep into your brand, goals, and target audience.' },
-      { step: 2, title: 'Concept & Script', description: 'Creative development and storyboarding for your vision.' },
-      { step: 3, title: 'Production', description: 'Professional filming with state-of-the-art equipment.' },
-      { step: 4, title: 'Post-Production', description: 'Editing, color grading, and final delivery.' },
-    ],
-    portfolio: [
-      { title: 'Luxe Fashion Film', image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&q=80' },
+/**
+ * TODO(client): placeholder stock imagery carried over from the old build.
+ * Replace with the real projects from the Company Profile once the original
+ * assets arrive. Services added in 2026 deliberately have no gallery yet.
+ */
+const LEGACY_PORTFOLIO: Record<string, { title: string; image: string }[]> = {
+  'media-production': [
+    { title: 'Luxe Fashion Film', image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&q=80' },
       { title: 'Tech Product Launch', image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&q=80' },
       { title: 'Brand Documentary', image: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?w=800&q=80' },
-    ],
-  },
-  'event-planning': {
-    icon: Calendar,
-    title: 'Event Planning & Coverage',
-    tagline: 'Unforgettable events, flawlessly executed.',
-    description: 'From intimate gatherings to large-scale productions, we handle every detail of your event while capturing it beautifully for lasting impact.',
-    color: 'from-purple-500 to-pink-500',
-    offerings: [
-      { title: 'Corporate Events', description: 'Conferences, seminars, and team-building experiences.' },
-      { title: 'Product Launches', description: 'Memorable reveals that generate buzz and excitement.' },
-      { title: 'Live Event Coverage', description: 'Real-time documentation for social and marketing.' },
-      { title: 'Virtual Events', description: 'Professional hybrid and online event production.' },
-      { title: 'Galas & Award Shows', description: 'Elegant celebrations with premium production value.' },
-      { title: 'Trade Show Presence', description: 'Stand design, staffing, and content creation.' },
-    ],
-    process: [
-      { step: 1, title: 'Planning', description: 'Detailed event strategy and timeline development.' },
-      { step: 2, title: 'Logistics', description: 'Venue, vendors, and resource coordination.' },
-      { step: 3, title: 'Execution', description: 'Seamless on-site management and coverage.' },
-      { step: 4, title: 'Delivery', description: 'Post-event content and analysis delivery.' },
-    ],
-    portfolio: [
-      { title: 'Tech Summit 2024', image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80' },
+  ],
+  'event-management': [
+    { title: 'Tech Summit 2024', image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80' },
       { title: 'Product Launch Gala', image: 'https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&q=80' },
       { title: 'Music Festival', image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=80' },
-    ],
-  },
-  'digital-media': {
-    icon: Share2,
-    title: 'Digital Media Services',
-    tagline: 'Strategic content that builds communities.',
-    description: 'We develop and execute comprehensive digital media strategies that grow your audience, increase engagement, and drive conversions across all platforms.',
-    color: 'from-blue-500 to-cyan-500',
-    offerings: [
-      { title: 'Social Media Strategy', description: 'Data-driven approach to platform growth.' },
-      { title: 'Content Creation', description: 'Scroll-stopping content for every platform.' },
-      { title: 'Community Management', description: 'Engaged audiences through meaningful interactions.' },
-      { title: 'Influencer Campaigns', description: 'Strategic partnerships with relevant creators.' },
-      { title: 'Paid Social Advertising', description: 'Targeted campaigns that maximize ROI.' },
-      { title: 'Analytics & Reporting', description: 'Data insights to optimize performance.' },
-    ],
-    process: [
-      { step: 1, title: 'Audit', description: 'Comprehensive analysis of current digital presence.' },
-      { step: 2, title: 'Strategy', description: 'Custom roadmap aligned with business goals.' },
-      { step: 3, title: 'Execution', description: 'Content creation and campaign management.' },
-      { step: 4, title: 'Optimization', description: 'Continuous improvement based on data.' },
-    ],
-    portfolio: [
-      { title: 'Wellness App Campaign', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80' },
+  ],
+  'social-media-management': [
+    { title: 'Wellness App Campaign', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80' },
       { title: 'E-commerce Growth', image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80' },
       { title: 'B2B Lead Gen', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80' },
-    ],
-  },
-  'graphics-branding': {
-    icon: Palette,
-    title: 'Graphics & Branding',
-    tagline: 'Visual identities that leave lasting impressions.',
-    description: 'We create comprehensive brand identities that communicate your values, connect with your audience, and differentiate you from the competition.',
-    color: 'from-green-500 to-emerald-500',
-    offerings: [
-      { title: 'Logo Design', description: 'Distinctive marks that represent your brand.' },
-      { title: 'Brand Guidelines', description: 'Comprehensive standards for consistent execution.' },
-      { title: 'Print Design', description: 'Business cards, brochures, and marketing collateral.' },
-      { title: 'Packaging Design', description: 'Shelf-ready designs that drive purchases.' },
-      { title: 'Environmental Design', description: 'Signage and space branding solutions.' },
-      { title: 'Digital Assets', description: 'Social templates, presentations, and more.' },
-    ],
-    process: [
-      { step: 1, title: 'Research', description: 'Deep dive into your market and competition.' },
-      { step: 2, title: 'Concept Development', description: 'Multiple creative directions for exploration.' },
-      { step: 3, title: 'Refinement', description: 'Polishing the chosen direction to perfection.' },
-      { step: 4, title: 'Brand System', description: 'Complete guidelines and asset delivery.' },
-    ],
-    portfolio: [
-      { title: 'Artisan Coffee Rebrand', image: 'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&q=80' },
+  ],
+  'branding': [
+    { title: 'Artisan Coffee Rebrand', image: 'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&q=80' },
       { title: 'Fintech Identity', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80' },
       { title: 'Luxury Packaging', image: 'https://images.unsplash.com/photo-1605289355680-75fb41239154?w=800&q=80' },
-    ],
-  },
-  'web-development': {
-    icon: Code,
-    title: 'Web Development',
-    tagline: 'Digital experiences that perform and convert.',
-    description: 'We build stunning, high-performance websites and web applications that deliver exceptional user experiences and drive business results.',
-    color: 'from-indigo-500 to-violet-500',
-    offerings: [
-      { title: 'Custom Websites', description: 'Tailored solutions for unique business needs.' },
-      { title: 'E-Commerce Platforms', description: 'Online stores that maximize conversions.' },
-      { title: 'Web Applications', description: 'Complex functionality with intuitive interfaces.' },
-      { title: 'UI/UX Design', description: 'User-centered design that delights and converts.' },
-      { title: 'CMS Integration', description: 'Easy content management for your team.' },
-      { title: 'Performance Optimization', description: 'Lightning-fast sites that rank higher.' },
-    ],
-    process: [
-      { step: 1, title: 'Discovery', description: 'Understanding requirements and user needs.' },
-      { step: 2, title: 'Design', description: 'Wireframes, prototypes, and visual design.' },
-      { step: 3, title: 'Development', description: 'Clean code and robust architecture.' },
-      { step: 4, title: 'Launch & Support', description: 'Deployment, training, and ongoing maintenance.' },
-    ],
-    portfolio: [
-      { title: 'E-Commerce Platform', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80' },
+  ],
+  'web-development': [
+    { title: 'E-Commerce Platform', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80' },
       { title: 'SaaS Dashboard', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80' },
       { title: 'Portfolio Site', image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&q=80' },
-    ],
-  },
-  'pr-media-monitoring': {
-    icon: Radio,
-    title: 'PR & Media Monitoring',
-    tagline: 'Strategic communications that shape perception.',
-    description: 'We develop and execute PR strategies while monitoring your brand\'s presence across all media channels to protect and enhance your reputation.',
-    color: 'from-amber-500 to-orange-500',
-    offerings: [
-      { title: 'Press Releases', description: 'Compelling announcements that get coverage.' },
-      { title: 'Media Relations', description: 'Building relationships with key journalists.' },
-      { title: 'Crisis Management', description: 'Swift response to protect your reputation.' },
-      { title: 'Brand Monitoring', description: 'Real-time tracking of mentions and sentiment.' },
-      { title: 'Thought Leadership', description: 'Positioning executives as industry experts.' },
-      { title: 'Media Training', description: 'Preparing spokespeople for interviews.' },
-    ],
-    process: [
-      { step: 1, title: 'Assessment', description: 'Analyzing current reputation and opportunities.' },
-      { step: 2, title: 'Strategy', description: 'Developing messaging and outreach plan.' },
-      { step: 3, title: 'Execution', description: 'Media outreach and content distribution.' },
-      { step: 4, title: 'Monitoring', description: 'Tracking coverage and adjusting strategy.' },
-    ],
-    portfolio: [
-      { title: 'Product Launch PR', image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80' },
-      { title: 'Crisis Response', image: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80' },
-      { title: 'Executive Profiling', image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&q=80' },
-    ],
-  },
+  ],
 };
-
-const relatedServices = [
-  { slug: 'media-production', title: 'Media Production' },
-  { slug: 'event-planning', title: 'Event Planning' },
-  { slug: 'digital-media', title: 'Digital Media' },
-  { slug: 'graphics-branding', title: 'Graphics & Branding' },
-  { slug: 'web-development', title: 'Web Development' },
-  { slug: 'pr-media-monitoring', title: 'PR & Media Monitoring' },
-];
 
 const ServiceDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const { openContact } = useContact();
 
-  const service = servicesData[slug as keyof typeof servicesData];
+  const service = getServiceBySlug(slug);
+  const legacyTarget = slug ? legacyServiceRedirects[slug] : undefined;
 
-  if (!service) {
-    return (
-      <Layout>
-        <div className="min-h-screen flex items-center justify-center">
-          <p className="text-muted-foreground">Service not found</p>
-        </div>
-      </Layout>
-    );
-  }
+  // Old links keep working (Vercel redirects in production, this covers the SPA).
+  if (legacyTarget) return <Navigate to={legacyTarget} replace />;
+  if (!service) return <NotFound />;
 
   const Icon = service.icon;
-  const otherServices = relatedServices.filter((s) => s.slug !== slug);
+  const portfolio = LEGACY_PORTFOLIO[service.slug] ?? [];
+  const otherServices = services.filter((s) => s.slug !== slug);
 
   return (
     <Layout>
@@ -265,7 +129,8 @@ const ServiceDetail = () => {
         </div>
       </section>
 
-      {/* What We Offer - Enhanced */}
+      {/* What We Offer - hidden until offerings are confirmed */}
+      {service.offerings.length > 0 && (
       <section className="section-padding bg-background relative overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0">
@@ -327,7 +192,10 @@ const ServiceDetail = () => {
         </div>
       </section>
 
-      {/* Our Process - Enhanced */}
+      )}
+
+      {/* Our Process - hidden until the process is confirmed */}
+      {service.process.length > 0 && (
       <section className="section-padding bg-gradient-to-br from-background-secondary via-background to-background-secondary relative overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0">
@@ -399,7 +267,10 @@ const ServiceDetail = () => {
         </div>
       </section>
 
-      {/* Portfolio - Enhanced */}
+      )}
+
+      {/* Portfolio */}
+      {portfolio.length > 0 && (
       <section className="section-padding bg-background relative overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0">
@@ -437,7 +308,7 @@ const ServiceDetail = () => {
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {service.portfolio.map((project, index) => (
+            {portfolio.map((project, index) => (
               <motion.div
                 key={project.title}
                 initial={{ opacity: 0, y: 30 }}
@@ -464,6 +335,8 @@ const ServiceDetail = () => {
           </div>
         </div>
       </section>
+
+      )}
 
       {/* Why Triple Vision - Enhanced */}
       <section className="section-padding bg-gradient-to-br from-background-secondary via-background to-background-secondary">
@@ -497,8 +370,8 @@ const ServiceDetail = () => {
 
               <ul className="space-y-5">
                 {[
-                  'Experienced team with 8+ years in the industry',
-                  'Proven track record with 200+ successful projects',
+                  `Experienced team, ${yearsInBusiness()}+ years in the industry`,
+                  `Proven track record with ${company.stats.projects}+ successful projects`,
                   'End-to-end service from concept to delivery',
                   'Dedicated project management and support'
                 ].map((item, idx) => (
