@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import Layout from '@/components/layout/Layout';
+import Seo from '@/components/Seo';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Target, Eye, Heart, Users, Sparkles, Award, TrendingUp } from 'lucide-react';
 import { useContact } from '@/contexts/ContactContext';
@@ -50,6 +51,7 @@ const About = () => {
 
   return (
     <Layout>
+      <Seo title="About Us" description="Founded in 2015, Triple Vision Agency is a fully integrated digital agency in Heliopolis, Cairo, with a team of 50+ serving 250+ clients across Egypt." />
       {/* Hero Section - Enhanced */}
       <section className="pt-32 pb-20 px-6 relative overflow-hidden bg-gradient-to-br from-background via-background-secondary to-background">
         {/* Background Effects */}

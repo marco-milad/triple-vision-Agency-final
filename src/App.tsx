@@ -1,9 +1,6 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { MotionConfig } from "framer-motion";
+import { HelmetProvider } from "react-helmet-async";
 import { ContactProvider } from "@/contexts/ContactContext";
 import { lazy, Suspense } from "react";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -18,8 +15,6 @@ const Portfolio = lazy(() => import("./pages/Portfolio"));
 const Contact = lazy(() => import("./pages/Contact"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-const queryClient = new QueryClient();
-
 // Minimal loading fallback that matches the site's dark theme
 const PageLoader = () => (
   <div className="min-h-screen bg-background flex items-center justify-center">
@@ -28,14 +23,11 @@ const PageLoader = () => (
 );
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
+  <HelmetProvider>
     {/* Respects the visitor's "reduce motion" system setting across the site. */}
     <MotionConfig reducedMotion="user">
-      <TooltipProvider>
         <ContactProvider>
           <Preloader />
-          <Toaster />
-          <Sonner />
           <BrowserRouter>
             <ScrollToTop />
             <Suspense fallback={<PageLoader />}>
@@ -52,9 +44,8 @@ const App = () => (
             </Suspense>
           </BrowserRouter>
         </ContactProvider>
-      </TooltipProvider>
     </MotionConfig>
-  </QueryClientProvider>
+  </HelmetProvider>
 );
 
 export default App;

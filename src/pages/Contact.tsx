@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Sparkles, MessageCircle } from 'lucide-react';
 import Layout from '@/components/layout/Layout';
+import Seo from '@/components/Seo';
 import { company } from '@/data/company';
 import ContactForm from '@/components/forms/ContactForm';
 
@@ -47,6 +48,7 @@ const contactInfo = [
 const Contact = () => {
   return (
     <Layout>
+      <Seo title="Contact" description="Talk to Triple Vision Agency in Heliopolis, Cairo. Message us on WhatsApp, call +20 109 832 4080 or email info@triplevisionagency.com." />
       {/* Hero */}
       <section className="pt-32 pb-16 px-6 relative overflow-hidden bg-gradient-to-br from-background via-background-secondary to-background">
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">

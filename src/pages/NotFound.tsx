@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Home, ArrowLeft, Search, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Seo from "@/components/Seo";
 
 // Type declaration for gtag (inline)
 declare global {
@@ -20,39 +21,7 @@ const NotFound = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Update document title
-    document.title = "404 - Page Not Found | Triple Vision Agency";
-    
-    // Add/Update meta robots tag
-    let metaRobots = document.querySelector('meta[name="robots"]');
-    if (metaRobots) {
-      metaRobots.setAttribute('content', 'noindex, nofollow');
-    } else {
-      metaRobots = document.createElement('meta');
-      metaRobots.setAttribute('name', 'robots');
-      metaRobots.setAttribute('content', 'noindex, nofollow');
-      document.head.appendChild(metaRobots);
-    }
-
-    // Log 404 errors for monitoring
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
-    
-    // Optional: Send to Google Analytics
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'page_view', {
-        page_path: location.pathname,
-        page_title: '404 - Page Not Found',
-      });
-    }
-
-    // Cleanup: Reset title and meta when component unmounts
-    return () => {
-      document.title = "Triple Vision Agency | Premium Creative Agency";
-      const metaRobots = document.querySelector('meta[name="robots"]');
-      if (metaRobots) {
-        metaRobots.setAttribute('content', 'index, follow');
-      }
-    };
+    console.error("404: route not found:", location.pathname);
   }, [location.pathname]);
 
   // Animation variants
@@ -90,7 +59,9 @@ const NotFound = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background hero-gradient px-4 sm:px-6 overflow-hidden relative">
+    <>
+      <Seo title="Page Not Found" description="The page you are looking for does not exist or has moved." noIndex />
+      <div className="min-h-screen flex items-center justify-center bg-background hero-gradient px-4 sm:px-6 overflow-hidden relative">
       {/* Enhanced Background Effects */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(255,140,0,0.08),transparent_50%)]" />
       
@@ -281,6 +252,7 @@ const NotFound = () => {
         aria-hidden="true"
       />
     </div>
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
 import { lazy, Suspense, useCallback } from 'react';
 import Layout from '@/components/layout/Layout';
+import Seo from '@/components/Seo';
 import HeroSection from '@/components/sections/HeroSection';
 import { useContact } from '@/contexts/ContactContext';
 
@@ -26,6 +27,7 @@ const Index = () => {
 
   return (
     <Layout>
+      <Seo description="Triple Vision Agency is a fully integrated digital agency in Cairo. Social media, media buying, media production, branding, photography, events, print and web since 2015." />
       <HeroSection onContactClick={handleContactClick} />
       <Suspense fallback={<SectionPlaceholder height="800px" />}>
         <AboutPreview />

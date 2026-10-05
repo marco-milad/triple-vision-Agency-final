@@ -35,7 +35,7 @@ const PRELOADER_CONFIG = {
     LOGO_WIDTH: 320,
     LOGO_HEIGHT: 64,
   },
-  LOGO_URL: 'https://res.cloudinary.com/dcui0elwh/image/upload/v1763917799/logo2_transparent_jjpgv6.png',
+  LOGO_URL: 'https://res.cloudinary.com/dcui0elwh/image/upload/f_auto,q_auto,w_640/v1763917799/logo2_transparent_jjpgv6.png',
 } as const;
 
 const STROKE_CONFIGS: StrokeConfig[] = [

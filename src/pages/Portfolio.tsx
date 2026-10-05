@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Layout from '@/components/layout/Layout';
+import Seo from '@/components/Seo';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Play, X, Eye, Heart, Share2, ExternalLink, Sparkles } from 'lucide-react';
 import { useContact } from '@/contexts/ContactContext';
@@ -604,6 +605,7 @@ const Portfolio = () => {
 
   return (
     <Layout>
+      <Seo title="Portfolio" description="Selected work from Triple Vision Agency across media production, social media, branding and web development for clients across Egypt." />
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-6 relative overflow-hidden bg-gradient-to-br from-background via-background-secondary to-background">
         {/* Background Effects */}

@@ -7,6 +7,7 @@ import { useContact } from '@/contexts/ContactContext';
 import { services, getServiceBySlug, legacyServiceRedirects } from '@/data/services';
 import { company, yearsInBusiness } from '@/data/company';
 import NotFound from '@/pages/NotFound';
+import Seo from '@/components/Seo';
 
 /**
  * TODO(client): placeholder stock imagery carried over from the old build.
@@ -58,6 +59,7 @@ const ServiceDetail = () => {
 
   return (
     <Layout>
+      <Seo title={service.title} description={service.summary} />
       {/* Hero Section - Enhanced */}
       <section className="pt-32 pb-20 px-6 relative overflow-hidden bg-gradient-to-br from-background via-background-secondary to-background">
         {/* Background Effects */}

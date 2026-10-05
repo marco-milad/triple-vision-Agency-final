@@ -180,7 +180,7 @@
     </script>
     
     <!-- Performance Optimization - Preconnect to External Domains -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
@@ -194,8 +194,7 @@
     </noscript>
     
     <!-- Preload Critical Assets -->
-    <link rel="preload" href="/src/main.tsx" as="script" />
-    <link rel="preload" href="https://res.cloudinary.com/dcui0elwh/image/upload/v1763917799/logo2_transparent_jjpgv6.png" as="image" />
+    <link rel="preload" href="https://res.cloudinary.com/dcui0elwh/image/upload/f_auto,q_auto,w_640/v1763917799/logo2_transparent_jjpgv6.png" as="image" />
   </head>
 
   <body>
@@ -211,27 +210,5 @@
     
     <!-- Main Application Script -->
     <script type="module" src="/src/main.tsx"></script>
-    
-    <!-- Service Worker Registration (Progressive Web App) -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').catch(() => {
-            // Service worker registration failed, silent fail
-          });
-        });
-      }
-    </script>
-
-    <!-- WhatsApp Click-to-Chat Widget (Optional) -->
-    <script>
-      // WhatsApp widget can be initialized here if needed
-      window.TRIPLEVISION_CONTACT = {
-        whatsapp: '201098324080',
-        email: 'info@triplevisionagency.com',
-        phone: '+201098324080',
-        phone2: '+201270039093'
-      };
-    </script>
   </body>
 </html>

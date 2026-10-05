@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
+import Seo from '@/components/Seo';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, CheckCircle, Sparkles } from 'lucide-react';
 import { useContact } from '@/contexts/ContactContext';
@@ -11,6 +12,7 @@ const Services = () => {
 
   return (
     <Layout>
+      <Seo title="Services" description="Branding, social media management, photography, media buying, media production, event management, print and web development from Triple Vision Agency in Cairo." />
       {/* Hero Section - Enhanced */}
       <section className="pt-32 pb-20 px-6 relative overflow-hidden bg-gradient-to-br from-background via-background-secondary to-background">
         {/* Background Effects */}
