@@ -64,6 +64,15 @@ export interface Project {
   /** Public URL, when the work is live and may be linked. */
   liveUrl?: string | null;
   featured?: boolean;
+  /**
+   * Replaces the default Client/Industry/Year/Services block. Branding work is
+   * described by what was delivered rather than by where it is hosted.
+   */
+  facts?: { label: string; value: string }[];
+  /** Heading above the image stack — "The brand book" rather than "More screens". */
+  galleryHeading?: string;
+  /** Artwork and names are stand-ins; the page shape is final. */
+  placeholder?: boolean;
 }
 
 export const projects: Project[] = [
@@ -850,6 +859,82 @@ export const projects: Project[] = [
       { src: '/work/brandkey/services.webp', alt: 'The services page in Arabic listing the workshop\'s service groups with photographs', width: 1600, height: 944 },
       { src: '/work/brandkey/printing.webp', alt: 'The printing catalogue page in Arabic, a grid of printed product cards each with an order button', width: 1600, height: 944 },
       { src: '/work/brandkey/m-home.webp', alt: 'The Brand Key home page on a phone in Arabic, with the facade photograph and the quote request button', width: 760, height: 1299 },
+    ],
+    video: null,
+  },
+  /**
+   * The two branding case studies below are laid out the way the reference site
+   * lays its branding work out: one paragraph, a four-field brief, then the
+   * brand book stacked a page at a time at its own shape, no captions.
+   *
+   * TODO(client): names, copy and every image are stand-ins. The files under
+   * public/work/<slug>/ are written at the exact size of the slot they fill, so
+   * replacing one under the same name changes nothing else on the page.
+   */
+  {
+    slug: 'branding-landscape-company',
+    title: 'Landscape Company — Brand Identity',
+    client: 'Client name pending',
+    services: ['branding'],
+    category: 'Brand identity & brand book',
+    industry: 'Landscape & Outdoor Design',
+    summary:
+      'A full identity for a landscape design company — the mark, the palette, the type system and the rules for using them, gathered into a brand book the client can hand to any supplier.',
+    placeholder: true,
+    facts: [
+      { label: 'Task', value: 'Branding' },
+      { label: 'Strategy', value: 'Brand Strategy, Digital Strategy, Website Creation, Content Creation & Copywriting' },
+      { label: 'Design', value: 'Graphic Designing, Art Direction' },
+      { label: 'Client', value: 'Client name pending' },
+    ],
+    cover: '/work/branding-landscape-company/cover.webp',
+    coverAlt: 'Brand identity cover for the landscape company',
+    coverWidth: 1372,
+    coverHeight: 1771,
+    galleryHeading: 'The brand book',
+    gallery: [
+      { src: '/work/branding-landscape-company/brand-book-02.webp', alt: 'Brand book page 2', width: 1100, height: 619 },
+      { src: '/work/branding-landscape-company/brand-book-03.webp', alt: 'Brand book page 3', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-04.webp', alt: 'Brand book page 4', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-05.webp', alt: 'Brand book page 5', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-06.webp', alt: 'Brand book page 6', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-07.webp', alt: 'Brand book page 7', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-08.webp', alt: 'Brand book page 8', width: 1100, height: 619 },
+      { src: '/work/branding-landscape-company/brand-book-09.webp', alt: 'Brand book page 9', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-10.webp', alt: 'Brand book page 10', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-11.webp', alt: 'Brand book page 11', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-12.webp', alt: 'Brand book page 12', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-13.webp', alt: 'Brand book page 13', width: 1086, height: 619 },
+    ],
+    video: null,
+  },
+  {
+    slug: 'branding-spend-platform',
+    title: 'Spend Platform — Brand Identity',
+    client: 'Client name pending',
+    services: ['branding'],
+    category: 'Brand identity & brand book',
+    industry: 'Financial Technology',
+    summary:
+      'An identity for a spend management platform that brings organisations of every size together to make their spending more effective, profitable and sustainable.',
+    placeholder: true,
+    facts: [
+      { label: 'Task', value: 'Branding' },
+      { label: 'Strategy', value: 'Brand Strategy, Digital Strategy, Website Creation, Content Creation & Copywriting' },
+      { label: 'Design', value: 'Graphic Designing, Art Direction' },
+      { label: 'Client', value: 'Client name pending' },
+    ],
+    cover: '/work/branding-spend-platform/cover.webp',
+    coverAlt: 'Brand identity cover for the spend management platform',
+    coverWidth: 1372,
+    coverHeight: 1771,
+    galleryHeading: 'The brand book',
+    gallery: [
+      { src: '/work/branding-spend-platform/brand-book-02.webp', alt: 'Brand book page 2', width: 960, height: 540 },
+      { src: '/work/branding-spend-platform/brand-book-03.webp', alt: 'Brand book page 3', width: 960, height: 540 },
+      { src: '/work/branding-spend-platform/brand-book-04.webp', alt: 'Brand book page 4', width: 960, height: 540 },
+      { src: '/work/branding-spend-platform/brand-book-05.webp', alt: 'Brand book page 5', width: 960, height: 540 },
+      { src: '/work/branding-spend-platform/brand-book-06.webp', alt: 'Brand book page 6', width: 960, height: 540 },
     ],
     video: null,
   },
