@@ -863,78 +863,81 @@ export const projects: Project[] = [
     video: null,
   },
   /**
-   * The two branding case studies below are laid out the way the reference site
-   * lays its branding work out: one paragraph, a four-field brief, then the
-   * brand book stacked a page at a time at its own shape, no captions.
+   * Two sample branding case studies, laid out the way a branding case study
+   * reads: one paragraph, a four-field brief, then the brand book a page at a
+   * time at its own shape, no captions and no cropping.
    *
-   * TODO(client): names, copy and every image are stand-ins. The files under
-   * public/work/<slug>/ are written at the exact size of the slot they fill, so
-   * replacing one under the same name changes nothing else on the page.
+   * The brands, the artwork and the copy are stand-ins and the page says so.
+   * The spreads were drawn for this site rather than borrowed, and each file is
+   * written at the exact size of the slot it fills, so real work drops in under
+   * the same name without moving anything on the page.
+   *
+   * TODO(client): replace with the agency's own branding work.
    */
   {
     slug: 'branding-landscape-company',
-    title: 'Landscape Company — Brand Identity',
-    client: 'Client name pending',
+    title: 'VERDE — Landscape Brand Identity',
+    client: 'VERDE (sample brand)',
     services: ['branding'],
     category: 'Brand identity & brand book',
     industry: 'Landscape & Outdoor Design',
     summary:
-      'A full identity for a landscape design company — the mark, the palette, the type system and the rules for using them, gathered into a brand book the client can hand to any supplier.',
+      'A full identity for a landscape design company: the mark and how it is built, the clear space around it, the palette, the type system, and how all of it lands on stationery, signage and vehicles — gathered into one brand book the client can hand to any supplier.',
     placeholder: true,
     facts: [
       { label: 'Task', value: 'Branding' },
-      { label: 'Strategy', value: 'Brand Strategy, Digital Strategy, Website Creation, Content Creation & Copywriting' },
-      { label: 'Design', value: 'Graphic Designing, Art Direction' },
-      { label: 'Client', value: 'Client name pending' },
+      { label: 'Strategy', value: 'Brand Strategy, Visual Identity, Brand Book, Art Direction' },
+      { label: 'Design', value: 'Logo Design, Colour & Typography, Stationery, Applications' },
+      { label: 'Client', value: 'VERDE (sample brand)' },
     ],
     cover: '/work/branding-landscape-company/cover.webp',
-    coverAlt: 'Brand identity cover for the landscape company',
+    coverAlt: 'The cover of the VERDE brand book',
     coverWidth: 1372,
     coverHeight: 1771,
     galleryHeading: 'The brand book',
     gallery: [
-      { src: '/work/branding-landscape-company/brand-book-02.webp', alt: 'Brand book page 2', width: 1100, height: 619 },
-      { src: '/work/branding-landscape-company/brand-book-03.webp', alt: 'Brand book page 3', width: 1100, height: 575 },
-      { src: '/work/branding-landscape-company/brand-book-04.webp', alt: 'Brand book page 4', width: 1100, height: 575 },
-      { src: '/work/branding-landscape-company/brand-book-05.webp', alt: 'Brand book page 5', width: 1100, height: 575 },
-      { src: '/work/branding-landscape-company/brand-book-06.webp', alt: 'Brand book page 6', width: 1100, height: 575 },
-      { src: '/work/branding-landscape-company/brand-book-07.webp', alt: 'Brand book page 7', width: 1100, height: 575 },
-      { src: '/work/branding-landscape-company/brand-book-08.webp', alt: 'Brand book page 8', width: 1100, height: 619 },
-      { src: '/work/branding-landscape-company/brand-book-09.webp', alt: 'Brand book page 9', width: 1100, height: 575 },
-      { src: '/work/branding-landscape-company/brand-book-10.webp', alt: 'Brand book page 10', width: 1100, height: 575 },
-      { src: '/work/branding-landscape-company/brand-book-11.webp', alt: 'Brand book page 11', width: 1100, height: 575 },
-      { src: '/work/branding-landscape-company/brand-book-12.webp', alt: 'Brand book page 12', width: 1100, height: 575 },
-      { src: '/work/branding-landscape-company/brand-book-13.webp', alt: 'Brand book page 13', width: 1086, height: 619 },
+      { src: '/work/branding-landscape-company/brand-book-02.webp', alt: 'VERDE brand book, the contents page', width: 1100, height: 619 },
+      { src: '/work/branding-landscape-company/brand-book-03.webp', alt: 'VERDE brand book, the logo on its construction grid', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-04.webp', alt: 'VERDE brand book, the clear space rule around the logo', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-05.webp', alt: 'VERDE brand book, the four approved logo variations', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-06.webp', alt: 'VERDE brand book, the logo misuses that are not allowed', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-07.webp', alt: 'VERDE brand book, the six colour palette with its hex values', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-08.webp', alt: 'VERDE brand book, how much of each colour a layout should carry', width: 1100, height: 619 },
+      { src: '/work/branding-landscape-company/brand-book-09.webp', alt: 'VERDE brand book, the typefaces and the role each one plays', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-10.webp', alt: 'VERDE brand book, the type scale from display down to caption', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-11.webp', alt: 'VERDE brand book, the pattern built from the logo shape', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-12.webp', alt: 'VERDE brand book, the letterhead and the business cards', width: 1100, height: 575 },
+      { src: '/work/branding-landscape-company/brand-book-13.webp', alt: 'VERDE brand book, signage, uniform and vehicle applications', width: 1086, height: 619 },
     ],
     video: null,
   },
   {
     slug: 'branding-spend-platform',
-    title: 'Spend Platform — Brand Identity',
-    client: 'Client name pending',
+    title: 'QUANTA — Spend Platform Identity',
+    client: 'QUANTA (sample brand)',
     services: ['branding'],
     category: 'Brand identity & brand book',
     industry: 'Financial Technology',
     summary:
-      'An identity for a spend management platform that brings organisations of every size together to make their spending more effective, profitable and sustainable.',
+      'An identity for a spend management platform, carried from the mark through to the product interface: palette, typography, and the rules for applying them on screen and on paper.',
     placeholder: true,
     facts: [
       { label: 'Task', value: 'Branding' },
-      { label: 'Strategy', value: 'Brand Strategy, Digital Strategy, Website Creation, Content Creation & Copywriting' },
-      { label: 'Design', value: 'Graphic Designing, Art Direction' },
-      { label: 'Client', value: 'Client name pending' },
+      { label: 'Strategy', value: 'Brand Strategy, Visual Identity, Brand Book, Art Direction' },
+      { label: 'Design', value: 'Logo Design, Colour & Typography, Stationery, Applications' },
+      { label: 'Client', value: 'QUANTA (sample brand)' },
     ],
     cover: '/work/branding-spend-platform/cover.webp',
-    coverAlt: 'Brand identity cover for the spend management platform',
+    coverAlt: 'The cover of the QUANTA brand book',
     coverWidth: 1372,
     coverHeight: 1771,
     galleryHeading: 'The brand book',
     gallery: [
-      { src: '/work/branding-spend-platform/brand-book-02.webp', alt: 'Brand book page 2', width: 960, height: 540 },
-      { src: '/work/branding-spend-platform/brand-book-03.webp', alt: 'Brand book page 3', width: 960, height: 540 },
-      { src: '/work/branding-spend-platform/brand-book-04.webp', alt: 'Brand book page 4', width: 960, height: 540 },
-      { src: '/work/branding-spend-platform/brand-book-05.webp', alt: 'Brand book page 5', width: 960, height: 540 },
-      { src: '/work/branding-spend-platform/brand-book-06.webp', alt: 'Brand book page 6', width: 960, height: 540 },
+      { src: '/work/branding-spend-platform/brand-book-02.webp', alt: 'QUANTA brand book, the logo on its construction grid', width: 960, height: 540 },
+      { src: '/work/branding-spend-platform/brand-book-03.webp', alt: 'QUANTA brand book, the six colour palette with its hex values', width: 960, height: 540 },
+      { src: '/work/branding-spend-platform/brand-book-04.webp', alt: 'QUANTA brand book, the typefaces and the role each one plays', width: 960, height: 540 },
+      { src: '/work/branding-spend-platform/brand-book-05.webp', alt: 'QUANTA brand book, the identity applied to the product interface', width: 960, height: 540 },
+      { src: '/work/branding-spend-platform/brand-book-06.webp', alt: 'QUANTA brand book, the letterhead and the business cards', width: 960, height: 540 },
     ],
     video: null,
   },
