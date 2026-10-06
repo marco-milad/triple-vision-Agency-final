@@ -20,6 +20,7 @@ const Portfolio = () => {
 
   const visibleProjects =
     activeFilter === 'all' ? projects : projects.filter((project) => project.services.includes(activeFilter));
+  const activeService = getServiceBySlug(activeFilter);
 
   return (
     <Layout>
@@ -168,9 +169,38 @@ const Portfolio = () => {
             </AnimatePresence>
           </motion.div>
 
-          {visibleProjects.length === 0 && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20">
-              <p className="text-muted-foreground text-lg">No projects in this category yet.</p>
+          {/* A service we offer but have not published work for yet — a route on, not a dead end. */}
+          {visibleProjects.length === 0 && activeService && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="max-w-3xl mx-auto text-center p-8 md:p-12 rounded-3xl border-2 border-border/50 bg-background/60 backdrop-blur-sm"
+            >
+              <h2 className="text-2xl md:text-3xl font-black text-foreground mb-4">
+                {activeService.title}{' '}
+                <span className="bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent">
+                  work, on request
+                </span>
+              </h2>
+
+              <p className="text-muted-foreground text-base md:text-lg mb-8">
+                {activeService.summary} We have not published this work online yet — ask us and we will send
+                the relevant samples.
+              </p>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Button variant="hero" size="lg" onClick={() => openContact(activeService.slug)} className="group">
+                  <span className="flex items-center gap-2">
+                    Request samples
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </Button>
+
+                <Button variant="outline" size="lg" asChild>
+                  <Link to={`/services/${activeService.slug}`}>What this service includes</Link>
+                </Button>
+              </div>
             </motion.div>
           )}
         </div>

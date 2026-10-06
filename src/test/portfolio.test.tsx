@@ -41,10 +41,8 @@ describe("portfolio data", () => {
     }
   });
 
-  it("offers filters only for services that have work", () => {
-    for (const filter of portfolioFilters()) {
-      expect(projectsByService(filter.slug).length).toBeGreaterThan(0);
-    }
+  it("offers a filter for every official service", () => {
+    expect(portfolioFilters().map((f) => f.slug)).toEqual(services.map((s) => s.slug));
   });
 
   it("always has a next project to move on to", () => {
@@ -85,6 +83,19 @@ describe("Portfolio page", () => {
     expect(shown).not.toContain(socialOnly);
     // Rendering the whole animated grid twice in jsdom is slow; this is an
     // environment limit, not the page being slow in a browser.
+  }, 20000);
+
+  it("offers a way forward for a service whose work is not published yet", () => {
+    const empty = services.find((s) => projectsByService(s.slug).length === 0)!;
+    renderAt("/portfolio");
+
+    fireEvent.click(screen.getByRole("button", { name: new RegExp(`filter projects by ${empty.title}`, "i") }));
+
+    expect(screen.getByRole("button", { name: /request samples/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /what this service includes/i })).toHaveAttribute(
+      "href",
+      `/services/${empty.slug}`,
+    );
   }, 20000);
 });
 

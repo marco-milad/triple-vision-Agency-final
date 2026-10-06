@@ -864,11 +864,14 @@ export const projectsByService = (serviceSlug: string): Project[] =>
 export const featuredProjects = (limit = 4): Project[] =>
   projects.filter((project) => project.featured).slice(0, limit);
 
-/** Only services we can actually show work for become filters. */
+/**
+ * Every official service is a filter, in profile order — the portfolio is where
+ * a visitor looks to see what we do, so a service missing from the bar reads as
+ * a service we do not offer. Services whose work has not been published yet
+ * show an invitation to ask for samples rather than an empty grid.
+ */
 export const portfolioFilters = (): { slug: string; title: string }[] =>
-  services
-    .filter((service) => projectsByService(service.slug).length > 0)
-    .map((service) => ({ slug: service.slug, title: service.title }));
+  services.map((service) => ({ slug: service.slug, title: service.title }));
 
 /**
  * Projects for a service, grouped by their sub-category — so web development
