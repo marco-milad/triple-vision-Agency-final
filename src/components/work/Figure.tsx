@@ -6,6 +6,8 @@ interface FigureProps {
   /** Narrow shots (phone screens) sit in a column rather than full width. */
   compact?: boolean;
   className?: string;
+  /** Opens the full-screen viewer. Without it the figure is not interactive. */
+  onOpen?: () => void;
 }
 
 /**
@@ -16,7 +18,20 @@ interface FigureProps {
  * hides the thing the reader came to see. Width and height come from the file,
  * so the browser reserves the right space before the image loads.
  */
-const Figure = ({ image, compact = false, className = '' }: FigureProps) => (
+const Figure = ({ image, compact = false, className = '', onOpen }: FigureProps) => {
+  const picture = (
+    <img
+      src={image.src}
+      alt={image.alt}
+      width={image.width}
+      height={image.height}
+      loading="lazy"
+      decoding="async"
+      className="w-full h-auto block"
+    />
+  );
+
+  return (
   <motion.figure
     initial={{ opacity: 0, y: 24 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -29,22 +44,26 @@ const Figure = ({ image, compact = false, className = '' }: FigureProps) => (
         compact ? 'rounded-xl' : ''
       }`}
     >
-      <img
-        src={image.src}
-        alt={image.alt}
-        width={image.width}
-        height={image.height}
-        loading="lazy"
-        decoding="async"
-        className="w-full h-auto block"
-      />
+      {onOpen ? (
+        <button
+          type="button"
+          onClick={onOpen}
+          aria-label={`Open ${image.alt}`}
+          className="block w-full cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
+        >
+          {picture}
+        </button>
+      ) : (
+        picture
+      )}
     </div>
 
     {image.caption && (
       <figcaption className="text-muted-foreground/70 text-sm mt-3 text-center">{image.caption}</figcaption>
     )}
   </motion.figure>
-);
+  );
+};
 
 /** Phone screenshots are tall and narrow; anything else reads as a wide shot. */
 export const isPortrait = (image: GalleryImage): boolean =>

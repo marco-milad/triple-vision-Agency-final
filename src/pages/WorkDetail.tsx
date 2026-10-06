@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Sparkles, ExternalLink } from 'lucide-react';
@@ -5,6 +6,7 @@ import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 import ProjectImage from '@/components/ProjectImage';
 import Figure, { isPortrait } from '@/components/work/Figure';
+import Lightbox from '@/components/work/Lightbox';
 import { Button } from '@/components/ui/button';
 import { getProjectBySlug, nextProject } from '@/data/portfolio';
 import { getServiceBySlug } from '@/data/services';
@@ -13,6 +15,7 @@ import { useContact } from '@/contexts/ContactContext';
 /** Case study page for a single project. */
 const WorkDetail = () => {
   const { slug } = useParams<{ slug: string }>();
+  const [viewing, setViewing] = useState<number | null>(null);
   const { openContact } = useContact();
   const project = getProjectBySlug(slug);
 
@@ -40,17 +43,31 @@ const WorkDetail = () => {
     ...(project.year ? [{ label: 'Year', value: project.year }] : []),
     { label: 'Services', value: projectServices.map((service) => service.title).join(', ') },
   ];
-  const stackedImages = [
-    ...(project.cover
-      ? [{
-          src: project.cover,
-          alt: project.coverAlt ?? `${project.title} for ${project.client}`,
-          width: project.coverWidth,
-          height: project.coverHeight,
-        }]
-      : []),
-    ...project.gallery,
-  ];
+  const coverImage = project.cover
+    ? [{
+        src: project.cover,
+        alt: project.coverAlt ?? `${project.title} for ${project.client}`,
+        width: project.coverWidth,
+        height: project.coverHeight,
+      }]
+    : [];
+  const stackedImages = [...coverImage, ...project.gallery];
+
+  /**
+   * What the viewer steps through, in the order the page shows it, so that
+   * "next" means the next thing down the page. A sectioned case study puts its
+   * figures inside the writing and keeps them out of `gallery`, so collecting
+   * only the gallery would leave those figures unable to open.
+   */
+  const sectionFigures = (project.sections ?? []).flatMap((section) => [
+    ...(section.items ?? []).flatMap((item) => (item.figure ? [item.figure] : [])),
+    ...(section.figure ? [section.figure] : []),
+  ]);
+  const viewerImages = stacked
+    ? stackedImages
+    : [...coverImage, ...sectionFigures, ...wideShots, ...phoneShots];
+
+  const positionOf = (src: string) => viewerImages.findIndex((image) => image.src === src);
 
   return (
     <Layout>
@@ -160,17 +177,24 @@ const WorkDetail = () => {
               board ? 'w-full grid gap-0' : 'mx-auto max-w-[1400px] grid gap-2'
             }
           >
-            {stackedImages.map((image) => (
-              <img
+            {stackedImages.map((image, i) => (
+              <button
                 key={image.src}
-                src={image.src}
-                alt={image.alt}
-                width={image.width}
-                height={image.height}
-                loading="lazy"
-                decoding="async"
-                className="w-full h-auto block"
-              />
+                type="button"
+                onClick={() => setViewing(i)}
+                aria-label={`Open ${image.alt}`}
+                className="block w-full cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  width={image.width}
+                  height={image.height}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-auto block"
+                />
+              </button>
             ))}
           </div>
         </section>
@@ -188,6 +212,7 @@ const WorkDetail = () => {
                 width: project.coverWidth,
                 height: project.coverHeight,
               }}
+              onOpen={() => setViewing(positionOf(project.cover!))}
             />
           ) : (
             <div className="relative aspect-[16/9] rounded-2xl overflow-hidden border-2 border-border/50">
@@ -291,13 +316,25 @@ const WorkDetail = () => {
                       <p className="text-muted-foreground leading-relaxed">{item.body}</p>
                     </motion.div>
 
-                    {item.figure && <Figure image={item.figure} className={i % 2 === 1 ? 'lg:order-1' : ''} />}
+                    {item.figure && (
+                      <Figure
+                        image={item.figure}
+                        className={i % 2 === 1 ? 'lg:order-1' : ''}
+                        onOpen={() => setViewing(positionOf(item.figure!.src))}
+                      />
+                    )}
                   </div>
                 ))}
               </div>
             )}
 
-            {section.figure && <Figure image={section.figure} className="mt-10" />}
+            {section.figure && (
+              <Figure
+                image={section.figure}
+                className="mt-10"
+                onOpen={() => setViewing(positionOf(section.figure!.src))}
+              />
+            )}
           </div>
         </section>
       ))}
@@ -323,7 +360,7 @@ const WorkDetail = () => {
 
             <div className="space-y-10">
               {wideShots.map((image) => (
-                <Figure key={image.src} image={image} />
+                <Figure key={image.src} image={image} onOpen={() => setViewing(positionOf(image.src))} />
               ))}
             </div>
           </div>
@@ -340,7 +377,7 @@ const WorkDetail = () => {
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {phoneShots.map((image) => (
-                <Figure key={image.src} image={image} compact />
+                <Figure key={image.src} image={image} compact onOpen={() => setViewing(positionOf(image.src))} />
               ))}
             </div>
           </div>
@@ -402,6 +439,12 @@ const WorkDetail = () => {
           </div>
         </div>
       </section>
+      <Lightbox
+        images={viewerImages}
+        index={viewing}
+        onClose={() => setViewing(null)}
+        onIndexChange={setViewing}
+      />
     </Layout>
   );
 };

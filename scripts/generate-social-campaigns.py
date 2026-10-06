@@ -361,6 +361,11 @@ def portrait_post(w, h, campaign, kicker, text):
     return image
 
 
+def strip_labels(campaign):
+    """Each breather says something different, so no two alts collide."""
+    return [campaign.kicker, campaign.line, "The series", "In market", "The close"]
+
+
 def strip(w, h, campaign, label):
     """A thin title band. The reference uses these as section markers."""
     image = Image.new("RGB", (w, h), campaign.accent)
@@ -561,8 +566,8 @@ def banner(w, h, campaign):
 #   mixed so a post that comes round twice is never shown the same way.
 DECK = [
     ("01-key-visual", "key", 1400, 1375, None),
-    ("02-title", "strip", 1400, 212, "campaign"),
-    ("03-subtitle", "strip", 1400, 212, "line"),
+    ("02-title", "strip", 1400, 212, 0),
+    ("03-subtitle", "strip", 1400, 212, 1),
     ("04-the-kit", "swatch", 1400, 1412, None),
     ("05-board", "pair", 1400, 572, None),
     ("06-board", "solo", 1400, 562, None),
@@ -572,7 +577,7 @@ DECK = [
     ("10-board", "solo", 1400, 517, None),
     ("11-board", "pair", 1400, 568, None),
     ("12-board", "crop", 1400, 569, None),
-    ("13-board", "pair", 1400, 549, None),
+    ("13-in-the-feed", "phones", 1400, 549, None),
     ("14-closing", "trio", 1400, 1020, None),
 ]
 
@@ -581,19 +586,19 @@ DECK = [
 #   four same-height boards before the close.
 SCROLL = [
     ("01-key-visual", "key", 1400, 1375, None),
-    ("02-title", "strip", 1400, 341, "campaign"),
-    ("03-subtitle", "strip", 1400, 216, "line"),
+    ("02-title", "strip", 1400, 341, 0),
+    ("03-subtitle", "strip", 1400, 216, 1),
     ("04-board", "pair", 1400, 871, None),
     ("05-board", "solo", 1400, 839, None),
     ("06-board", "pair", 1400, 837, None),
     ("07-board", "crop", 1400, 842, None),
     ("08-board", "pair", 1400, 915, None),
-    ("09-break", "strip", 1400, 257, "campaign"),
+    ("09-break", "strip", 1400, 257, 2),
     ("10-story-cut", "tall", 1400, 1770, None),
     ("11-board", "pair", 1400, 865, None),
-    ("12-break", "strip", 1400, 246, "line"),
+    ("12-break", "strip", 1400, 246, 3),
     ("13-board", "solo", 1400, 550, None),
-    ("14-break", "strip", 1400, 239, "campaign"),
+    ("14-break", "strip", 1400, 239, 4),
     ("15-the-kit", "swatch", 1400, 825, None),
     ("16-in-the-feed", "phones", 1400, 788, None),
     ("17-board", "pair", 1400, 787, None),
@@ -637,10 +642,9 @@ def build():
             if kind == "key":
                 image = key_visual(w, h, campaign)
             elif kind == "strip":
-                image = strip(w, h, campaign,
-                              campaign.kicker if arg == "campaign" else campaign.line)
-                note = "a title band reading %s" % (
-                    campaign.kicker if arg == "campaign" else campaign.line)
+                label = strip_labels(campaign)[arg]
+                image = strip(w, h, campaign, label)
+                note = "a title band reading %s" % label
             elif kind == "tall":
                 image = tall_board(w, h, campaign)
             elif kind == "phones":
@@ -667,9 +671,10 @@ def build():
             elif kind in ("pair", "trio"):
                 count = 2 if kind == "pair" else 3
                 image = board(w, h, campaign, index, count)
-                note = "a board carrying the %s and %s posts" % (
-                    campaign.posts[index % len(campaign.posts)][0].lower(),
-                    campaign.posts[(index + 1) % len(campaign.posts)][0].lower())
+                note = ("a closing board, three posts in a row" if kind == "trio"
+                        else "a board carrying the %s and %s posts" % (
+                            campaign.posts[index % len(campaign.posts)][0].lower(),
+                            campaign.posts[(index + 1) % len(campaign.posts)][0].lower()))
                 index += count
             else:
                 kicker, text = campaign.posts[index % len(campaign.posts)]
