@@ -56,7 +56,7 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
             {/* Static glow instead of animated */}
             <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-primary via-orange-500 to-pink-500 blur-3xl opacity-20" />
 
-            <div className="relative p-12 md:p-16 lg:p-20 rounded-3xl border-2 border-primary/20 bg-background/90 backdrop-blur-2xl overflow-hidden">
+            <div className="relative p-8 md:p-12 lg:p-20 rounded-3xl border-2 border-primary/20 bg-background/90 backdrop-blur-2xl overflow-hidden">
               <div 
                 className="absolute inset-0 opacity-[0.03]"
                 style={{

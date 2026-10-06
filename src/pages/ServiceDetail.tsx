@@ -391,7 +391,7 @@ const ServiceDetail = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative group"
             >
-              <div className="relative p-12 md:p-16 rounded-3xl border-2 border-primary/20 bg-gradient-to-br from-primary/10 to-orange-500/10 backdrop-blur-xl text-center">
+              <div className="relative p-8 md:p-12 lg:p-16 rounded-3xl border-2 border-primary/20 bg-gradient-to-br from-primary/10 to-orange-500/10 backdrop-blur-xl text-center">
                 <div className="text-7xl md:text-8xl font-black bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent mb-4">
                   98%
                 </div>
@@ -421,7 +421,7 @@ const ServiceDetail = () => {
             {/* Static Glow */}
             <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-primary/20 via-orange-500/20 to-pink-500/20 blur-3xl opacity-40" />
 
-            <div className="relative p-12 md:p-16 rounded-3xl border-2 border-primary/20 bg-background/90 backdrop-blur-2xl">
+            <div className="relative p-8 md:p-12 lg:p-16 rounded-3xl border-2 border-primary/20 bg-background/90 backdrop-blur-2xl">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground mb-6">
                 Ready to{' '}
                 <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">
