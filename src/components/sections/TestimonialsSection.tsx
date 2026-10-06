@@ -22,11 +22,42 @@ const StarRating = ({ rating }: { rating: number }) => (
   </div>
 );
 
+/**
+ * How many cards are shown side by side: one on phones, two on tablets, three
+ * on desktop. Showing three on a phone meant three tall cards stacked on top of
+ * each other, which made the section enormous to scroll past.
+ */
+const useVisibleCount = () => {
+  const [count, setCount] = useState(() => {
+    if (typeof window === 'undefined') return 3;
+    if (window.matchMedia('(min-width: 1024px)').matches) return 3;
+    if (window.matchMedia('(min-width: 768px)').matches) return 2;
+    return 1;
+  });
+
+  useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    const tablet = window.matchMedia('(min-width: 768px)');
+    const update = () => setCount(desktop.matches ? 3 : tablet.matches ? 2 : 1);
+
+    update();
+    desktop.addEventListener('change', update);
+    tablet.addEventListener('change', update);
+    return () => {
+      desktop.removeEventListener('change', update);
+      tablet.removeEventListener('change', update);
+    };
+  }, []);
+
+  return count;
+};
+
 const TestimonialsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
+  const visibleCount = useVisibleCount();
 const isInView = useInView(sectionRef, { margin: "-200px 0px -200px 0px", once: false });
   const handleNext = useCallback(() => {
     setDirection(1);
@@ -46,17 +77,25 @@ const isInView = useInView(sectionRef, { margin: "-200px 0px -200px 0px", once: 
 
   const getVisibleTestimonials = () => {
     const visible = [];
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < visibleCount; i++) {
       const index = (currentIndex + i) % testimonials.length;
       visible.push({ ...testimonials[index], displayIndex: i });
     }
     return visible;
   };
 
+  /** Swipe left/right on touch devices. */
+  const handleDragEnd = (_: unknown, info: { offset: { x: number }; velocity: { x: number } }) => {
+    const swipe = Math.abs(info.offset.x) * info.velocity.x;
+    if (info.offset.x < -60 || swipe < -500) handleNext();
+    else if (info.offset.x > 60 || swipe > 500) handlePrev();
+  };
+
+  // Slide in from just off the card, not from 1000px away.
   const slideVariants = {
-    enter: (direction: number) => ({ x: direction > 0 ? 1000 : -1000, opacity: 0, scale: 0.8 }),
+    enter: (direction: number) => ({ x: direction > 0 ? 120 : -120, opacity: 0, scale: 0.95 }),
     center: { x: 0, opacity: 1, scale: 1 },
-    exit: (direction: number) => ({ x: direction > 0 ? -1000 : 1000, opacity: 0, scale: 0.8 }),
+    exit: (direction: number) => ({ x: direction > 0 ? -120 : 120, opacity: 0, scale: 0.95 }),
   };
 
   return (
@@ -119,7 +158,8 @@ const isInView = useInView(sectionRef, { margin: "-200px 0px -200px 0px", once: 
         </motion.div>
 
         <div className="relative mb-16">
-          <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 z-20 pointer-events-none">
+          {/* Side arrows: desktop only. On phones they sat on top of the card. */}
+          <div className="hidden lg:block absolute left-0 right-0 top-1/2 -translate-y-1/2 z-20 pointer-events-none">
             <div className="container mx-auto px-4">
               <div className="flex justify-between items-center -mx-4 lg:-mx-8">
                 <motion.button
@@ -146,10 +186,15 @@ const isInView = useInView(sectionRef, { margin: "-200px 0px -200px 0px", once: 
             </div>
           </div>
 
-          <div 
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+          <motion.div
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 touch-pan-y"
             onMouseEnter={() => setIsAutoPlaying(false)}
             onMouseLeave={() => setIsAutoPlaying(true)}
+            drag={visibleCount === 1 ? 'x' : false}
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.15}
+            onDragStart={() => setIsAutoPlaying(false)}
+            onDragEnd={handleDragEnd}
           >
             <AnimatePresence initial={false} custom={direction} mode="popLayout">
               {getVisibleTestimonials().map((testimonial) => (
@@ -230,9 +275,21 @@ const isInView = useInView(sectionRef, { margin: "-200px 0px -200px 0px", once: 
                 </motion.div>
               ))}
             </AnimatePresence>
-          </div>
+          </motion.div>
 
-          <div className="flex justify-center items-center gap-2 mt-12">
+          {/* Controls: arrows sit beside the dots below the cards until desktop. */}
+          <div className="flex justify-center items-center gap-4 mt-8 lg:mt-12">
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={handlePrev}
+              onFocus={() => setIsAutoPlaying(false)}
+              aria-label="Previous testimonial"
+              className="lg:hidden w-11 h-11 rounded-xl bg-gradient-to-br from-primary to-orange-600 border-2 border-primary/30 shadow-lg shadow-primary/40 flex items-center justify-center flex-shrink-0"
+            >
+              <ChevronLeft className="w-6 h-6 text-primary-foreground" />
+            </motion.button>
+
+            <div className="flex justify-center items-center gap-2">
             {testimonials.map((_, index) => (
               <motion.button
                 key={index}
@@ -243,6 +300,8 @@ const isInView = useInView(sectionRef, { margin: "-200px 0px -200px 0px", once: 
                 }}
                 whileHover={{ scale: 1.3 }}
                 whileTap={{ scale: 0.9 }}
+                aria-label={`Show testimonial ${index + 1}`}
+                aria-current={index === currentIndex}
                 className={`rounded-full transition-all duration-300 ${
                   index === currentIndex
                     ? 'w-10 h-3 bg-gradient-to-r from-primary to-orange-500 shadow-lg shadow-primary/50'
@@ -250,6 +309,17 @@ const isInView = useInView(sectionRef, { margin: "-200px 0px -200px 0px", once: 
                 }`}
               />
             ))}
+            </div>
+
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={handleNext}
+              onFocus={() => setIsAutoPlaying(false)}
+              aria-label="Next testimonial"
+              className="lg:hidden w-11 h-11 rounded-xl bg-gradient-to-br from-orange-600 to-pink-600 border-2 border-orange-500/30 shadow-lg shadow-orange-500/40 flex items-center justify-center flex-shrink-0"
+            >
+              <ChevronRight className="w-6 h-6 text-white" />
+            </motion.button>
           </div>
         </div>
 
