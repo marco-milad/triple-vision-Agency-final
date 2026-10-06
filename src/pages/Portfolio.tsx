@@ -131,7 +131,7 @@ const Portfolio = () => {
                     <div className="relative aspect-[4/3] overflow-hidden">
                       <ProjectImage
                         src={project.cover}
-                        alt={`${project.title} for ${project.client}`}
+                        alt={project.coverAlt ?? `${project.title} for ${project.client}`}
                         label={project.client}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />

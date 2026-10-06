@@ -4,14 +4,21 @@
  * The clients and the services delivered for them are real: both come from the
  * Company Profile 2026 (pages 21-40).
  *
- * TODO(client): the imagery and the one-line summaries are placeholders so the
- * layout can be reviewed. Replace `cover` and `gallery` with the original
+ * The web development projects carry their real screenshots, copy and links.
+ *
+ * TODO(client): for the remaining work the imagery and one-line summaries are
+ * placeholders so the layout can be reviewed. Replace `cover` and `gallery` with the original
  * artwork, `video` with the real links, and approve the copy. Until an image
  * is supplied the UI renders a branded placeholder block rather than borrowed
  * stock photography.
  */
 
 import { services } from './services';
+
+export interface GalleryImage {
+  src: string;
+  alt: string;
+}
 
 export interface Project {
   slug: string;
@@ -20,12 +27,16 @@ export interface Project {
   /** Service slugs this work belongs to — drives the filters and service pages. */
   services: string[];
   industry: string;
-  /** TODO(client): placeholder copy. */
   summary: string;
   /** null until the real artwork arrives. */
   cover: string | null;
-  gallery: string[];
+  /** Written alt text for the cover, where we have it. */
+  coverAlt?: string;
+  gallery: GalleryImage[];
   video: string | null;
+  year?: string;
+  /** Public URL, when the work is live and may be linked. */
+  liveUrl?: string | null;
   featured?: boolean;
 }
 
@@ -222,17 +233,122 @@ export const projects: Project[] = [
     video: null,
   },
   {
-    slug: 'diagnostics-platform',
-    title: 'Diagnostics Group Platform',
-    // TODO(client): confirm the client name and the live URL.
-    client: 'Diagnostics Group',
+    slug: 'mm-bags',
+    title: 'M.M Bags',
+    client: 'M.M Bags',
     services: ['web-development'],
-    industry: 'Healthcare',
-    summary: 'A responsive platform covering diagnostics across Egypt, Saudi Arabia and Jordan.',
-    cover: null,
-    gallery: [],
+    industry: 'Retail & E-commerce',
+    year: '2026',
+    summary: 'A bilingual storefront and the operations system behind it — inventory, POS, suppliers, purchase orders, returns and reporting — built for a luggage retailer selling in Egypt.',
+    liveUrl: null,
+    cover: '/work/mm-bags/storefront-ar.webp',
+    coverAlt: 'M.M Bags storefront home page in Arabic, right-to-left, with a navy hero and the headline \'travel smart, travel in style\'',
+    gallery: [
+      { src: '/work/mm-bags/admin-pos.webp', alt: 'Point of sale screen in Arabic with a payment panel on one side and a searchable product grid on the other' },
+      { src: '/work/mm-bags/admin-products.webp', alt: 'Products admin in Arabic listing items with thumbnails, prices, stock levels and active toggles' },
+      { src: '/work/mm-bags/admin-search.webp', alt: 'Analytics screen in Arabic showing search counts, a zero-result percentage, and tables of terms customers searched for with and without results' },
+      { src: '/work/mm-bags/storefront-en.webp', alt: 'English storefront home page, left-to-right, with the headline \'travel smart, travel in style\'' },
+      { src: '/work/mm-bags/mobile-menu.webp', alt: 'Mobile navigation sheet in Arabic showing collections with product counts and account links' },
+      { src: '/work/mm-bags/m-catalog.webp', alt: 'Catalogue on a phone in Arabic, two products per row with prices' },
+      { src: '/work/mm-bags/categories.webp', alt: 'Collections landing page in Arabic with a dark hero and category cards' },
+    ],
     video: null,
     featured: true,
+  },
+  {
+    slug: 'gold-jewelry-erp',
+    title: 'Mogohrat Al-Gabaly',
+    client: 'Mogohrat Al-Gabaly',
+    services: ['web-development'],
+    industry: 'Jewelry Retail',
+    year: '2026',
+    summary: 'A full operations system for a gold shop: daily karat pricing, serialized per-piece inventory, a point of sale that prices live, wholesale credit ledgers, buy-back of old gold, and Arabic documents that print correctly.',
+    liveUrl: 'https://mogohrat-lotfy.vercel.app',
+    cover: '/work/gold-jewelry-erp/prices.webp',
+    coverAlt: 'Daily gold pricing screen in Arabic showing buy and sell prices per gram for karats 24, 22, 21, 18 and 14, with the update form below',
+    gallery: [
+      { src: '/work/gold-jewelry-erp/sale-receipt.webp', alt: 'Sale detail screen in Arabic showing invoice lines, totals and a return action' },
+      { src: '/work/gold-jewelry-erp/buyback.webp', alt: 'Buy-back screen in Arabic with a purchase form and cards showing the scrap pool held per karat' },
+      { src: '/work/gold-jewelry-erp/wholesale.webp', alt: 'Wholesale customer list in Arabic showing amounts withdrawn, paid and still owed per trader' },
+      { src: '/work/gold-jewelry-erp/suppliers.webp', alt: 'Supplier ledger in Arabic showing totals purchased, paid and still owed' },
+      { src: '/work/gold-jewelry-erp/coins.webp', alt: 'Gold coin pricing screen in Arabic listing coin types with their karat, weight and price' },
+      { src: '/work/gold-jewelry-erp/activity.webp', alt: 'Audit log in Arabic listing operations with the user, action type and timestamp' },
+      { src: '/work/gold-jewelry-erp/statement.webp', alt: 'Printable Arabic account statement showing the shop name, customer, a dated ledger with debit, credit and running balance columns, a closing balance and two signature lines' },
+      { src: '/work/gold-jewelry-erp/reports.webp', alt: 'Daily closing report in Arabic with headline figures, cash drawer reconciliation, payment method breakdown and the day\'s sales' },
+      { src: '/work/gold-jewelry-erp/m-receiving.webp', alt: 'Receiving screen on a phone, where the wide desktop entry grid becomes one labelled card per piece' },
+      { src: '/work/gold-jewelry-erp/m-pos.webp', alt: 'Point of sale on a phone in Arabic, with search, cart, payment method and totals stacked vertically' },
+      { src: '/work/gold-jewelry-erp/m-buyback.webp', alt: 'Buy-back on a phone in Arabic, with the purchase lines and the scrap pool per karat as stacked cards' },
+      { src: '/work/gold-jewelry-erp/designs.webp', alt: 'Categories and designs screen in Arabic with default making charges per design' },
+    ],
+    video: null,
+  },
+  {
+    slug: 'ray-lab',
+    title: 'Ray Lab Group',
+    client: 'Ray Lab Group',
+    services: ['web-development'],
+    industry: 'Healthcare',
+    year: '2026',
+    summary: 'A corporate platform for a multinational diagnostic healthcare group: eight brands across three countries, an investor section with its own data, and an interactive map of the branch network — shipped without a server.',
+    liveUrl: 'https://raylab.health',
+    cover: '/work/ray-lab/network-hero.webp',
+    coverAlt: 'Ray Lab Group network page headed \'Diagnostic coverage across MENA\', with cards showing 78+ branches, 3 countries and 6 brands',
+    gallery: [
+      { src: '/work/ray-lab/brands.webp', alt: 'Directory grid of eight healthcare brand cards, each with a coloured top border, logo, country, branch count and founding year' },
+      { src: '/work/ray-lab/physicians.webp', alt: 'Physicians section showing a four-step referral flow: refer, match, report, deliver' },
+      { src: '/work/ray-lab/investors.webp', alt: 'Investor relations landing section with headline statistics and a row of tabs' },
+      { src: '/work/ray-lab/roadmap.webp', alt: 'Expansion roadmap timeline showing staged growth milestones with status markers' },
+      { src: '/work/ray-lab/partners.webp', alt: 'Technology partners section listing major diagnostic equipment manufacturers' },
+      { src: '/work/ray-lab/financials.webp', alt: 'Investor performance cards showing operating revenue, annual exams, lab tests and new branches' },
+      { src: '/work/ray-lab/map.webp', alt: 'Interactive map of Egypt with clustered teal branch markers and a row of brand filter tabs above it' },
+      { src: '/work/ray-lab/reach.webp', alt: 'Network summary cards showing 78+ branches, 6 brands, 3 operating markets and 1.6M+ annual exams' },
+      { src: '/work/ray-lab/m-home.webp', alt: 'Ray Lab Group home page on a phone, with the group headline and audience entry points' },
+      { src: '/work/ray-lab/m-physicians.webp', alt: 'Physician referral steps on a phone, stacked as individual cards' },
+      { src: '/work/ray-lab/m-partners.webp', alt: 'Technology partner cards stacked on a phone' },
+    ],
+    video: null,
+    featured: true,
+  },
+  {
+    slug: 'ojos-studio',
+    title: 'OJOS Studio',
+    client: 'OJOS Studio',
+    services: ['web-development'],
+    industry: 'Photography Studio',
+    year: '2026',
+    summary: 'A media-heavy studio site where the imagery is the product: a Cloudinary-driven image pipeline, one route serving four different media experiences, and booking that works without a backend.',
+    liveUrl: null,
+    cover: '/work/ojos-studio/home.webp',
+    coverAlt: 'OJOS Studio home page with the headline \'It\'s more than a photo. It\'s art.\' beside a bridal portrait',
+    gallery: [
+      { src: '/work/ojos-studio/portraits.webp', alt: 'Portraits category page with a header and a row of portrait thumbnails' },
+      { src: '/work/ojos-studio/film.webp', alt: 'Cinematic Film category page with a headline and a video player card' },
+      { src: '/work/ojos-studio/events.webp', alt: 'Events category page showing a header image and a grid of event photographs' },
+      { src: '/work/ojos-studio/casual.webp', alt: 'Casual category page with a black-and-white header image and a grid of photographs' },
+      { src: '/work/ojos-studio/m-home.webp', alt: 'OJOS Studio home page on a phone, with the studio name, a bridal portrait and the booking call to action' },
+    ],
+    video: null,
+  },
+  {
+    slug: 'brandkey',
+    title: 'Brand Key Advertising',
+    client: 'Brand Key Advertising',
+    services: ['web-development'],
+    industry: 'Signage & Printing',
+    year: '2026',
+    summary: 'A bilingual, Arabic-first site for a Saudi signage company, built entirely from the company\'s own un-captioned photo archive — where the hard part was deciding what could honestly be said about each photograph.',
+    liveUrl: null,
+    cover: '/work/brandkey/home-ar.webp',
+    coverAlt: 'Brand Key home page in Arabic, right-to-left, over a night photograph of an illuminated glass bank facade in Jeddah',
+    gallery: [
+      { src: '/work/brandkey/work.webp', alt: 'The work page in Arabic, showing category filters and a grid of project cards with badges reading plus two, plus four and plus nine extra frames' },
+      { src: '/work/brandkey/home-en.webp', alt: 'The same Brand Key home page in English, left-to-right, with the headline and calls to action mirrored to the other side' },
+      { src: '/work/brandkey/project.webp', alt: 'A project detail page in Arabic showing one signage job with its photographs and a description of the work' },
+      { src: '/work/brandkey/services.webp', alt: 'The services page in Arabic listing the workshop\'s service groups with photographs' },
+      { src: '/work/brandkey/printing.webp', alt: 'The printing catalogue page in Arabic, a grid of printed product cards each with an order button' },
+      { src: '/work/brandkey/m-home.webp', alt: 'The Brand Key home page on a phone in Arabic, with the facade photograph and the quote request button' },
+    ],
+    video: null,
   },
 ];
 

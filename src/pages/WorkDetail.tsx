@@ -1,6 +1,6 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Sparkles } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Sparkles, ExternalLink } from 'lucide-react';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 import ProjectImage from '@/components/ProjectImage';
@@ -59,7 +59,7 @@ const WorkDetail = () => {
             </h1>
             <p className="text-muted-foreground text-lg md:text-xl mb-8">{project.summary}</p>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               {projectServices.map((service) => (
                 <Link
                   key={service.slug}
@@ -69,6 +69,18 @@ const WorkDetail = () => {
                   {service.title}
                 </Link>
               ))}
+
+              {project.liveUrl && (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary to-orange-500 text-primary-foreground text-sm font-bold hover:opacity-90 transition-opacity"
+                >
+                  Visit live site
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              )}
             </div>
           </motion.div>
         </div>
@@ -85,7 +97,7 @@ const WorkDetail = () => {
           >
             <ProjectImage
               src={project.cover}
-              alt={`${project.title} for ${project.client}`}
+              alt={project.coverAlt ?? `${project.title} for ${project.client}`}
               label={`${project.client} — cover artwork`}
               size="hero"
               className="w-full h-full object-cover"
@@ -101,7 +113,9 @@ const WorkDetail = () => {
             {[
               { label: 'Client', value: project.client },
               { label: 'Industry', value: project.industry },
-              { label: 'Services', value: projectServices.map((service) => service.title).join(', ') },
+              project.year
+                ? { label: 'Year', value: project.year }
+                : { label: 'Services', value: projectServices.map((service) => service.title).join(', ') },
             ].map((fact) => (
               <div
                 key={fact.label}
@@ -126,22 +140,25 @@ const WorkDetail = () => {
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {(project.gallery.length > 0 ? project.gallery : [null, null, null, null]).map((image, index) => (
-              <motion.div
-                key={index}
+            {(project.gallery.length > 0
+              ? project.gallery
+              : Array.from({ length: 4 }, () => null)
+            ).map((image, index) => (
+              <motion.figure
+                key={image?.src ?? index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="relative aspect-[4/3] rounded-2xl overflow-hidden border-2 border-border/50"
+                className="relative aspect-[16/10] rounded-2xl overflow-hidden border-2 border-border/50 bg-background-secondary"
               >
                 <ProjectImage
-                  src={image}
-                  alt={`${project.title} — image ${index + 1}`}
+                  src={image?.src ?? null}
+                  alt={image?.alt ?? `${project.title} — image ${index + 1}`}
                   label={`Artwork ${index + 1}`}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-top"
                 />
-              </motion.div>
+              </motion.figure>
             ))}
           </div>
         </div>

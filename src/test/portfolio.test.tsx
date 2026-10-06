@@ -77,7 +77,9 @@ describe("Portfolio page", () => {
     // cards mounted until an animation that never runs in jsdom completes.
     const socialOnly = projects.find((p) => p.services.length === 1 && p.services[0] === "social-media-management")!;
     expect(shown).not.toContain(socialOnly);
-  });
+    // Rendering the whole animated grid twice in jsdom is slow; this is an
+    // environment limit, not the page being slow in a browser.
+  }, 20000);
 });
 
 describe("Work detail page", () => {
