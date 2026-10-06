@@ -124,18 +124,37 @@ describe("Work detail page", () => {
     }
   });
 
-  it("runs stacked work edge to edge, cover first and in order", () => {
-    const project = projects.find((p) => p.galleryStyle === "stacked" && p.gallery.length > 0)!;
+  it.each(["deck", "scroll", "feed"] as const)(
+    "runs a %s campaign edge to edge, cover first and in order",
+    (model) => {
+      const project = projects.find((p) => p.campaignStyle === model)!;
+      expect(project).toBeDefined();
+      const { container } = renderAt(`/work/${project.slug}`);
+
+      const artwork = Array.from(container.querySelectorAll('img[src^="/work/"]'));
+      expect(artwork.map((img) => img.getAttribute("src"))).toEqual([
+        project.cover,
+        ...project.gallery.map((image) => image.src),
+      ]);
+    },
+  );
+
+  it("gives every social project one of the three models", () => {
+    const social = projects.filter((p) => p.services.includes("social-media-management"));
+    expect(social.length).toBeGreaterThan(0);
+    for (const project of social) {
+      expect(["deck", "scroll", "feed"]).toContain(project.campaignStyle);
+    }
+  });
+
+  it("sizes every piece of a campaign so nothing shifts as it loads", () => {
+    const project = projects.find((p) => p.campaignStyle && p.gallery.length > 0)!;
     const { container } = renderAt(`/work/${project.slug}`);
 
-    // The layout's own logos share the page, so only the artwork is compared.
+    // The layout's own logos share the page, so only the artwork is checked.
     const artwork = Array.from(container.querySelectorAll('img[src^="/work/"]'));
-    expect(artwork.map((img) => img.getAttribute("src"))).toEqual([
-      project.cover,
-      ...project.gallery.map((image) => image.src),
-    ]);
+    expect(artwork.length).toBeGreaterThan(0);
 
-    // Every piece carries its own size, so nothing shifts as the run loads.
     for (const img of artwork) {
       expect(img.getAttribute("width")).toBeTruthy();
       expect(img.getAttribute("height")).toBeTruthy();

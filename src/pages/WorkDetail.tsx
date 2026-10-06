@@ -32,7 +32,7 @@ const WorkDetail = () => {
    * side, then every piece full width, in order, at its own shape and with
    * nothing between.
    */
-  const stacked = project.galleryStyle === 'stacked';
+  const stacked = Boolean(project.campaignStyle);
   const facts = project.facts ?? [
     { label: 'Client', value: project.client },
     { label: 'Industry', value: project.industry },
