@@ -6,41 +6,11 @@ import { ArrowRight, CheckCircle, Sparkles } from 'lucide-react';
 import { useContact } from '@/contexts/ContactContext';
 import { services, getServiceBySlug, legacyServiceRedirects } from '@/data/services';
 import { company, yearsInBusiness } from '@/data/company';
+import { projectsByService } from '@/data/portfolio';
+import ProjectImage from '@/components/ProjectImage';
 import NotFound from '@/pages/NotFound';
 import Seo from '@/components/Seo';
 
-/**
- * TODO(client): placeholder stock imagery carried over from the old build.
- * Replace with the real projects from the Company Profile once the original
- * assets arrive. Services added in 2026 deliberately have no gallery yet.
- */
-const LEGACY_PORTFOLIO: Record<string, { title: string; image: string }[]> = {
-  'media-production': [
-    { title: 'Luxe Fashion Film', image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&q=80' },
-      { title: 'Tech Product Launch', image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&q=80' },
-      { title: 'Brand Documentary', image: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?w=800&q=80' },
-  ],
-  'event-management': [
-    { title: 'Tech Summit 2024', image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80' },
-      { title: 'Product Launch Gala', image: 'https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&q=80' },
-      { title: 'Music Festival', image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=80' },
-  ],
-  'social-media-management': [
-    { title: 'Wellness App Campaign', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80' },
-      { title: 'E-commerce Growth', image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80' },
-      { title: 'B2B Lead Gen', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80' },
-  ],
-  'branding': [
-    { title: 'Artisan Coffee Rebrand', image: 'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&q=80' },
-      { title: 'Fintech Identity', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80' },
-      { title: 'Luxury Packaging', image: 'https://images.unsplash.com/photo-1605289355680-75fb41239154?w=800&q=80' },
-  ],
-  'web-development': [
-    { title: 'E-Commerce Platform', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80' },
-      { title: 'SaaS Dashboard', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80' },
-      { title: 'Portfolio Site', image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&q=80' },
-  ],
-};
 
 const ServiceDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -54,7 +24,7 @@ const ServiceDetail = () => {
   if (!service) return <NotFound />;
 
   const Icon = service.icon;
-  const portfolio = LEGACY_PORTFOLIO[service.slug] ?? [];
+  const portfolio = projectsByService(service.slug);
   const otherServices = services.filter((s) => s.slug !== slug);
 
   return (
@@ -312,26 +282,30 @@ const ServiceDetail = () => {
           <div className="grid md:grid-cols-3 gap-8">
             {portfolio.map((project, index) => (
               <motion.div
-                key={project.title}
+                key={project.slug}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -10 }}
-                className="group relative overflow-hidden rounded-2xl aspect-[4/3] cursor-pointer border-2 border-border/50 hover:border-primary/50 transition-all duration-300"
+                className="group relative overflow-hidden rounded-2xl border-2 border-border/50 hover:border-primary/50 transition-all duration-300"
               >
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent" />
-                <div className="absolute inset-0 p-6 flex items-end">
-                  <h3 className="text-lg md:text-xl font-black text-foreground group-hover:text-primary transition-colors">
-                    {project.title}
-                  </h3>
-                </div>
+                <Link to={`/work/${project.slug}`} className="block">
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <ProjectImage
+                      src={project.cover}
+                      alt={`${project.title} for ${project.client}`}
+                      label={project.client}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="p-5 bg-background/60 backdrop-blur-sm">
+                    <h3 className="text-lg font-black text-foreground group-hover:text-primary transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm">{project.client}</p>
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </div>
