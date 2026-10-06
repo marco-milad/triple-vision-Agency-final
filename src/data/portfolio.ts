@@ -72,14 +72,20 @@ export interface Project {
   /** Heading above the image stack — "The brand book" rather than "More screens". */
   galleryHeading?: string;
   /**
-   * Which of the three campaign models this project follows. Setting it moves
-   * the brief beside the title and runs the artwork one piece per row at its
-   * own shape. The models differ in the work itself, not in the page:
+   * How the finished work is presented. Setting it moves the brief beside the
+   * title and runs the artwork one piece per row at its own shape, rather than
+   * breaking it up into written sections.
+   *
+   * The campaign models differ in the work itself, not in the page:
    *   'deck'   a designed presentation, boards on a steady band height
    *   'scroll' a long narrative with breather strips and a centrepiece
    *   'feed'   the posts as published, a banner and then the squares
+   *
+   * 'board' is the branding model, and it does differ in the page: the boards
+   * run the full width of the window, flush against each other, because each
+   * one already carries its own headings and copy.
    */
-  campaignStyle?: 'feed' | 'deck' | 'scroll';
+  caseStudyStyle?: 'feed' | 'deck' | 'scroll' | 'board';
   /** Artwork and names are stand-ins; the page shape is final. */
   placeholder?: boolean;
 }
@@ -99,7 +105,7 @@ export const projects: Project[] = [
       { label: 'Design', value: 'Art Direction, Graphic Design' },
       { label: 'Client', value: 'Dr. Bishoy Ghabrial Clinic' },
     ],
-    campaignStyle: 'scroll',
+    caseStudyStyle: 'scroll',
     placeholder: true,
     cover: '/work/dr-bishoy-ghabrial-clinic/01-key-visual.webp',
     coverAlt: 'Dr. Bishoy Ghabrial campaign, the opening key visual, the wordmark over four posts from the set',
@@ -144,7 +150,7 @@ export const projects: Project[] = [
       { label: 'Design', value: 'Art Direction, Graphic Design' },
       { label: 'Client', value: 'Cairo Scan Specialized Clinics' },
     ],
-    campaignStyle: 'deck',
+    caseStudyStyle: 'deck',
     placeholder: true,
     cover: '/work/cairo-scan/01-key-visual.webp',
     coverAlt: 'Cairo Scan campaign, the opening key visual, the wordmark over four posts from the set',
@@ -181,7 +187,7 @@ export const projects: Project[] = [
       { label: 'Design', value: 'Art Direction, Graphic Design' },
       { label: 'Client', value: 'Technoscan Specialized Clinics' },
     ],
-    campaignStyle: 'deck',
+    caseStudyStyle: 'deck',
     placeholder: true,
     cover: '/work/technoscan/01-key-visual.webp',
     coverAlt: 'Technoscan campaign, the opening key visual, the wordmark over four posts from the set',
@@ -218,7 +224,7 @@ export const projects: Project[] = [
       { label: 'Design', value: 'Art Direction, Graphic Design' },
       { label: 'Client', value: 'SOLVE' },
     ],
-    campaignStyle: 'feed',
+    caseStudyStyle: 'feed',
     placeholder: true,
     cover: '/work/solve-clinic/01-banner.webp',
     coverAlt: 'SOLVE campaign, the campaign banner',
@@ -254,7 +260,7 @@ export const projects: Project[] = [
       { label: 'Design', value: 'Art Direction, Graphic Design' },
       { label: 'Client', value: 'Dr. Bichoy Magdi Dental Clinic' },
     ],
-    campaignStyle: 'feed',
+    caseStudyStyle: 'feed',
     placeholder: true,
     cover: '/work/dr-bichoy-magdi/01-banner.webp',
     coverAlt: 'Dr. Bichoy Magdi campaign, the campaign banner',
@@ -290,7 +296,7 @@ export const projects: Project[] = [
       { label: 'Design', value: 'Art Direction, Graphic Design' },
       { label: 'Client', value: 'Diet Care' },
     ],
-    campaignStyle: 'feed',
+    caseStudyStyle: 'feed',
     placeholder: true,
     cover: '/work/diet-care/01-banner.webp',
     coverAlt: 'Diet Care campaign, the campaign banner',
@@ -326,7 +332,7 @@ export const projects: Project[] = [
       { label: 'Design', value: 'Art Direction, Graphic Design' },
       { label: 'Client', value: 'Dr. Fady Fawzy Ebied' },
     ],
-    campaignStyle: 'deck',
+    caseStudyStyle: 'deck',
     placeholder: true,
     cover: '/work/dr-fady-fawzy/01-key-visual.webp',
     coverAlt: 'Dr. Fady Fawzy campaign, the opening key visual, the wordmark over four posts from the set',
@@ -363,7 +369,7 @@ export const projects: Project[] = [
       { label: 'Design', value: 'Art Direction, Graphic Design' },
       { label: 'Client', value: 'PAX Dental House' },
     ],
-    campaignStyle: 'deck',
+    caseStudyStyle: 'deck',
     placeholder: true,
     cover: '/work/pax-dental-house/01-key-visual.webp',
     coverAlt: 'PAX campaign, the opening key visual, the wordmark over four posts from the set',
@@ -401,7 +407,7 @@ export const projects: Project[] = [
       { label: 'Design', value: 'Art Direction, Graphic Design' },
       { label: 'Client', value: 'Neurology & Psychiatry Clinic, Kafr El-Sheikh' },
     ],
-    campaignStyle: 'feed',
+    caseStudyStyle: 'feed',
     placeholder: true,
     cover: '/work/neurology-clinic/01-banner.webp',
     coverAlt: 'Neurology Clinic campaign, the campaign banner',
@@ -437,7 +443,7 @@ export const projects: Project[] = [
       { label: 'Design', value: 'Art Direction, Graphic Design' },
       { label: 'Client', value: 'One Stop by Gresco' },
     ],
-    campaignStyle: 'scroll',
+    caseStudyStyle: 'scroll',
     placeholder: true,
     cover: '/work/one-stop-gresco/01-key-visual.webp',
     coverAlt: 'One Stop campaign, the opening key visual, the wordmark over four posts from the set',
@@ -482,7 +488,7 @@ export const projects: Project[] = [
       { label: 'Design', value: 'Art Direction, Graphic Design' },
       { label: 'Client', value: 'Global Auto Parts Store' },
     ],
-    campaignStyle: 'deck',
+    caseStudyStyle: 'deck',
     placeholder: true,
     cover: '/work/global-auto-parts/01-key-visual.webp',
     coverAlt: 'Global campaign, the opening key visual, the wordmark over four posts from the set',
@@ -519,7 +525,7 @@ export const projects: Project[] = [
       { label: 'Design', value: 'Art Direction, Graphic Design' },
       { label: 'Client', value: 'Mohamed Fouda Law & Legal Consultations' },
     ],
-    campaignStyle: 'deck',
+    caseStudyStyle: 'deck',
     placeholder: true,
     cover: '/work/mohamed-fouda-law/01-key-visual.webp',
     coverAlt: 'Mohamed Fouda campaign, the opening key visual, the wordmark over four posts from the set',
@@ -556,7 +562,7 @@ export const projects: Project[] = [
       { label: 'Design', value: 'Art Direction, Graphic Design' },
       { label: 'Client', value: 'Nourish Cosmetics' },
     ],
-    campaignStyle: 'feed',
+    caseStudyStyle: 'feed',
     placeholder: true,
     cover: '/work/nourish-cosmetics/01-banner.webp',
     coverAlt: 'Nourish campaign, the campaign banner',
@@ -592,7 +598,7 @@ export const projects: Project[] = [
       { label: 'Design', value: 'Art Direction, Graphic Design' },
       { label: 'Client', value: 'TBG — Train Brain To Gain' },
     ],
-    campaignStyle: 'feed',
+    caseStudyStyle: 'feed',
     placeholder: true,
     cover: '/work/tbg-train-brain-to-gain/01-banner.webp',
     coverAlt: 'TBG campaign, the campaign banner',
@@ -1240,6 +1246,50 @@ export const projects: Project[] = [
       { src: '/work/brandkey/services.webp', alt: 'The services page in Arabic listing the workshop\'s service groups with photographs', width: 1600, height: 944 },
       { src: '/work/brandkey/printing.webp', alt: 'The printing catalogue page in Arabic, a grid of printed product cards each with an order button', width: 1600, height: 944 },
       { src: '/work/brandkey/m-home.webp', alt: 'The Brand Key home page on a phone in Arabic, with the facade photograph and the quote request button', width: 760, height: 1299 },
+    ],
+    video: null,
+  },
+  /**
+   * The board model, taken from the creativetwinkles.net case study: nine
+   * full-bleed boards and nothing else. That page has no title, no brief and no
+   * body copy in the HTML at all - every headline and paragraph is set inside
+   * the artwork. We keep a heading and the brief, because a page with no
+   * heading is unreadable to a screen reader and invisible to search, but the
+   * boards themselves run the full width of the window, flush, as they do
+   * there.
+   *
+   * TODO(client): replace with the agency's own rebranding work.
+   */
+  {
+    slug: 'branding-food-group',
+    title: 'MAZRA — Food Group Rebranding',
+    client: 'MAZRA (sample brand)',
+    services: ['branding'],
+    category: 'Rebranding & brand boards',
+    industry: 'Food & FMCG',
+    summary:
+      'A rebranding for a food group with four category businesses under one name: the mark rebuilt on a grid, a colour for each category, the type system, the illustration kit, and the whole of it carried through packaging, stationery and outdoor.',
+    placeholder: true,
+    caseStudyStyle: 'board',
+    facts: [
+      { label: 'Task', value: 'Branding, Rebranding' },
+      { label: 'Strategy', value: 'Brand Strategy, Brand Architecture, Naming & Slogan' },
+      { label: 'Design', value: 'Logo Design, Colour & Typography, Packaging, Art Direction' },
+      { label: 'Client', value: 'MAZRA (sample brand)' },
+    ],
+    cover: '/work/branding-food-group/01-rebranding.webp',
+    coverAlt: 'MAZRA rebranding board, the opening board, the new mark over the rebranding note',
+    coverWidth: 1920,
+    coverHeight: 2144,
+    gallery: [
+      { src: '/work/branding-food-group/02-old-and-new.webp', alt: 'MAZRA rebranding board, the old mark set against the new one', width: 1920, height: 1690 },
+      { src: '/work/branding-food-group/03-visual-system.webp', alt: 'MAZRA rebranding board, the symbol on its grid and the four category lockups', width: 1920, height: 2266 },
+      { src: '/work/branding-food-group/04-slogan-and-palette.webp', alt: 'MAZRA rebranding board, the slogan, then the four category colours with their values', width: 1920, height: 2263 },
+      { src: '/work/branding-food-group/05-typography.webp', alt: 'MAZRA rebranding board, the two typefaces and their character sets', width: 1920, height: 1245 },
+      { src: '/work/branding-food-group/06-pattern.webp', alt: 'MAZRA rebranding board, the illustration kit and how colour carries across the categories', width: 1920, height: 2991 },
+      { src: '/work/branding-food-group/07-brand-imagery.webp', alt: 'MAZRA rebranding board, packaging coloured by category', width: 1920, height: 3140 },
+      { src: '/work/branding-food-group/08-look-and-feel.webp', alt: 'MAZRA rebranding board, stationery, lanyard and desk calendar', width: 1920, height: 1878 },
+      { src: '/work/branding-food-group/09-outdoor.webp', alt: 'MAZRA rebranding board, the brand outdoors, on signage and a vending unit', width: 1920, height: 1945 },
     ],
     video: null,
   },

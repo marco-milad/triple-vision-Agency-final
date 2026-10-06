@@ -1,0 +1,60 @@
+{
+ "branding-food-group": {
+  "cover": {
+   "src": "/work/branding-food-group/01-rebranding.webp",
+   "alt": "MAZRA rebranding board, the opening board, the new mark over the rebranding note",
+   "width": 1920,
+   "height": 2144
+  },
+  "gallery": [
+   {
+    "src": "/work/branding-food-group/02-old-and-new.webp",
+    "alt": "MAZRA rebranding board, the old mark set against the new one",
+    "width": 1920,
+    "height": 1690
+   },
+   {
+    "src": "/work/branding-food-group/03-visual-system.webp",
+    "alt": "MAZRA rebranding board, the symbol on its grid and the four category lockups",
+    "width": 1920,
+    "height": 2266
+   },
+   {
+    "src": "/work/branding-food-group/04-slogan-and-palette.webp",
+    "alt": "MAZRA rebranding board, the slogan, then the four category colours with their values",
+    "width": 1920,
+    "height": 2263
+   },
+   {
+    "src": "/work/branding-food-group/05-typography.webp",
+    "alt": "MAZRA rebranding board, the two typefaces and their character sets",
+    "width": 1920,
+    "height": 1245
+   },
+   {
+    "src": "/work/branding-food-group/06-pattern.webp",
+    "alt": "MAZRA rebranding board, the illustration kit and how colour carries across the categories",
+    "width": 1920,
+    "height": 2991
+   },
+   {
+    "src": "/work/branding-food-group/07-brand-imagery.webp",
+    "alt": "MAZRA rebranding board, packaging coloured by category",
+    "width": 1920,
+    "height": 3140
+   },
+   {
+    "src": "/work/branding-food-group/08-look-and-feel.webp",
+    "alt": "MAZRA rebranding board, stationery, lanyard and desk calendar",
+    "width": 1920,
+    "height": 1878
+   },
+   {
+    "src": "/work/branding-food-group/09-outdoor.webp",
+    "alt": "MAZRA rebranding board, the brand outdoors, on signage and a vending unit",
+    "width": 1920,
+    "height": 1945
+   }
+  ]
+ }
+}

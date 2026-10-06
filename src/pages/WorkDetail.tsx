@@ -32,7 +32,8 @@ const WorkDetail = () => {
    * side, then every piece full width, in order, at its own shape and with
    * nothing between.
    */
-  const stacked = Boolean(project.campaignStyle);
+  const stacked = Boolean(project.caseStudyStyle);
+  const board = project.caseStudyStyle === 'board';
   const facts = project.facts ?? [
     { label: 'Client', value: project.client },
     { label: 'Industry', value: project.industry },
@@ -145,11 +146,20 @@ const WorkDetail = () => {
         </div>
       </section>
 
-      {/* The campaign, run end to end with nothing between the pieces */}
+      {/* The work, run end to end with nothing between the pieces */}
       {stacked && stackedImages.length > 0 && (
         <section className="bg-background-secondary">
-          {/* One column, 8px between pieces — the gap the reference gallery uses. */}
-          <div className="mx-auto max-w-[1400px] grid gap-2">
+          {/*
+            Campaign work sits in a 1400 column with an 8px line between pieces.
+            Branding boards run the full width of the window and flush against
+            each other, because each board is already a composed spread with its
+            own headings — a column and a gap would frame what is already framed.
+          */}
+          <div
+            className={
+              board ? 'w-full grid gap-0' : 'mx-auto max-w-[1400px] grid gap-2'
+            }
+          >
             {stackedImages.map((image) => (
               <img
                 key={image.src}

@@ -124,10 +124,10 @@ describe("Work detail page", () => {
     }
   });
 
-  it.each(["deck", "scroll", "feed"] as const)(
-    "runs a %s campaign edge to edge, cover first and in order",
+  it.each(["deck", "scroll", "feed", "board"] as const)(
+    "runs %s work edge to edge, cover first and in order",
     (model) => {
-      const project = projects.find((p) => p.campaignStyle === model)!;
+      const project = projects.find((p) => p.caseStudyStyle === model)!;
       expect(project).toBeDefined();
       const { container } = renderAt(`/work/${project.slug}`);
 
@@ -143,12 +143,12 @@ describe("Work detail page", () => {
     const social = projects.filter((p) => p.services.includes("social-media-management"));
     expect(social.length).toBeGreaterThan(0);
     for (const project of social) {
-      expect(["deck", "scroll", "feed"]).toContain(project.campaignStyle);
+      expect(["deck", "scroll", "feed"]).toContain(project.caseStudyStyle);
     }
   });
 
   it("sizes every piece of a campaign so nothing shifts as it loads", () => {
-    const project = projects.find((p) => p.campaignStyle && p.gallery.length > 0)!;
+    const project = projects.find((p) => p.caseStudyStyle && p.gallery.length > 0)!;
     const { container } = renderAt(`/work/${project.slug}`);
 
     // The layout's own logos share the page, so only the artwork is checked.
