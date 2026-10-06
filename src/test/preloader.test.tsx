@@ -59,6 +59,28 @@ describe("Preloader", () => {
     expect(window.sessionStorage.getItem("preloaderShown")).toBe("true");
   });
 
+  it("finishes on its own without the visitor pressing skip", async () => {
+    vi.useFakeTimers();
+    try {
+      render(<Preloader />);
+      expect(screen.getByRole("status", { name: /loading/i })).toBeInTheDocument();
+
+      // Step in small slices: each phase schedules its timer from an effect,
+      // which only runs when act flushes, so one big jump would skip past them.
+      for (let elapsed = 0; elapsed < 6000; elapsed += 100) {
+        if (!screen.queryByRole("status")) break;
+        await act(async () => {
+          await vi.advanceTimersByTimeAsync(100);
+        });
+      }
+
+      expect(screen.queryByRole("status")).not.toBeInTheDocument();
+      expect(document.body.style.overflow).toBe("");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it("normalises every stroke so the drawing finishes when its animation does", () => {
     const { container } = render(<Preloader />);
     const paths = container.querySelectorAll("path.sp");

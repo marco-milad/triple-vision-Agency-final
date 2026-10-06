@@ -154,6 +154,21 @@ const Preloader = () => {
     setPhase('done');
   }, [clearTimers]);
 
+  // Each phase owns its own timer. Keeping them in one effect keyed on `phase`
+  // meant the cleanup wiped the timers the previous phase had just scheduled,
+  // which left the logo on screen until the visitor pressed Skip.
+  useEffect(() => {
+    if (phase !== 'reveal') return;
+    const id = setTimeout(() => setPhase('fadeout'), TIMINGS.HOLD_MS);
+    return () => clearTimeout(id);
+  }, [phase]);
+
+  useEffect(() => {
+    if (phase !== 'fadeout') return;
+    const id = setTimeout(finish, TIMINGS.FADE_MS);
+    return () => clearTimeout(id);
+  }, [phase, finish]);
+
   // Mark the session as soon as the intro starts, so a reload mid-animation
   // does not replay it.
   useEffect(() => {
@@ -197,8 +212,6 @@ const Preloader = () => {
       if (revealed) return;
       revealed = true;
       setPhase('reveal');
-      addTimer(() => setPhase('fadeout'), TIMINGS.HOLD_MS);
-      addTimer(finish, TIMINGS.HOLD_MS + TIMINGS.FADE_MS);
     };
 
     const logo = new Image();
