@@ -33,8 +33,10 @@ const TIMINGS = {
   MIN_MS: 900,
   /** Reveal by now even if assets are still loading. */
   MAX_MS: 2200,
-  /** How long the finished logo is held. */
-  HOLD_MS: 450,
+  /** The light sweep that swaps the drawing for the real logo. */
+  WIPE_MS: 600,
+  /** Reveal phase: the sweep, then a beat on the finished logo. */
+  HOLD_MS: 850,
   /** Must match the CSS transition on the overlay. */
   FADE_MS: 400,
 } as const;
@@ -92,6 +94,25 @@ const STYLES = (() => {
 
   return `
     @keyframes svgDraw { to { stroke-dashoffset: 0; } }
+
+    /* A single light sweep converts the sketch into the real logo: the logo is
+       uncovered from the left while the drawing is wiped away behind it. */
+    @keyframes logoWipeIn {
+      from { clip-path: inset(0 100% 0 0); }
+      to   { clip-path: inset(0 0 0 0); }
+    }
+    @keyframes drawWipeOut {
+      from { clip-path: inset(0 0 0 0); }
+      to   { clip-path: inset(0 0 0 100%); }
+    }
+    /* The bar is a quarter of the container wide, so travelling 400% of its own
+       width carries it exactly across, slightly ahead of the wipe edge. */
+    @keyframes lightSweep {
+      from { transform: translateX(-100%); opacity: 0; }
+      15%  { opacity: 1; }
+      85%  { opacity: 1; }
+      to   { transform: translateX(400%); opacity: 0; }
+    }
     .sp {
       stroke: hsl(32, 100%, 50%);
       stroke-linecap: round;
@@ -271,10 +292,11 @@ const Preloader = () => {
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
           className="max-w-[85vw]"
-          style={{
-            opacity: showLogo ? 0 : 1,
-            transition: 'opacity 0.35s ease-out',
-          }}
+          style={
+            showLogo
+              ? { animation: `drawWipeOut ${TIMINGS.WIPE_MS}ms ease-in-out forwards` }
+              : { opacity: 1 }
+          }
         >
           <style>{STYLES}</style>
 
@@ -382,20 +404,38 @@ const Preloader = () => {
 
         </svg>
 
-        {/* Logo — takes over once it has loaded */}
+        {/* Logo — uncovered by the sweep once it has loaded */}
         <img
           src={LOGO_URL}
           alt=""
           width={SIZES.LOGO_WIDTH}
           height={SIZES.LOGO_HEIGHT}
           className="absolute max-w-[85vw]"
-          style={{
-            opacity: showLogo ? 1 : 0,
-            transition: 'opacity 0.45s ease-in',
-          }}
+          style={
+            showLogo
+              ? {
+                  opacity: 1,
+                  clipPath: 'inset(0 100% 0 0)',
+                  animation: `logoWipeIn ${TIMINGS.WIPE_MS}ms ease-in-out forwards`,
+                }
+              : { opacity: 0 }
+          }
           onLoad={() => setLogoReady(true)}
           onError={() => setLogoReady(true)}
         />
+
+        {/* The light itself, travelling just ahead of the wipe. */}
+        {showLogo && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 left-0 w-1/4"
+            style={{
+              background:
+                'linear-gradient(90deg, transparent 0%, hsl(32 100% 50% / 0.25) 35%, hsl(32 100% 70% / 0.55) 50%, hsl(32 100% 50% / 0.25) 65%, transparent 100%)',
+              animation: `lightSweep ${TIMINGS.WIPE_MS}ms ease-in-out forwards`,
+            }}
+          />
+        )}
       </div>
 
       {/* Skip stays available for the whole intro, not just the drawing. */}
