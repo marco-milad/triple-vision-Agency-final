@@ -4,6 +4,7 @@ import { ArrowRight, ArrowLeft, Sparkles, ExternalLink } from 'lucide-react';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 import ProjectImage from '@/components/ProjectImage';
+import Figure, { isPortrait } from '@/components/work/Figure';
 import { Button } from '@/components/ui/button';
 import { getProjectBySlug, nextProject } from '@/data/portfolio';
 import { getServiceBySlug } from '@/data/services';
@@ -21,6 +22,9 @@ const WorkDetail = () => {
   const projectServices = project.services
     .map((serviceSlug) => getServiceBySlug(serviceSlug))
     .filter((service): service is NonNullable<typeof service> => Boolean(service));
+
+  const wideShots = project.gallery.filter((image) => !isPortrait(image));
+  const phoneShots = project.gallery.filter(isPortrait);
 
   return (
     <Layout>
@@ -54,6 +58,10 @@ const WorkDetail = () => {
             transition={{ duration: 0.6 }}
             className="max-w-4xl"
           >
+            {project.category && (
+              <p className="text-primary font-semibold text-sm uppercase tracking-wider mb-4">{project.category}</p>
+            )}
+
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-4 leading-[1.1]">
               {project.title}
             </h1>
@@ -86,62 +94,64 @@ const WorkDetail = () => {
         </div>
       </section>
 
-      {/* Cover */}
-      <section className="px-6 pb-12">
-        <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="relative aspect-[16/9] rounded-3xl overflow-hidden border-2 border-border/50 shadow-2xl"
-          >
-            <ProjectImage
-              src={project.cover}
-              alt={project.coverAlt ?? `${project.title} for ${project.client}`}
-              label={`${project.client} — cover artwork`}
-              size="hero"
-              className="w-full h-full object-cover"
+      {/* Cover, at its own shape */}
+      <section className="px-6 pb-16">
+        <div className="container mx-auto max-w-5xl">
+          {project.cover ? (
+            <Figure
+              image={{
+                src: project.cover,
+                alt: project.coverAlt ?? `${project.title} for ${project.client}`,
+                width: project.coverWidth,
+                height: project.coverHeight,
+              }}
             />
-          </motion.div>
+          ) : (
+            <div className="relative aspect-[16/9] rounded-2xl overflow-hidden border-2 border-border/50">
+              <ProjectImage
+                src={null}
+                alt={`${project.title} for ${project.client}`}
+                label={`${project.client} — cover artwork`}
+                size="hero"
+                className="w-full h-full"
+              />
+            </div>
+          )}
         </div>
       </section>
 
       {/* Facts */}
-      <section className="px-6 pb-16">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <section className="px-6 pb-20">
+        <div className="container mx-auto max-w-5xl">
+          <dl className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border/50 rounded-2xl overflow-hidden border-2 border-border/50">
             {[
               { label: 'Client', value: project.client },
-              { label: project.category ? 'Type' : 'Industry', value: project.category ?? project.industry },
-              project.year
-                ? { label: 'Year', value: project.year }
-                : { label: 'Services', value: projectServices.map((service) => service.title).join(', ') },
+              { label: 'Industry', value: project.industry },
+              ...(project.year ? [{ label: 'Year', value: project.year }] : []),
+              { label: 'Services', value: projectServices.map((service) => service.title).join(', ') },
             ].map((fact) => (
-              <div
-                key={fact.label}
-                className="p-6 rounded-2xl border-2 border-border/50 bg-background/50 backdrop-blur-sm"
-              >
-                <p className="text-xs text-muted-foreground/60 font-semibold uppercase tracking-wider mb-2">
+              <div key={fact.label} className="bg-background p-5">
+                <dt className="text-xs text-muted-foreground/60 font-semibold uppercase tracking-wider mb-2">
                   {fact.label}
-                </p>
-                <p className="text-foreground font-bold">{fact.value}</p>
+                </dt>
+                <dd className="text-foreground font-bold text-sm">{fact.value}</dd>
               </div>
             ))}
-          </div>
+          </dl>
 
           {project.stack && project.stack.length > 0 && (
-            <div className="mt-6">
-              <p className="text-xs text-muted-foreground/60 font-semibold uppercase tracking-wider mb-3">Built with</p>
-              <ul className="flex flex-wrap gap-2">
-                {project.stack.map((tech) => (
-                  <li
-                    key={tech}
-                    className="px-3 py-1.5 rounded-lg bg-muted/30 border border-border/50 text-muted-foreground text-xs font-semibold"
-                  >
-                    {tech}
-                  </li>
-                ))}
-              </ul>
+            <div className="mt-6 flex flex-wrap items-center gap-2">
+              <span className="text-xs text-muted-foreground/60 font-semibold uppercase tracking-wider mr-2">
+                Built with
+              </span>
+              {project.stack.map((tech) => (
+                <span
+                  key={tech}
+                  className="px-3 py-1.5 rounded-lg bg-muted/30 border border-border/50 text-muted-foreground text-xs font-semibold"
+                >
+                  {tech}
+                </span>
+              ))}
             </div>
           )}
         </div>
@@ -151,20 +161,18 @@ const WorkDetail = () => {
       {project.sections?.map((section, index) => (
         <section
           key={`${section.type}-${index}`}
-          className={`section-padding relative overflow-hidden ${
-            index % 2 === 0
-              ? 'bg-background'
-              : 'bg-gradient-to-br from-background-secondary via-background to-background-secondary'
+          className={`py-16 md:py-24 px-6 relative ${
+            index % 2 === 1 ? 'bg-background-secondary/40' : 'bg-background'
           }`}
         >
-          <div className="container mx-auto relative z-10 max-w-5xl">
+          <div className="container mx-auto max-w-5xl">
             {section.title && (
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.5 }}
-                className="text-2xl md:text-3xl lg:text-4xl font-black text-foreground mb-6"
+                className="text-2xl md:text-3xl lg:text-4xl font-black text-foreground mb-6 max-w-3xl"
               >
                 {section.title}
               </motion.h2>
@@ -173,107 +181,101 @@ const WorkDetail = () => {
             {section.body?.map((paragraph, i) => (
               <motion.p
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.5, delay: i * 0.05 }}
-                className="text-muted-foreground text-base md:text-lg leading-relaxed mb-4 max-w-3xl"
+                className="text-muted-foreground text-base md:text-lg leading-relaxed mb-5 max-w-3xl"
               >
                 {paragraph}
               </motion.p>
             ))}
 
+            {/* Each feature sits beside the screen that shows it. */}
             {section.items && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
-                {section.items.map((item) => (
-                  <motion.div
+              <div className="mt-12 space-y-16">
+                {section.items.map((item, i) => (
+                  <div
                     key={item.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-50px' }}
-                    transition={{ duration: 0.4 }}
-                    className="rounded-2xl border-2 border-border/50 bg-background/50 backdrop-blur-sm overflow-hidden"
+                    className={`grid gap-8 items-center ${item.figure ? 'lg:grid-cols-2' : ''}`}
                   >
-                    {item.figure && (
-                      <div className="aspect-[16/10] overflow-hidden border-b-2 border-border/50 bg-background-secondary">
-                        <img
-                          src={item.figure.src}
-                          alt={item.figure.alt}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-full object-cover object-top"
-                        />
-                      </div>
-                    )}
-                    <div className="p-6">
-                      <h3 className="text-lg font-black text-foreground mb-2">{item.title}</h3>
-                      <p className="text-muted-foreground text-sm leading-relaxed">{item.body}</p>
-                    </div>
-                  </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: '-60px' }}
+                      transition={{ duration: 0.5 }}
+                      className={item.figure && i % 2 === 1 ? 'lg:order-2' : ''}
+                    >
+                      <h3 className="text-xl md:text-2xl font-black text-foreground mb-3">{item.title}</h3>
+                      <p className="text-muted-foreground leading-relaxed">{item.body}</p>
+                    </motion.div>
+
+                    {item.figure && <Figure image={item.figure} className={i % 2 === 1 ? 'lg:order-1' : ''} />}
+                  </div>
                 ))}
               </div>
             )}
 
-            {section.figure && (
-              <motion.figure
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.5 }}
-                className="mt-10"
-              >
-                <div className="rounded-2xl overflow-hidden border-2 border-border/50 bg-background-secondary">
-                  <img
-                    src={section.figure.src}
-                    alt={section.figure.alt}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full object-cover object-top"
-                  />
-                </div>
-                {section.figure.caption && (
-                  <figcaption className="text-muted-foreground/70 text-sm mt-3 text-center">
-                    {section.figure.caption}
-                  </figcaption>
-                )}
-              </motion.figure>
-            )}
+            {section.figure && <Figure image={section.figure} className="mt-10" />}
           </div>
         </section>
       ))}
 
-      {/* Gallery */}
-      <section className="section-padding bg-background relative overflow-hidden">
-        <div className="container mx-auto relative z-10">
-          <h2 className="text-2xl md:text-3xl font-black text-foreground mb-8">
-            The{' '}
-            <span className="bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent">Work</span>
-          </h2>
+      {/* Everything else, at full width */}
+      {wideShots.length > 0 && (
+        <section className="py-16 md:py-24 px-6 bg-background">
+          <div className="container mx-auto max-w-5xl">
+            <h2 className="text-2xl md:text-3xl font-black text-foreground mb-10">
+              More{' '}
+              <span className="bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent">screens</span>
+            </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {(project.gallery.length > 0
-              ? project.gallery
-              : Array.from({ length: 4 }, () => null)
-            ).map((image, index) => (
-              <motion.figure
-                key={image?.src ?? index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="relative aspect-[16/10] rounded-2xl overflow-hidden border-2 border-border/50 bg-background-secondary"
+            <div className="space-y-10">
+              {wideShots.map((image) => (
+                <Figure key={image.src} image={image} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {phoneShots.length > 0 && (
+        <section className="py-16 md:py-24 px-6 bg-background-secondary/40">
+          <div className="container mx-auto max-w-5xl">
+            <h2 className="text-2xl md:text-3xl font-black text-foreground mb-10">
+              On a{' '}
+              <span className="bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent">phone</span>
+            </h2>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {phoneShots.map((image) => (
+                <Figure key={image.src} image={image} compact />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Placeholder state for projects whose artwork has not arrived yet */}
+      {project.gallery.length === 0 && !project.sections?.length && (
+        <section className="py-16 px-6 bg-background">
+          <div className="container mx-auto max-w-5xl grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {Array.from({ length: 4 }, (_, index) => (
+              <div
+                key={index}
+                className="relative aspect-[4/3] rounded-2xl overflow-hidden border-2 border-border/50"
               >
                 <ProjectImage
-                  src={image?.src ?? null}
-                  alt={image?.alt ?? `${project.title} — image ${index + 1}`}
+                  src={null}
+                  alt={`${project.title} — image ${index + 1}`}
                   label={`Artwork ${index + 1}`}
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full"
                 />
-              </motion.figure>
+              </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Next project + CTA */}
       <section className="section-padding bg-gradient-to-br from-background-secondary via-background to-background-secondary border-t-2 border-border/50">
@@ -286,10 +288,7 @@ const WorkDetail = () => {
               </Link>
             </Button>
 
-            <Link
-              to={`/work/${next.slug}`}
-              className="group text-center md:text-right"
-            >
+            <Link to={`/work/${next.slug}`} className="group text-center md:text-right">
               <p className="text-xs text-muted-foreground/60 font-semibold uppercase tracking-wider mb-1">
                 Next project
               </p>

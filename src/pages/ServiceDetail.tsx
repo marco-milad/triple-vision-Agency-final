@@ -304,7 +304,7 @@ const ServiceDetail = () => {
                 className="group relative overflow-hidden rounded-2xl border-2 border-border/50 hover:border-primary/50 transition-all duration-300"
               >
                 <Link to={`/work/${project.slug}`} className="block">
-                  <div className="relative aspect-[4/3] overflow-hidden">
+                  <div className="relative aspect-[16/10] overflow-hidden">
                     <ProjectImage
                       src={project.cover}
                       alt={project.coverAlt ?? `${project.title} for ${project.client}`}

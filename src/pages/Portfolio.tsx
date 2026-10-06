@@ -128,7 +128,7 @@ const Portfolio = () => {
                     to={`/work/${project.slug}`}
                     className="block rounded-2xl overflow-hidden border-2 border-border/50 hover:border-primary/50 transition-all duration-300 shadow-xl hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                   >
-                    <div className="relative aspect-[4/3] overflow-hidden">
+                    <div className="relative aspect-[16/10] overflow-hidden">
                       <ProjectImage
                         src={project.cover}
                         alt={project.coverAlt ?? `${project.title} for ${project.client}`}

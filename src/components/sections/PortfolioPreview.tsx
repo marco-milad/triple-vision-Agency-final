@@ -76,7 +76,7 @@ const PortfolioPreview = () => {
             >
               <Link to={`/work/${project.slug}`} className="block group">
                 <motion.div
-                  className="relative overflow-hidden rounded-2xl aspect-[4/3] border-2 border-border/50 bg-background/50"
+                  className="relative overflow-hidden rounded-2xl aspect-[16/10] border-2 border-border/50 bg-background/50"
                   whileHover={{ y: -8, scale: 1.02 }}
                   transition={{ duration: 0.3 }}
                 >

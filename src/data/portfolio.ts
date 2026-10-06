@@ -18,6 +18,9 @@ import { services } from './services';
 export interface GalleryImage {
   src: string;
   alt: string;
+  /** Natural size, so images render at their own shape without layout shift. */
+  width?: number;
+  height?: number;
   caption?: string;
 }
 
@@ -47,6 +50,8 @@ export interface Project {
   cover: string | null;
   /** Written alt text for the cover, where we have it. */
   coverAlt?: string;
+  coverWidth?: number;
+  coverHeight?: number;
   gallery: GalleryImage[];
   video: string | null;
   year?: string;
@@ -265,6 +270,8 @@ export const projects: Project[] = [
     stack: ['nextjs', 'react', 'typescript', 'tailwind', 'supabase', 'postgres', 'serverActions', 'zod', 'zustand', 'recharts', 'puppeteer', 'resend', 'twilio', 'vercel'],
     liveUrl: null,
     cover: '/work/mm-bags/storefront-ar.webp',
+    coverWidth: 1600,
+    coverHeight: 833,
     coverAlt: 'M.M Bags storefront home page in Arabic, right-to-left, with a navy hero and the headline \'travel smart, travel in style\'',
     sections: [
     {
@@ -300,6 +307,8 @@ export const projects: Project[] = [
       figure: {
         src: '/work/mm-bags/storefront-ar.webp',
         alt: 'Arabic storefront home page with navy hero, product promise badges and two calls to action',
+        width: 1600,
+        height: 833,
         caption: 'The default experience: Arabic, right-to-left, mobile-first.',
       },
     },
@@ -317,6 +326,8 @@ export const projects: Project[] = [
           figure: {
             src: '/work/mm-bags/admin-pos.webp',
             alt: 'Point of sale screen in Arabic with a payment panel on one side and a searchable product grid on the other',
+            width: 1600,
+            height: 1000,
             caption: 'The counter and the website draw down the same stock.',
           },
         },
@@ -326,6 +337,8 @@ export const projects: Project[] = [
           figure: {
             src: '/work/mm-bags/admin-products.webp',
             alt: 'Products admin in Arabic listing items with thumbnails, prices, stock levels and active toggles',
+            width: 1600,
+            height: 1000,
           },
         },
         {
@@ -356,23 +369,20 @@ export const projects: Project[] = [
     },
     ],
     gallery: [
-      { src: '/work/mm-bags/mobile-menu.webp', alt: 'Mobile navigation sheet in Arabic showing collections with product counts and account links' },
-      { src: '/work/mm-bags/m-catalog.webp', alt: 'Catalogue on a phone in Arabic, two products per row with prices' },
-      { src: '/work/mm-bags/categories.webp', alt: 'Collections landing page in Arabic with a dark hero and category cards' },
-      { src: '/work/mm-bags/admin-analytics.webp', alt: 'M.M Bags — Admin analytics' },
-      { src: '/work/mm-bags/admin-dashboard.webp', alt: 'M.M Bags — Admin dashboard' },
-      { src: '/work/mm-bags/admin-orders.webp', alt: 'M.M Bags — Admin orders' },
-      { src: '/work/mm-bags/admin-purchase-orders.webp', alt: 'M.M Bags — Admin purchase orders' },
-      { src: '/work/mm-bags/admin-reports.webp', alt: 'M.M Bags — Admin reports' },
-      { src: '/work/mm-bags/admin-stock.webp', alt: 'M.M Bags — Admin stock' },
-      { src: '/work/mm-bags/admin-suppliers.webp', alt: 'M.M Bags — Admin suppliers' },
-      { src: '/work/mm-bags/cart.webp', alt: 'M.M Bags — Cart' },
-      { src: '/work/mm-bags/catalog.webp', alt: 'M.M Bags — Catalog' },
-      { src: '/work/mm-bags/checkout.webp', alt: 'M.M Bags — Checkout' },
-      { src: '/work/mm-bags/home-en.webp', alt: 'M.M Bags — Home English' },
-      { src: '/work/mm-bags/home.webp', alt: 'M.M Bags — Home' },
-      { src: '/work/mm-bags/product.webp', alt: 'M.M Bags — Product' },
-      { src: '/work/mm-bags/track.webp', alt: 'M.M Bags — Track' },
+      { src: '/work/mm-bags/mobile-menu.webp', alt: 'Mobile navigation sheet in Arabic showing collections with product counts and account links', width: 739, height: 1600 },
+      { src: '/work/mm-bags/m-catalog.webp', alt: 'Catalogue on a phone in Arabic, two products per row with prices', width: 780, height: 1600 },
+      { src: '/work/mm-bags/categories.webp', alt: 'Collections landing page in Arabic with a dark hero and category cards', width: 1600, height: 944 },
+      { src: '/work/mm-bags/admin-analytics.webp', alt: 'M.M Bags — Admin analytics', width: 931, height: 1600 },
+      { src: '/work/mm-bags/admin-dashboard.webp', alt: 'M.M Bags — Admin dashboard', width: 1357, height: 1600 },
+      { src: '/work/mm-bags/admin-orders.webp', alt: 'M.M Bags — Admin orders', width: 1600, height: 1084 },
+      { src: '/work/mm-bags/admin-purchase-orders.webp', alt: 'M.M Bags — Admin purchase orders', width: 1600, height: 1000 },
+      { src: '/work/mm-bags/admin-stock.webp', alt: 'M.M Bags — Admin stock', width: 138, height: 1600 },
+      { src: '/work/mm-bags/cart.webp', alt: 'M.M Bags — Cart', width: 1600, height: 1117 },
+      { src: '/work/mm-bags/catalog.webp', alt: 'M.M Bags — Catalog', width: 606, height: 1600 },
+      { src: '/work/mm-bags/checkout.webp', alt: 'M.M Bags — Checkout', width: 1600, height: 1177 },
+      { src: '/work/mm-bags/home-en.webp', alt: 'M.M Bags — Home English', width: 315, height: 1600 },
+      { src: '/work/mm-bags/home.webp', alt: 'M.M Bags — Home', width: 312, height: 1600 },
+      { src: '/work/mm-bags/product.webp', alt: 'M.M Bags — Product', width: 606, height: 1600 },
     ],
     video: null,
     featured: true,
@@ -389,6 +399,8 @@ export const projects: Project[] = [
     stack: ['nextjs', 'react', 'typescript', 'tailwind', 'supabase', 'postgres', 'serverActions', 'zod', 'puppeteer', 'vercel'],
     liveUrl: 'https://mogohrat-lotfy.vercel.app',
     cover: '/work/gold-jewelry-erp/prices.webp',
+    coverWidth: 1600,
+    coverHeight: 1028,
     coverAlt: 'Daily gold pricing screen in Arabic showing buy and sell prices per gram for karats 24, 22, 21, 18 and 14, with the update form below',
     sections: [
     {
@@ -426,6 +438,8 @@ export const projects: Project[] = [
       figure: {
         src: '/work/gold-jewelry-erp/prices.webp',
         alt: 'Gold price screen listing five karat cards with buy and sell rates per gram, above a form for updating each one',
+        width: 1600,
+        height: 1028,
         caption: 'Today\'s rates. Entered once, read everywhere.',
       },
     },
@@ -439,6 +453,8 @@ export const projects: Project[] = [
           figure: {
             src: '/work/gold-jewelry-erp/sale-receipt.webp',
             alt: 'Sale detail screen in Arabic showing invoice lines, totals and a return action',
+            width: 1600,
+            height: 1000,
           },
         },
         {
@@ -447,6 +463,8 @@ export const projects: Project[] = [
           figure: {
             src: '/work/gold-jewelry-erp/buyback.webp',
             alt: 'Buy-back screen in Arabic with a purchase form and cards showing the scrap pool held per karat',
+            width: 1600,
+            height: 1056,
           },
         },
         {
@@ -455,6 +473,8 @@ export const projects: Project[] = [
           figure: {
             src: '/work/gold-jewelry-erp/wholesale.webp',
             alt: 'Wholesale customer list in Arabic showing amounts withdrawn, paid and still owed per trader',
+            width: 1600,
+            height: 1000,
           },
         },
         {
@@ -463,6 +483,8 @@ export const projects: Project[] = [
           figure: {
             src: '/work/gold-jewelry-erp/suppliers.webp',
             alt: 'Supplier ledger in Arabic showing totals purchased, paid and still owed',
+            width: 1600,
+            height: 1000,
           },
         },
         {
@@ -471,6 +493,8 @@ export const projects: Project[] = [
           figure: {
             src: '/work/gold-jewelry-erp/coins.webp',
             alt: 'Gold coin pricing screen in Arabic listing coin types with their karat, weight and price',
+            width: 1600,
+            height: 1000,
           },
         },
         {
@@ -479,6 +503,8 @@ export const projects: Project[] = [
           figure: {
             src: '/work/gold-jewelry-erp/activity.webp',
             alt: 'Audit log in Arabic listing operations with the user, action type and timestamp',
+            width: 1600,
+            height: 944,
           },
         },
       ],
@@ -493,24 +519,22 @@ export const projects: Project[] = [
     },
     ],
     gallery: [
-      { src: '/work/gold-jewelry-erp/m-receiving.webp', alt: 'Receiving screen on a phone, where the wide desktop entry grid becomes one labelled card per piece' },
-      { src: '/work/gold-jewelry-erp/m-pos.webp', alt: 'Point of sale on a phone in Arabic, with search, cart, payment method and totals stacked vertically' },
-      { src: '/work/gold-jewelry-erp/m-buyback.webp', alt: 'Buy-back on a phone in Arabic, with the purchase lines and the scrap pool per karat as stacked cards' },
-      { src: '/work/gold-jewelry-erp/designs.webp', alt: 'Categories and designs screen in Arabic with default making charges per design' },
-      { src: '/work/gold-jewelry-erp/customers.webp', alt: 'Mogohrat Al-Gabaly — Customers' },
-      { src: '/work/gold-jewelry-erp/dashboard.webp', alt: 'Mogohrat Al-Gabaly — Dashboard' },
-      { src: '/work/gold-jewelry-erp/inventory.webp', alt: 'Mogohrat Al-Gabaly — Inventory' },
-      { src: '/work/gold-jewelry-erp/pos.webp', alt: 'Mogohrat Al-Gabaly — POS' },
-      { src: '/work/gold-jewelry-erp/prices-bullion.webp', alt: 'Mogohrat Al-Gabaly — Prices bullion' },
-      { src: '/work/gold-jewelry-erp/prices-coins.webp', alt: 'Mogohrat Al-Gabaly — Prices coins' },
-      { src: '/work/gold-jewelry-erp/receiving.webp', alt: 'Mogohrat Al-Gabaly — Receiving' },
-      { src: '/work/gold-jewelry-erp/sales.webp', alt: 'Mogohrat Al-Gabaly — Sales' },
-      { src: '/work/gold-jewelry-erp/settings.webp', alt: 'Mogohrat Al-Gabaly — Settings' },
-      { src: '/work/gold-jewelry-erp/staff.webp', alt: 'Mogohrat Al-Gabaly — Staff' },
-      { src: '/work/gold-jewelry-erp/wholesale-statement.webp', alt: 'Mogohrat Al-Gabaly — Wholesale statement' },
-      { src: '/work/gold-jewelry-erp/m-activity.webp', alt: 'Mogohrat Al-Gabaly — Mobile activity' },
-      { src: '/work/gold-jewelry-erp/m-customers.webp', alt: 'Mogohrat Al-Gabaly — Mobile customers' },
-      { src: '/work/gold-jewelry-erp/m-dashboard.webp', alt: 'Mogohrat Al-Gabaly — Mobile dashboard' },
+      { src: '/work/gold-jewelry-erp/m-receiving.webp', alt: 'Receiving screen on a phone, where the wide desktop entry grid becomes one labelled card per piece', width: 585, height: 1600 },
+      { src: '/work/gold-jewelry-erp/m-pos.webp', alt: 'Point of sale on a phone in Arabic, with search, cart, payment method and totals stacked vertically', width: 598, height: 1600 },
+      { src: '/work/gold-jewelry-erp/m-buyback.webp', alt: 'Buy-back on a phone in Arabic, with the purchase lines and the scrap pool per karat as stacked cards', width: 720, height: 1600 },
+      { src: '/work/gold-jewelry-erp/designs.webp', alt: 'Categories and designs screen in Arabic with default making charges per design', width: 1600, height: 944 },
+      { src: '/work/gold-jewelry-erp/customers.webp', alt: 'Mogohrat Al-Gabaly — Customers', width: 1600, height: 1000 },
+      { src: '/work/gold-jewelry-erp/dashboard.webp', alt: 'Mogohrat Al-Gabaly — Dashboard', width: 1600, height: 1249 },
+      { src: '/work/gold-jewelry-erp/inventory.webp', alt: 'Mogohrat Al-Gabaly — Inventory', width: 119, height: 1600 },
+      { src: '/work/gold-jewelry-erp/pos.webp', alt: 'Mogohrat Al-Gabaly — POS', width: 1600, height: 1000 },
+      { src: '/work/gold-jewelry-erp/prices-bullion.webp', alt: 'Mogohrat Al-Gabaly — Prices bullion', width: 766, height: 1600 },
+      { src: '/work/gold-jewelry-erp/prices-coins.webp', alt: 'Mogohrat Al-Gabaly — Prices coins', width: 1306, height: 1600 },
+      { src: '/work/gold-jewelry-erp/receiving.webp', alt: 'Mogohrat Al-Gabaly — Receiving', width: 1600, height: 1000 },
+      { src: '/work/gold-jewelry-erp/sales.webp', alt: 'Mogohrat Al-Gabaly — Sales', width: 1600, height: 1000 },
+      { src: '/work/gold-jewelry-erp/settings.webp', alt: 'Mogohrat Al-Gabaly — Settings', width: 1563, height: 1600 },
+      { src: '/work/gold-jewelry-erp/staff.webp', alt: 'Mogohrat Al-Gabaly — Staff', width: 1600, height: 1000 },
+      { src: '/work/gold-jewelry-erp/wholesale-statement.webp', alt: 'Mogohrat Al-Gabaly — Wholesale statement', width: 1161, height: 1600 },
+      { src: '/work/gold-jewelry-erp/m-activity.webp', alt: 'Mogohrat Al-Gabaly — Mobile activity', width: 192, height: 1600 },
     ],
     video: null,
   },
@@ -526,6 +550,8 @@ export const projects: Project[] = [
     stack: ['tanstackStart', 'react', 'typescript', 'vite', 'tailwind', 'maplibre'],
     liveUrl: 'https://raylab.health',
     cover: '/work/ray-lab/network-hero.webp',
+    coverWidth: 1600,
+    coverHeight: 889,
     coverAlt: 'Ray Lab Group network page headed \'Diagnostic coverage across MENA\', with cards showing 78+ branches, 3 countries and 6 brands',
     sections: [
     {
@@ -561,6 +587,8 @@ export const projects: Project[] = [
       figure: {
         src: '/work/ray-lab/brands.webp',
         alt: 'Directory grid of eight healthcare brand cards, each with a coloured top border, logo, country, branch count and founding year',
+        width: 1600,
+        height: 1250,
         caption: 'Eight platforms rendered from one component and eight data records.',
       },
     },
@@ -574,6 +602,8 @@ export const projects: Project[] = [
           figure: {
             src: '/work/ray-lab/physicians.webp',
             alt: 'Physicians section showing a four-step referral flow: refer, match, report, deliver',
+            width: 1600,
+            height: 894,
           },
         },
         {
@@ -582,6 +612,8 @@ export const projects: Project[] = [
           figure: {
             src: '/work/ray-lab/investors.webp',
             alt: 'Investor relations landing section with headline statistics and a row of tabs',
+            width: 1600,
+            height: 833,
           },
         },
         {
@@ -590,6 +622,8 @@ export const projects: Project[] = [
           figure: {
             src: '/work/ray-lab/roadmap.webp',
             alt: 'Expansion roadmap timeline showing staged growth milestones with status markers',
+            width: 1600,
+            height: 1000,
           },
         },
         {
@@ -598,6 +632,8 @@ export const projects: Project[] = [
           figure: {
             src: '/work/ray-lab/partners.webp',
             alt: 'Technology partners section listing major diagnostic equipment manufacturers',
+            width: 1600,
+            height: 704,
           },
         },
         {
@@ -606,6 +642,8 @@ export const projects: Project[] = [
           figure: {
             src: '/work/ray-lab/financials.webp',
             alt: 'Investor performance cards showing operating revenue, annual exams, lab tests and new branches',
+            width: 1600,
+            height: 778,
           },
         },
       ],
@@ -620,28 +658,22 @@ export const projects: Project[] = [
       figure: {
         src: '/work/ray-lab/reach.webp',
         alt: 'Network summary cards showing 78+ branches, 6 brands, 3 operating markets and 1.6M+ annual exams',
+        width: 1600,
+        height: 444,
         caption: 'Group figures as published by the client.',
       },
     },
     ],
     gallery: [
-      { src: '/work/ray-lab/m-home.webp', alt: 'Ray Lab Group home page on a phone, with the group headline and audience entry points' },
-      { src: '/work/ray-lab/m-physicians.webp', alt: 'Physician referral steps on a phone, stacked as individual cards' },
-      { src: '/work/ray-lab/m-partners.webp', alt: 'Technology partner cards stacked on a phone' },
-      { src: '/work/ray-lab/home.webp', alt: 'Ray Lab Group — Home' },
-      { src: '/work/ray-lab/brand-detail.webp', alt: 'Ray Lab Group — Brand detail' },
-      { src: '/work/ray-lab/directory.webp', alt: 'Ray Lab Group — Directory' },
-      { src: '/work/ray-lab/overview.webp', alt: 'Ray Lab Group — Overview' },
-      { src: '/work/ray-lab/expansion-roadmap.webp', alt: 'Ray Lab Group — Expansion roadmap' },
-      { src: '/work/ray-lab/financial-highlights.webp', alt: 'Ray Lab Group — Financial highlights' },
-      { src: '/work/ray-lab/governance.webp', alt: 'Ray Lab Group — Governance' },
-      { src: '/work/ray-lab/growth-strategy.webp', alt: 'Ray Lab Group — Growth strategy' },
-      { src: '/work/ray-lab/investment-thesis.webp', alt: 'Ray Lab Group — Investment thesis' },
-      { src: '/work/ray-lab/platform-vision.webp', alt: 'Ray Lab Group — Platform vision' },
-      { src: '/work/ray-lab/press-room.webp', alt: 'Ray Lab Group — Press room' },
-      { src: '/work/ray-lab/risk-mitigation.webp', alt: 'Ray Lab Group — Risk mitigation' },
-      { src: '/work/ray-lab/shareholders.webp', alt: 'Ray Lab Group — Shareholders' },
-      { src: '/work/ray-lab/investors-expansion-roadmap.webp', alt: 'Ray Lab Group — Investors expansion roadmap' },
+      { src: '/work/ray-lab/m-home.webp', alt: 'Ray Lab Group home page on a phone, with the group headline and audience entry points', width: 780, height: 1000 },
+      { src: '/work/ray-lab/m-physicians.webp', alt: 'Physician referral steps on a phone, stacked as individual cards', width: 585, height: 1600 },
+      { src: '/work/ray-lab/m-partners.webp', alt: 'Technology partner cards stacked on a phone', width: 624, height: 1600 },
+      { src: '/work/ray-lab/home.webp', alt: 'Ray Lab Group — Home', width: 313, height: 1600 },
+      { src: '/work/ray-lab/brand-detail.webp', alt: 'Ray Lab Group — Brand detail', width: 832, height: 1600 },
+      { src: '/work/ray-lab/directory.webp', alt: 'Ray Lab Group — Directory', width: 579, height: 1600 },
+      { src: '/work/ray-lab/expansion-roadmap.webp', alt: 'Ray Lab Group — Expansion roadmap', width: 667, height: 1600 },
+      { src: '/work/ray-lab/financial-highlights.webp', alt: 'Ray Lab Group — Financial highlights', width: 850, height: 1600 },
+      { src: '/work/ray-lab/press-room.webp', alt: 'Ray Lab Group — Press room', width: 922, height: 1600 },
     ],
     video: null,
     featured: true,
@@ -658,6 +690,8 @@ export const projects: Project[] = [
     stack: ['react', 'vite', 'typescript', 'tailwind', 'radix', 'framerMotion', 'reactRouter', 'emailjs', 'cloudinary', 'vercel'],
     liveUrl: null,
     cover: '/work/ojos-studio/home.webp',
+    coverWidth: 1200,
+    coverHeight: 758,
     coverAlt: 'OJOS Studio home page with the headline \'It\'s more than a photo. It\'s art.\' beside a bridal portrait',
     sections: [
     {
@@ -693,6 +727,8 @@ export const projects: Project[] = [
       figure: {
         src: '/work/ojos-studio/home.webp',
         alt: 'OJOS Studio home page: large studio wordmark, a bridal portrait, and calls to action to view the portfolio or book',
+        width: 1200,
+        height: 758,
       },
     },
     {
@@ -705,6 +741,8 @@ export const projects: Project[] = [
           figure: {
             src: '/work/ojos-studio/portraits.webp',
             alt: 'Portraits category page with a header and a row of portrait thumbnails',
+            width: 1200,
+            height: 758,
           },
         },
         {
@@ -713,6 +751,8 @@ export const projects: Project[] = [
           figure: {
             src: '/work/ojos-studio/film.webp',
             alt: 'Cinematic Film category page with a headline and a video player card',
+            width: 1200,
+            height: 758,
           },
         },
         {
@@ -735,21 +775,19 @@ export const projects: Project[] = [
     },
     ],
     gallery: [
-      { src: '/work/ojos-studio/m-home.webp', alt: 'OJOS Studio home page on a phone, with the studio name, a bridal portrait and the booking call to action' },
-      { src: '/work/ojos-studio/news.webp', alt: 'OJOS Studio — News' },
-      { src: '/work/ojos-studio/packages.webp', alt: 'OJOS Studio — Packages' },
-      { src: '/work/ojos-studio/portfolio-casual.webp', alt: 'OJOS Studio — Portfolio casual' },
-      { src: '/work/ojos-studio/portfolio-cinematic-film.webp', alt: 'OJOS Studio — Portfolio cinematic film' },
-      { src: '/work/ojos-studio/portfolio-events.webp', alt: 'OJOS Studio — Portfolio events' },
-      { src: '/work/ojos-studio/portfolio-media-coverage.webp', alt: 'OJOS Studio — Portfolio media coverage' },
-      { src: '/work/ojos-studio/portfolio-media-production.webp', alt: 'OJOS Studio — Portfolio media production' },
-      { src: '/work/ojos-studio/portfolio-others.webp', alt: 'OJOS Studio — Portfolio others' },
-      { src: '/work/ojos-studio/portfolio-portraits.webp', alt: 'OJOS Studio — Portfolio portraits' },
-      { src: '/work/ojos-studio/portfolio-products.webp', alt: 'OJOS Studio — Portfolio products' },
-      { src: '/work/ojos-studio/portfolio-wedding.webp', alt: 'OJOS Studio — Portfolio wedding' },
-      { src: '/work/ojos-studio/m-news.webp', alt: 'OJOS Studio — Mobile news' },
-      { src: '/work/ojos-studio/m-packages.webp', alt: 'OJOS Studio — Mobile packages' },
-      { src: '/work/ojos-studio/m-portfolio-casual.webp', alt: 'OJOS Studio — Mobile portfolio casual' },
+      { src: '/work/ojos-studio/m-home.webp', alt: 'OJOS Studio home page on a phone, with the studio name, a bridal portrait and the booking call to action', width: 739, height: 1600 },
+      { src: '/work/ojos-studio/news.webp', alt: 'OJOS Studio — News', width: 490, height: 1600 },
+      { src: '/work/ojos-studio/packages.webp', alt: 'OJOS Studio — Packages', width: 529, height: 1600 },
+      { src: '/work/ojos-studio/portfolio-casual.webp', alt: 'OJOS Studio — Portfolio casual', width: 416, height: 1600 },
+      { src: '/work/ojos-studio/portfolio-cinematic-film.webp', alt: 'OJOS Studio — Portfolio cinematic film', width: 572, height: 1600 },
+      { src: '/work/ojos-studio/portfolio-events.webp', alt: 'OJOS Studio — Portfolio events', width: 551, height: 1600 },
+      { src: '/work/ojos-studio/portfolio-media-coverage.webp', alt: 'OJOS Studio — Portfolio media coverage', width: 702, height: 1600 },
+      { src: '/work/ojos-studio/portfolio-media-production.webp', alt: 'OJOS Studio — Portfolio media production', width: 241, height: 1600 },
+      { src: '/work/ojos-studio/portfolio-others.webp', alt: 'OJOS Studio — Portfolio others', width: 474, height: 1600 },
+      { src: '/work/ojos-studio/portfolio-portraits.webp', alt: 'OJOS Studio — Portfolio portraits', width: 474, height: 1600 },
+      { src: '/work/ojos-studio/portfolio-products.webp', alt: 'OJOS Studio — Portfolio products', width: 551, height: 1600 },
+      { src: '/work/ojos-studio/portfolio-wedding.webp', alt: 'OJOS Studio — Portfolio wedding', width: 278, height: 1600 },
+      { src: '/work/ojos-studio/m-news.webp', alt: 'OJOS Studio — Mobile news', width: 120, height: 1600 },
     ],
     video: null,
   },
@@ -765,6 +803,8 @@ export const projects: Project[] = [
     stack: ['nextjs', 'react', 'typescript', 'tailwind', 'vercel'],
     liveUrl: null,
     cover: '/work/brandkey/home-ar.webp',
+    coverWidth: 1600,
+    coverHeight: 944,
     coverAlt: 'Brand Key home page in Arabic, right-to-left, over a night photograph of an illuminated glass bank facade in Jeddah',
     sections: [
     {
@@ -804,12 +844,12 @@ export const projects: Project[] = [
     },
     ],
     gallery: [
-      { src: '/work/brandkey/project.webp', alt: 'A project detail page in Arabic showing one signage job with its photographs and a description of the work' },
-      { src: '/work/brandkey/services.webp', alt: 'The services page in Arabic listing the workshop\'s service groups with photographs' },
-      { src: '/work/brandkey/printing.webp', alt: 'The printing catalogue page in Arabic, a grid of printed product cards each with an order button' },
-      { src: '/work/brandkey/m-home.webp', alt: 'The Brand Key home page on a phone in Arabic, with the facade photograph and the quote request button' },
-      { src: '/work/brandkey/home-en.webp', alt: 'Brand Key home page in English, left-to-right, with the same night facade photography' },
-      { src: '/work/brandkey/work.webp', alt: 'Brand Key work page showing completed signage and facade projects' },
+      { src: '/work/brandkey/home-en.webp', alt: 'Brand Key home page in English, left-to-right, over the same night facade photography', width: 1600, height: 944 },
+      { src: '/work/brandkey/work.webp', alt: 'Brand Key work page showing completed signage and facade projects', width: 1600, height: 944 },
+      { src: '/work/brandkey/project.webp', alt: 'A project detail page in Arabic showing one signage job with its photographs and a description of the work', width: 1600, height: 944 },
+      { src: '/work/brandkey/services.webp', alt: 'The services page in Arabic listing the workshop\'s service groups with photographs', width: 1600, height: 944 },
+      { src: '/work/brandkey/printing.webp', alt: 'The printing catalogue page in Arabic, a grid of printed product cards each with an order button', width: 1600, height: 944 },
+      { src: '/work/brandkey/m-home.webp', alt: 'The Brand Key home page on a phone in Arabic, with the facade photograph and the quote request button', width: 760, height: 1299 },
     ],
     video: null,
   },
