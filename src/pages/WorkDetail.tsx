@@ -148,7 +148,8 @@ const WorkDetail = () => {
       {/* The campaign, run end to end with nothing between the pieces */}
       {stacked && stackedImages.length > 0 && (
         <section className="bg-background-secondary">
-          <div className="mx-auto max-w-[1400px]">
+          {/* One column, 8px between pieces — the gap the reference gallery uses. */}
+          <div className="mx-auto max-w-[1400px] grid gap-2">
             {stackedImages.map((image) => (
               <img
                 key={image.src}
