@@ -77,11 +77,21 @@ export const company = {
   },
 
   /**
-   * TODO(client): official social accounts. The profile lists none, and the
-   * handles previously hard-coded in the site were template placeholders.
-   * Links stay hidden while this is empty.
+   * Official accounts, supplied by the client on 2026-10-06. Tracking
+   * parameters stripped, and the Facebook share link resolved to the page it
+   * redirects to.
+   *
+   * Supported names: Facebook, Instagram, Twitter, LinkedIn, YouTube.
+   *
+   * TODO(client): the YouTube channel is the founder's personal channel
+   * (@dirmariomaged), not an agency channel — confirm it should be linked here.
    */
-  socials: [] as { name: string; url: string }[],
+  socials: [
+    { name: "Facebook", url: "https://www.facebook.com/triplevisionagency" },
+    { name: "Instagram", url: "https://www.instagram.com/triplevisionagency" },
+    { name: "LinkedIn", url: "https://www.linkedin.com/company/triple-vision-agency/" },
+    { name: "YouTube", url: "https://www.youtube.com/@dirmariomaged" },
+  ] as { name: string; url: string }[],
 
   /**
    * TODO(client): production domain is not decided. Override per environment
