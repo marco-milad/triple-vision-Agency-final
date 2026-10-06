@@ -112,7 +112,7 @@ const WorkDetail = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               { label: 'Client', value: project.client },
-              { label: 'Industry', value: project.industry },
+              { label: project.category ? 'Type' : 'Industry', value: project.category ?? project.industry },
               project.year
                 ? { label: 'Year', value: project.year }
                 : { label: 'Services', value: projectServices.map((service) => service.title).join(', ') },
@@ -128,8 +128,119 @@ const WorkDetail = () => {
               </div>
             ))}
           </div>
+
+          {project.stack && project.stack.length > 0 && (
+            <div className="mt-6">
+              <p className="text-xs text-muted-foreground/60 font-semibold uppercase tracking-wider mb-3">Built with</p>
+              <ul className="flex flex-wrap gap-2">
+                {project.stack.map((tech) => (
+                  <li
+                    key={tech}
+                    className="px-3 py-1.5 rounded-lg bg-muted/30 border border-border/50 text-muted-foreground text-xs font-semibold"
+                  >
+                    {tech}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </section>
+
+      {/* The written case study */}
+      {project.sections?.map((section, index) => (
+        <section
+          key={`${section.type}-${index}`}
+          className={`section-padding relative overflow-hidden ${
+            index % 2 === 0
+              ? 'bg-background'
+              : 'bg-gradient-to-br from-background-secondary via-background to-background-secondary'
+          }`}
+        >
+          <div className="container mx-auto relative z-10 max-w-5xl">
+            {section.title && (
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.5 }}
+                className="text-2xl md:text-3xl lg:text-4xl font-black text-foreground mb-6"
+              >
+                {section.title}
+              </motion.h2>
+            )}
+
+            {section.body?.map((paragraph, i) => (
+              <motion.p
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
+                className="text-muted-foreground text-base md:text-lg leading-relaxed mb-4 max-w-3xl"
+              >
+                {paragraph}
+              </motion.p>
+            ))}
+
+            {section.items && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+                {section.items.map((item) => (
+                  <motion.div
+                    key={item.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-50px' }}
+                    transition={{ duration: 0.4 }}
+                    className="rounded-2xl border-2 border-border/50 bg-background/50 backdrop-blur-sm overflow-hidden"
+                  >
+                    {item.figure && (
+                      <div className="aspect-[16/10] overflow-hidden border-b-2 border-border/50 bg-background-secondary">
+                        <img
+                          src={item.figure.src}
+                          alt={item.figure.alt}
+                          loading="lazy"
+                          decoding="async"
+                          className="w-full h-full object-cover object-top"
+                        />
+                      </div>
+                    )}
+                    <div className="p-6">
+                      <h3 className="text-lg font-black text-foreground mb-2">{item.title}</h3>
+                      <p className="text-muted-foreground text-sm leading-relaxed">{item.body}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+
+            {section.figure && (
+              <motion.figure
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.5 }}
+                className="mt-10"
+              >
+                <div className="rounded-2xl overflow-hidden border-2 border-border/50 bg-background-secondary">
+                  <img
+                    src={section.figure.src}
+                    alt={section.figure.alt}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full object-cover object-top"
+                  />
+                </div>
+                {section.figure.caption && (
+                  <figcaption className="text-muted-foreground/70 text-sm mt-3 text-center">
+                    {section.figure.caption}
+                  </figcaption>
+                )}
+              </motion.figure>
+            )}
+          </div>
+        </section>
+      ))}
 
       {/* Gallery */}
       <section className="section-padding bg-background relative overflow-hidden">

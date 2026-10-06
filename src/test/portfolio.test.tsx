@@ -5,7 +5,13 @@ import { HelmetProvider } from "react-helmet-async";
 import { ContactProvider } from "@/contexts/ContactContext";
 import Portfolio from "@/pages/Portfolio";
 import WorkDetail from "@/pages/WorkDetail";
-import { projects, projectsByService, portfolioFilters, nextProject } from "@/data/portfolio";
+import {
+  projects,
+  projectsByService,
+  projectsByCategory,
+  portfolioFilters,
+  nextProject,
+} from "@/data/portfolio";
 import { services } from "@/data/services";
 
 const renderAt = (path: string) =>
@@ -103,6 +109,39 @@ describe("Work detail page", () => {
     const next = nextProject(project.slug);
     const link = screen.getByRole("link", { name: new RegExp(next.title, "i") });
     expect(link).toHaveAttribute("href", `/work/${next.slug}`);
+  });
+
+  it("renders the written case study, its figures and the stack", () => {
+    const project = projects.find((p) => p.sections?.length)!;
+    renderAt(`/work/${project.slug}`);
+
+    for (const section of project.sections!) {
+      if (section.title) {
+        expect(screen.getByRole("heading", { name: section.title })).toBeInTheDocument();
+      }
+      for (const paragraph of section.body ?? []) {
+        expect(screen.getByText(paragraph)).toBeInTheDocument();
+      }
+      for (const item of section.items ?? []) {
+        expect(screen.getByRole("heading", { name: item.title })).toBeInTheDocument();
+      }
+    }
+
+    for (const tech of project.stack ?? []) {
+      expect(screen.getByText(tech)).toBeInTheDocument();
+    }
+  }, 20000);
+
+  it("groups a service's work by sub-category", () => {
+    const groups = projectsByCategory("web-development");
+    expect(groups.length).toBeGreaterThan(1);
+    for (const group of groups) {
+      expect(group.category).toBeTruthy();
+      expect(group.projects.length).toBeGreaterThan(0);
+    }
+    // Every web project is accounted for exactly once.
+    const total = groups.reduce((sum, g) => sum + g.projects.length, 0);
+    expect(total).toBe(projectsByService("web-development").length);
   });
 
   it("falls back to a placeholder while artwork is missing", () => {

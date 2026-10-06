@@ -6,7 +6,7 @@ import { ArrowRight, CheckCircle, Sparkles } from 'lucide-react';
 import { useContact } from '@/contexts/ContactContext';
 import { services, getServiceBySlug, legacyServiceRedirects } from '@/data/services';
 import { company, yearsInBusiness } from '@/data/company';
-import { projectsByService } from '@/data/portfolio';
+import { projectsByService, projectsByCategory } from '@/data/portfolio';
 import ProjectImage from '@/components/ProjectImage';
 import NotFound from '@/pages/NotFound';
 import Seo from '@/components/Seo';
@@ -25,6 +25,7 @@ const ServiceDetail = () => {
 
   const Icon = service.icon;
   const portfolio = projectsByService(service.slug);
+  const grouped = projectsByCategory(service.slug);
   const otherServices = services.filter((s) => s.slug !== slug);
 
   return (
@@ -279,8 +280,20 @@ const ServiceDetail = () => {
             </h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {portfolio.map((project, index) => (
+          {grouped.map((group) => (
+            <div key={group.category ?? 'all'} className="mb-14 last:mb-0">
+              {group.category && (
+                <div className="flex items-center gap-4 mb-6">
+                  <h3 className="text-xl md:text-2xl font-black text-foreground">{group.category}</h3>
+                  <span className="text-sm text-muted-foreground">
+                    {group.projects.length} {group.projects.length === 1 ? 'project' : 'projects'}
+                  </span>
+                  <div className="flex-1 h-px bg-gradient-to-r from-border to-transparent" />
+                </div>
+              )}
+
+              <div className="grid md:grid-cols-3 gap-8">
+            {group.projects.map((project, index) => (
               <motion.div
                 key={project.slug}
                 initial={{ opacity: 0, y: 30 }}
@@ -308,10 +321,11 @@ const ServiceDetail = () => {
                 </Link>
               </motion.div>
             ))}
-          </div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
-
       )}
 
       {/* Why Triple Vision - Enhanced */}

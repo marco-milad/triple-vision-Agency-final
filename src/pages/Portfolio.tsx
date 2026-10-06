@@ -152,7 +152,10 @@ const Portfolio = () => {
                       <h2 className="text-xl font-black text-foreground mb-1 group-hover:text-primary transition-colors">
                         {project.title}
                       </h2>
-                      <p className="text-muted-foreground text-sm mb-4">{project.client}</p>
+                      <p className="text-muted-foreground text-sm">{project.client}</p>
+                      <p className="text-muted-foreground/70 text-xs mb-4">
+                        {project.category ?? project.industry}
+                      </p>
 
                       <span className="inline-flex items-center gap-2 text-primary font-bold text-sm">
                         View project
