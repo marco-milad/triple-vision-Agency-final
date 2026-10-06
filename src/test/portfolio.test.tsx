@@ -100,8 +100,8 @@ describe("Portfolio page", () => {
 });
 
 describe("Work detail page", () => {
-  it("shows the client, industry and the services delivered", () => {
-    const project = projects[0];
+  it("shows the default brief and the services delivered", () => {
+    const project = projects.find((p) => !p.facts)!;
     renderAt(`/work/${project.slug}`);
 
     expect(screen.getByRole("heading", { level: 1, name: project.title })).toBeInTheDocument();
@@ -111,6 +111,34 @@ describe("Work detail page", () => {
     for (const slug of project.services) {
       const service = services.find((s) => s.slug === slug)!;
       expect(screen.getAllByRole("link", { name: service.title })[0]).toHaveAttribute("href", `/services/${slug}`);
+    }
+  });
+
+  it("shows the four-field brief when a project carries one", () => {
+    const project = projects.find((p) => p.facts)!;
+    renderAt(`/work/${project.slug}`);
+
+    for (const fact of project.facts!) {
+      expect(screen.getByText(fact.label)).toBeInTheDocument();
+      expect(screen.getAllByText(fact.value).length).toBeGreaterThan(0);
+    }
+  });
+
+  it("runs stacked work edge to edge, cover first and in order", () => {
+    const project = projects.find((p) => p.galleryStyle === "stacked" && p.gallery.length > 0)!;
+    const { container } = renderAt(`/work/${project.slug}`);
+
+    // The layout's own logos share the page, so only the artwork is compared.
+    const artwork = Array.from(container.querySelectorAll('img[src^="/work/"]'));
+    expect(artwork.map((img) => img.getAttribute("src"))).toEqual([
+      project.cover,
+      ...project.gallery.map((image) => image.src),
+    ]);
+
+    // Every piece carries its own size, so nothing shifts as the run loads.
+    for (const img of artwork) {
+      expect(img.getAttribute("width")).toBeTruthy();
+      expect(img.getAttribute("height")).toBeTruthy();
     }
   });
 
