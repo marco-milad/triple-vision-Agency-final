@@ -35,6 +35,22 @@ OUT_ROOT = "public/work"
 MANIFEST = "scripts/social-campaigns.json"
 
 
+def readable(background):
+    """White or the brand's dark, whichever the background can actually carry."""
+    r, g, b = (c / 255 for c in hex_rgb(background))
+    luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
+    return "#FFFFFF" if luminance < 0.55 else "#111111"
+
+
+def on_light(campaign):
+    """
+    The colour small type takes on the pale ground. An accent dark enough to
+    carry white type is dark enough to read on paper; a pale one is not, and
+    falls back to the brand's dark.
+    """
+    return campaign.accent if readable(campaign.accent) == "#FFFFFF" else campaign.deep
+
+
 def font(path, size):
     return ImageFont.truetype(path, max(int(size), 8))
 
@@ -80,7 +96,7 @@ CAMPAIGNS = [
     ),
     Campaign(
         "cairo-scan", "deck", "Cairo Scan", "Specialized Clinics",
-        "#0E2E33", "#1C9AA6", "#ECF4F4", "Diagnostics campaign",
+        "#2A0E10", "#BC262F", "#F7EDEE", "Diagnostics campaign",
         [("Results", "Your scan is ready\nbefore you are home"),
          ("Radiology", "The machine is new.\nSo is the reading"),
          ("Waiting", "An appointment that\nmeans an appointment"),
@@ -96,7 +112,7 @@ CAMPAIGNS = [
     ),
     Campaign(
         "technoscan", "deck", "Technoscan", "Specialized Clinics",
-        "#10233F", "#00B0A6", "#EDF4F6", "Clinic campaign",
+        "#071A1A", "#00B7B5", "#ECF7F7", "Clinic campaign",
         [("MRI", "Ninety minutes that\nanswer the question"),
          ("Access", "Walk in before work.\nOut before nine"),
          ("Accuracy", "Resolution you can\nact on"),
@@ -112,7 +128,7 @@ CAMPAIGNS = [
     ),
     Campaign(
         "solve-clinic", "feed", "SOLVE", "Dental & Laser",
-        "#141C2B", "#3DBE8B", "#EFF5F2", "Dental campaign",
+        "#354C2F", "#BCEFA4", "#F1F7EC", "Dental campaign",
         [("Whitening", "One session.\nTwo shades"),
          ("Implants", "A tooth that lasts\nlonger than the gap"),
          ("Laser", "Less drill, less\nof everything else"),
@@ -160,7 +176,7 @@ CAMPAIGNS = [
     ),
     Campaign(
         "dr-fady-fawzy", "deck", "Dr. Fady Fawzy", "Physiotherapy & Chiropractic",
-        "#16232B", "#E0632F", "#F6EFEA", "Awareness campaign",
+        "#1B2C40", "#E7533A", "#F6EFEC", "Awareness campaign",
         [("Back pain", "The desk is the\ndiagnosis"),
          ("Posture", "You cannot sit up\nstraight for eight hours"),
          ("Manual therapy", "Hands first,\nmachines second"),
@@ -192,7 +208,7 @@ CAMPAIGNS = [
     ),
     Campaign(
         "neurology-clinic", "feed", "Neurology Clinic", "Kafr El-Sheikh",
-        "#1D1B33", "#8E6CEF", "#F1EFFA", "Clinic campaign",
+        "#3A2E28", "#DFA478", "#F8F0E9", "Clinic campaign",
         [("Headache", "Not every headache\nis a migraine"),
          ("Epilepsy", "Controlled is the\ngoal, not cured"),
          ("Stroke", "Four hours decide\nthe next four years"),
@@ -208,7 +224,7 @@ CAMPAIGNS = [
     ),
     Campaign(
         "one-stop-gresco", "scroll", "One Stop", "by Gresco",
-        "#141414", "#D32027", "#EFEFEF", "Tyre campaign",
+        "#000000", "#EB1B1B", "#F2F2F2", "Tyre campaign",
         [("Grip", "The road is wet\nfor nine seconds"),
          ("Pressure", "Two psi is a\nfull tank a month"),
          ("Alignment", "Your car pulls.\nYou correct. It wears"),
@@ -240,7 +256,7 @@ CAMPAIGNS = [
     ),
     Campaign(
         "mohamed-fouda-law", "deck", "Mohamed Fouda", "Law & Legal Consultations",
-        "#1B1B22", "#A98448", "#F3F1EC", "Practice campaign",
+        "#000612", "#C39C70", "#F5F1EA", "Practice campaign",
         [("Contracts", "Read before signing\nis the whole service"),
          ("Company law", "Set it up once,\nproperly"),
          ("Family", "Handled quietly"),
@@ -256,7 +272,7 @@ CAMPAIGNS = [
     ),
     Campaign(
         "nourish-cosmetics", "feed", "Nourish", "Cosmetics",
-        "#2A1F2D", "#D98A8A", "#F7EFEA", "Product launch",
+        "#04303C", "#02647F", "#EDF4F6", "Product launch",
         [("Serum", "Skin does its\nrepair at night"),
          ("Ingredients", "Eleven. All of\nthem readable"),
          ("Routine", "Three steps, not\nthirteen"),
@@ -272,7 +288,7 @@ CAMPAIGNS = [
     ),
     Campaign(
         "tbg-train-brain-to-gain", "feed", "TBG", "Train Brain To Gain",
-        "#202243", "#FF6B35", "#F2F0EC", "Programme campaign",
+        "#2E2252", "#F79056", "#F6F0EC", "Programme campaign",
         [("Focus", "Attention is trained,\nnot demanded"),
          ("Dyslexia", "The reading is slow.\nThe child is not"),
          ("Assessment", "Measured before\nanything is promised"),
@@ -285,6 +301,86 @@ CAMPAIGNS = [
          ("Reading", "Decoding, then\nspeed"),
          ("Maths", "Anxiety is the\nfirst thing we treat"),
          ("Teens", "Study skills that\nsurvive exams")],
+    ),
+    Campaign(
+        "abhathk", "deck", "abhathk", "Educational Research Center",
+        "#152647", "#4066B1", "#EFF2FA", "Research campaign",
+        [("Method", "A question first.\nThen the reading"),
+         ("Supervision", "Someone who has\nmarked a thesis before"),
+         ("Statistics", "The analysis your\nexaminer will ask for"),
+         ("Writing", "Academic English\nthat survives review"),
+         ("Plagiarism", "Checked before\nyou submit, not after"),
+         ("Publishing", "Which journal, and\nwhy that one"),
+         ("Timeline", "A chapter a month\nis a plan"),
+         ("Workshops", "Saturdays, in a\nroom with ten people"),
+         ("Proposal", "The hardest ten\npages you will write"),
+         ("Data", "Collected properly\nor collected twice"),
+         ("Defence", "Rehearsed before\nthe committee sees it"),
+         ("Students", "Masters, doctorate,\nand everyone stuck")],
+    ),
+    Campaign(
+        "fast-clinics", "feed", "FAST Clinics", "Nutrition & Physiotherapy",
+        "#2A2724", "#EB5E28", "#F8F1EC", "Clinic campaign",
+        [("Assessment", "Measured before\nanything is promised"),
+         ("Nutrition", "A plan built from\nwhat you already eat"),
+         ("Physiotherapy", "Movement is the\ntreatment"),
+         ("Weight", "Slow is the part\nthat lasts"),
+         ("Injury", "Back to the pitch,\nnot just to walking"),
+         ("Posture", "The desk is the\ndiagnosis"),
+         ("Follow-up", "Weekly, not when\nyou remember"),
+         ("Sports", "Fuel the session,\nnot the guilt"),
+         ("Recovery", "A plan with an\nend date"),
+         ("Pain", "Treated at the\ncause, not the spot"),
+         ("Programmes", "Twelve weeks.\nTwo visits a week"),
+         ("Booking", "Message, do not\nqueue")],
+    ),
+    Campaign(
+        "praxis", "scroll", "PRAXIS", "Medical Centre",
+        "#0D1A3A", "#3E6BC4", "#EFF2F8", "Centre campaign",
+        [("Specialists", "One building, the\nwhole referral"),
+         ("Appointments", "A time that means\na time"),
+         ("Records", "Your file follows\nyou between doctors"),
+         ("Diagnostics", "Scanned and read\nin the same visit"),
+         ("Follow-up", "Someone calls you,\nnot the other way"),
+         ("Paediatrics", "Children go first.\nAlways"),
+         ("Pharmacy", "Dispensed before\nyou reach the car"),
+         ("Emergency", "Open when it\nmatters"),
+         ("Insurance", "Settled at the desk,\nnot later"),
+         ("Second opinion", "Bring the file.\nWe will read it again"),
+         ("Prevention", "The appointment\nyou keep postponing"),
+         ("Care", "Treated by a name,\nnot a number")],
+    ),
+    Campaign(
+        "sky-line-logistics", "deck", "SKY LINE", "Logistics & General Supplies",
+        "#263360", "#F15727", "#F5F1EC", "Freight campaign",
+        [("Air freight", "Cairo to anywhere,\nin days"),
+         ("Sea freight", "Full container or\na corner of one"),
+         ("Customs", "Cleared by people\nwho know the desk"),
+         ("Tracking", "Where it is, not\nwhere it should be"),
+         ("Warehousing", "Stored, counted,\nand insured"),
+         ("Documents", "The paperwork is\nthe shipment"),
+         ("Supplies", "General supply\ntenders, delivered"),
+         ("Quotes", "Costed in full.\nNo surprises at port"),
+         ("Insurance", "On the cargo, not\njust the promise"),
+         ("Last mile", "To the door, not\nto the depot"),
+         ("Fragile", "Packed for the\nroad it will take"),
+         ("Contact", "One person owns\nyour shipment")],
+    ),
+    Campaign(
+        "tbb-tires", "feed", "TBB Tires", "To Be The Best",
+        "#1D1D1D", "#EEEC01", "#F3F3EE", "Tyre campaign",
+        [("Grip", "The road is wet\nfor nine seconds"),
+         ("Range", "Every size on the\nshelf, not on order"),
+         ("Pressure", "Two psi is a full\ntank a month"),
+         ("Tread", "A coin tells you\nmore than a glance"),
+         ("Season", "Summer rubber in\nDecember is a bet"),
+         ("Fitting", "In and out in\nthirty minutes"),
+         ("Balance", "The shake at 90\nis not the engine"),
+         ("Warranty", "Five years, in\nwriting"),
+         ("Online", "Ordered at night,\nfitted at nine"),
+         ("Alignment", "Your car pulls.\nYou correct. It wears"),
+         ("Nitrogen", "Steadier pressure,\ncooler rubber"),
+         ("Advice", "Tell us the car,\nnot the part number")],
     ),
 ]
 
@@ -314,17 +410,22 @@ def post(size, campaign, index, kicker, text):
     """One square campaign post. Five layouts, rotated through the set."""
     style = index % 5
     w = h = size
-    if style in (0, 3):
-        bg, fg, sub, foot = campaign.deep, "#FFFFFF", campaign.accent, campaign.accent
+    # Whatever sits on the accent takes a colour the accent can carry: white on
+    # a red, near-black on a yellow.
+    on_accent = readable(campaign.accent)
+    if style == 0:
+        bg, fg, sub, foot, head = campaign.deep, "#FFFFFF", campaign.accent, campaign.accent, "#FFFFFF"
     elif style == 1:
-        # On the accent ground the kicker drops to the dark colour; white on
-        # gold or on red does not hold.
-        bg, fg, sub, foot = campaign.accent, "#FFFFFF", campaign.deep, campaign.deep
+        bg, fg, sub, foot, head = campaign.accent, on_accent, on_accent, on_accent, on_accent
     elif style == 2:
         # The footer sits inside the accent bar at the foot of this one.
-        bg, fg, sub, foot = campaign.tint, campaign.ink, campaign.accent, "#FFFFFF"
+        bg, fg, sub, foot, head = campaign.tint, campaign.ink, on_light(campaign), on_accent, campaign.ink
+    elif style == 3:
+        # The header row sits on the accent band across the top.
+        bg, fg, sub, foot, head = campaign.deep, "#FFFFFF", campaign.accent, campaign.accent, on_accent
     else:
-        bg, fg, sub, foot = campaign.tint, campaign.ink, campaign.accent, campaign.accent
+        bg, fg, sub, foot, head = (campaign.tint, campaign.ink, on_light(campaign),
+                                   on_light(campaign), campaign.ink)
 
     image = Image.new("RGB", (w, h), bg)
     draw = ImageDraw.Draw(image)
@@ -339,8 +440,8 @@ def post(size, campaign, index, kicker, text):
     elif style == 4:
         draw.pieslice([w * 0.62, h * 0.62, w * 1.5, h * 1.5], 0, 360, fill=campaign.accent)
 
-    logo(draw, m, m, w * 0.075, fg)
-    draw.text((m + w * 0.105, m + w * 0.012), campaign.brand, font=font(F_BOLD, w * 0.034), fill=fg)
+    logo(draw, m, m, w * 0.075, head)
+    draw.text((m + w * 0.105, m + w * 0.012), campaign.brand, font=font(F_BOLD, w * 0.034), fill=head)
     draw.text((m, h * 0.42), kicker.upper(), font=font(F_MONO, w * 0.028), fill=sub)
     headline(draw, (m, h * 0.49), text, font(F_DISP, w * 0.082), fg)
     draw.text((m, h - m * 0.9), campaign.line, font=font(F_REG, w * 0.026), fill=foot)
@@ -355,9 +456,11 @@ def portrait_post(w, h, campaign, kicker, text):
     m = w * 0.1
     logo(draw, m, m, w * 0.085, "#FFFFFF")
     draw.text((m + w * 0.12, m + w * 0.015), campaign.brand, font=font(F_BOLD, w * 0.038), fill="#FFFFFF")
-    draw.text((m, h * 0.52), kicker.upper(), font=font(F_MONO, w * 0.03), fill="#FFFFFF")
-    headline(draw, (m, h * 0.58), text, font(F_DISP, w * 0.088), "#FFFFFF")
-    draw.text((m, h - m * 0.85), campaign.line, font=font(F_REG, w * 0.028), fill="#FFFFFF")
+    # The gradient has reached the accent by here, so the lower half follows it.
+    lower = readable(campaign.accent)
+    draw.text((m, h * 0.52), kicker.upper(), font=font(F_MONO, w * 0.03), fill=lower)
+    headline(draw, (m, h * 0.58), text, font(F_DISP, w * 0.088), lower)
+    draw.text((m, h - m * 0.85), campaign.line, font=font(F_REG, w * 0.028), fill=lower)
     return image
 
 
@@ -371,7 +474,7 @@ def strip(w, h, campaign, label):
     image = Image.new("RGB", (w, h), campaign.accent)
     draw = ImageDraw.Draw(image)
     tracked(draw, (w / 2, h / 2 - h * 0.17), label.upper(), font(F_DISP, h * 0.3),
-            "#FFFFFF", h * 0.09, centred=True)
+            readable(campaign.accent), h * 0.09, centred=True)
     return image
 
 
@@ -409,7 +512,7 @@ def solo(w, h, campaign, index):
     image.paste(post(540, campaign, index, kicker, text).resize((int(size), int(size)), Image.LANCZOS),
                 (int(m), int(m)))
     x = m * 2 + size
-    draw.text((x, h * 0.3), kicker.upper(), font=font(F_MONO, h * 0.045), fill=campaign.accent)
+    draw.text((x, h * 0.3), kicker.upper(), font=font(F_MONO, h * 0.045), fill=on_light(campaign))
     headline(draw, (x, h * 0.39), text, font(F_DISP, h * 0.1), campaign.ink)
     return image
 
@@ -546,7 +649,8 @@ def banner(w, h, campaign):
         draw.line([(x, 0), (x, h)], fill=mix(campaign.deep, campaign.accent, (x / w) ** 1.5 * 0.7))
     m = w * 0.055
     logo(draw, m, h * 0.3, h * 0.17, "#FFFFFF")
-    tracked(draw, (m, h * 0.3), campaign.brand.upper(), font(F_DISP, h * 0.17), "#FFFFFF", h * 0.02)
+    tracked(draw, (m + h * 0.23, h * 0.3), campaign.brand.upper(),
+            font(F_DISP, h * 0.17), "#FFFFFF", h * 0.02)
     draw.text((m, h * 0.62), campaign.line + "   ·   Social Media Management",
               font=font(F_REG, h * 0.055), fill="#FFFFFF")
     size = h * 0.56
