@@ -39,3 +39,36 @@ describe("Case study artwork", () => {
     ).toEqual([]);
   });
 });
+
+/**
+ * A written case study that keeps its screenshots in a block at the end reads as
+ * prose with pictures parked after it. Every one that carries writing has to put
+ * at least some of its artwork beside the writing it belongs to.
+ */
+describe("Written case studies", () => {
+  const written = projects.filter((project) => project.sections?.length);
+
+  it("has written case studies to check", () => {
+    expect(written.length).toBeGreaterThan(0);
+  });
+
+  it("puts artwork beside the writing, not only after it", () => {
+    const prosey = written
+      .filter((project) => {
+        const figures = project.sections!.flatMap((section) => [
+          ...(section.items ?? []).filter((item) => item.figure),
+          ...(section.figure ? [section.figure] : []),
+        ]);
+        return figures.length === 0;
+      })
+      .map((project) => project.slug);
+
+    expect(prosey, "these read as paragraphs with the pictures at the end").toEqual([]);
+  });
+
+  it("gives every live project a link to it", () => {
+    for (const project of projects.filter((p) => p.services.includes("web-development"))) {
+      expect(project.liveUrl, `${project.slug}`).toMatch(/^https:\/\//);
+    }
+  });
+});

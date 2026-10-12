@@ -679,7 +679,7 @@ export const projects: Project[] = [
     year: '2026',
     summary: 'A bilingual storefront and the operations system behind it — inventory, POS, suppliers, purchase orders, returns and reporting — built for a luggage retailer selling in Egypt.',
     stack: ['nextjs', 'react', 'typescript', 'tailwind', 'supabase', 'postgres', 'serverActions', 'zod', 'zustand', 'recharts', 'puppeteer', 'resend', 'twilio', 'vercel'],
-    liveUrl: null,
+    liveUrl: 'https://mm-bags.vercel.app',
     cover: '/work/mm-bags/storefront-ar.webp',
     coverWidth: 1600,
     coverHeight: 833,
@@ -1099,7 +1099,7 @@ export const projects: Project[] = [
     year: '2026',
     summary: 'A media-heavy studio site where the imagery is the product: a Cloudinary-driven image pipeline, one route serving four different media experiences, and booking that works without a backend.',
     stack: ['react', 'vite', 'typescript', 'tailwind', 'radix', 'framerMotion', 'reactRouter', 'emailjs', 'cloudinary', 'vercel'],
-    liveUrl: null,
+    liveUrl: 'https://ojosstudio.com',
     cover: '/work/ojos-studio/home.webp',
     coverWidth: 1200,
     coverHeight: 758,
@@ -1212,7 +1212,7 @@ export const projects: Project[] = [
     year: '2026',
     summary: 'A bilingual, Arabic-first site for a Saudi signage company, built entirely from the company\'s own un-captioned photo archive — where the hard part was deciding what could honestly be said about each photograph.',
     stack: ['nextjs', 'react', 'typescript', 'tailwind', 'vercel'],
-    liveUrl: null,
+    liveUrl: 'https://brandkey-sa.vercel.app/ar',
     cover: '/work/brandkey/home-ar.webp',
     coverWidth: 1600,
     coverHeight: 944,
@@ -1245,6 +1245,80 @@ export const projects: Project[] = [
       ],
     },
     {
+      type: 'features',
+      title: 'What the site had to get right',
+      items: [
+        {
+          title: 'Arabic first, English second',
+          body:
+            'Arabic is the default locale and the x-default target; English is the alternate. The same page in both directions, not a translated layer over an English layout. The locale segment owns the document\'s lang and dir, so direction is a property of the document rather than a CSS afterthought.',
+          figure: {
+            src: '/work/brandkey/home-en.webp',
+            alt: 'The same Brand Key home page in English, left-to-right, with the headline and calls to action mirrored to the other side',
+            width: 1600,
+            height: 944,
+            caption: 'The same page, the other way round.',
+          },
+        },
+        {
+          title: 'A photo dump is not a portfolio',
+          body:
+            'The first version put one card on the work page per photograph. It looked like a portfolio and behaved like a camera roll: a job photographed from four angles became four projects. The unit was wrong. A visitor is not asking how many photographs there are, they are asking whether this workshop has done their kind of job. The card became a job, and every other frame of that job lives inside it.',
+          figure: {
+            src: '/work/brandkey/work.webp',
+            alt: 'The work page in Arabic, showing category filters and a grid of project cards with badges reading plus two, plus four and plus nine extra frames',
+            width: 1600,
+            height: 944,
+            caption: 'One card per job. The badge is the number of further frames inside it.',
+          },
+        },
+        {
+          title: 'A job page that only claims what the photographs show',
+          body:
+            'With no captions anywhere in the archive, client names, dates, materials and dimensions were genuinely unknown. A sign company\'s portfolio reads perfectly well with invented project titles and confident dates, and nobody would check. Each job page says what the photographs support and stops there.',
+          figure: {
+            src: '/work/brandkey/project.webp',
+            alt: 'A project detail page in Arabic showing one signage job with its photographs and a description of the work',
+            width: 1600,
+            height: 944,
+          },
+        },
+        {
+          title: 'Only the services the archive can stand behind',
+          body:
+            'The brief listed services the photographs could not support. Those are not on the site. The service groups that are there each carry the work that proves them.',
+          figure: {
+            src: '/work/brandkey/services.webp',
+            alt: 'The services page in Arabic listing the workshop\'s service groups with photographs',
+            width: 1600,
+            height: 944,
+          },
+        },
+        {
+          title: 'A catalogue that orders where the customers already are',
+          body:
+            'Brand Key\'s customers find them on WhatsApp, so that is where an order starts. Each call to action carries its own pre-written Arabic message, so the first thing the owner receives already says what the enquiry is about.',
+          figure: {
+            src: '/work/brandkey/printing.webp',
+            alt: 'The printing catalogue page in Arabic, a grid of printed product cards each with an order button',
+            width: 1600,
+            height: 944,
+          },
+        },
+        {
+          title: 'Built for the phone, because that is the whole audience',
+          body:
+            'The archive came from Instagram and the enquiries arrive on WhatsApp. The phone layout is not a narrowed desktop: it leads with the facade photograph and the quote request, which are the two things a customer came for.',
+          figure: {
+            src: '/work/brandkey/m-home.webp',
+            alt: 'The Brand Key home page on a phone in Arabic, with the facade photograph and the quote request button',
+            width: 760,
+            height: 1299,
+          },
+        },
+      ],
+    },
+    {
       type: 'outcome',
       title: 'Where it landed',
       body: [
@@ -1254,14 +1328,8 @@ export const projects: Project[] = [
       ],
     },
     ],
-    gallery: [
-      { src: '/work/brandkey/home-en.webp', alt: 'Brand Key home page in English, left-to-right, over the same night facade photography', width: 1600, height: 944 },
-      { src: '/work/brandkey/work.webp', alt: 'Brand Key work page showing completed signage and facade projects', width: 1600, height: 944 },
-      { src: '/work/brandkey/project.webp', alt: 'A project detail page in Arabic showing one signage job with its photographs and a description of the work', width: 1600, height: 944 },
-      { src: '/work/brandkey/services.webp', alt: 'The services page in Arabic listing the workshop\'s service groups with photographs', width: 1600, height: 944 },
-      { src: '/work/brandkey/printing.webp', alt: 'The printing catalogue page in Arabic, a grid of printed product cards each with an order button', width: 1600, height: 944 },
-      { src: '/work/brandkey/m-home.webp', alt: 'The Brand Key home page on a phone in Arabic, with the facade photograph and the quote request button', width: 760, height: 1299 },
-    ],
+    gallery: [],
+    // every screenshot now sits beside the decision it illustrates
     video: null,
   },
   {
