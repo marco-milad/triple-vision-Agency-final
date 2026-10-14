@@ -472,6 +472,7 @@ export const projects: Project[] = [
     ],
     caseStudyStyle: 'scroll',
     continuous: true,
+    cardImage: '/work/dr-noura-khaled/card.webp',
     cover: '/work/dr-noura-khaled/01-opening.webp',
     coverAlt: 'The opening board: a Facebook post on a phone reading Welcome to the journey, over a wall of the campaign\'s work',
     coverWidth: 1400,
@@ -493,7 +494,7 @@ export const projects: Project[] = [
       { src: '/work/dr-noura-khaled/15-photoshoot.webp', alt: 'A title band reading Photoshots, over two studio portraits of the doctor', width: 1400, height: 1100 },
       { src: '/work/dr-noura-khaled/16-photoshoot.webp', alt: 'Two further studio portraits, in the operating gown and in the clinic', width: 1400, height: 959 },
     ],
-    brand: { accent: '#C769C5', onAccent: '#FFFFFF' },
+    brand: { accent: '#DDC695', onAccent: '#15151B' },
     video: null,
   },
   {

@@ -25,6 +25,7 @@ LOGOS = {
     "Dr.Bassant": "neurology-clinic",
     "Dr.Bishoy Ghabrial": "dr-bishoy-ghabrial-clinic",
     "Dr.Fady Fawzy": "dr-fady-fawzy",
+    "Dr.Noura": "dr-noura-khaled",
     "Fast Clincs": "fast-clinics",
     "Fouda": "mohamed-fouda-law",
     "Nourish": "nourish-cosmetics",
