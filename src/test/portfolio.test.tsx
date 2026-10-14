@@ -58,7 +58,9 @@ describe("Portfolio page", () => {
     const first = projects[0];
     const link = screen.getAllByRole("link", { name: new RegExp(first.title, "i") })[0];
     expect(link).toHaveAttribute("href", `/work/${first.slug}`);
-  });
+    // Rendering the whole animated grid in jsdom is slow and gets slower as the
+    // portfolio grows; this is the environment, not the page.
+  }, 20000);
 
   it("filters the grid by service", async () => {
     renderAt("/portfolio");

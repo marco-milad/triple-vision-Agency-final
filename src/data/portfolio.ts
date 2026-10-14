@@ -86,6 +86,21 @@ export interface Project {
    * one already carries its own headings and copy.
    */
   caseStudyStyle?: 'feed' | 'deck' | 'scroll' | 'board';
+  /**
+   * The client's own colour, so a case study page reads as the brand it is
+   * about rather than as the agency's template. `accent` is already lifted far
+   * enough to be legible on the site's dark ground; `onAccent` is what reads on
+   * top of it once it is a filled background.
+   *
+   * scripts/extract-brand-colours.py derives both from the client's logo.
+   */
+  brand?: { accent: string; onAccent: string };
+  /**
+   * The artwork is one composition cut into pieces rather than a set of
+   * separate ones, so the pieces butt flush. The usual hairline between pieces
+   * would draw a visible seam straight through the design.
+   */
+  continuous?: boolean;
   /** Artwork and names are stand-ins; the page shape is final. */
   placeholder?: boolean;
   /**
@@ -139,6 +154,7 @@ export const projects: Project[] = [
       { src: '/work/dr-bishoy-ghabrial-clinic/20-board.webp', alt: 'Dr. Bishoy Ghabrial campaign, the check-up post shown large beside its line', width: 1400, height: 821 },
       { src: '/work/dr-bishoy-ghabrial-clinic/21-closing.webp', alt: 'Dr. Bishoy Ghabrial campaign, a closing board, three posts in a row', width: 1400, height: 1014 },
     ],
+    brand: { accent: '#C8973F', onAccent: '#FFFFFF' },
     video: null,
     featured: true,
   },
@@ -156,28 +172,19 @@ export const projects: Project[] = [
       { label: 'Design', value: 'Art Direction, Graphic Design' },
       { label: 'Client', value: 'Cairo Scan Specialized Clinics' },
     ],
-    caseStudyStyle: 'deck',
-    placeholder: true,
+    caseStudyStyle: 'scroll',
+    continuous: true,
     cardImage: '/work/cairo-scan/card.webp',
-    cover: '/work/cairo-scan/01-key-visual.webp',
-    coverAlt: 'Cairo Scan campaign, the opening key visual, the wordmark over four posts from the set',
+    cover: '/work/cairo-scan/01-opening.webp',
+    coverAlt: 'The opening board: a doctor holding a clipboard that reads Social Media Designs, over Cairo Scan red',
     coverWidth: 1400,
-    coverHeight: 1375,
+    coverHeight: 1400,
     gallery: [
-      { src: '/work/cairo-scan/02-title.webp', alt: 'Cairo Scan campaign, a title band reading Diagnostics campaign', width: 1400, height: 212 },
-      { src: '/work/cairo-scan/03-subtitle.webp', alt: 'Cairo Scan campaign, a title band reading Specialized Clinics', width: 1400, height: 212 },
-      { src: '/work/cairo-scan/04-the-kit.webp', alt: 'Cairo Scan campaign, the colours and type the campaign was built from', width: 1400, height: 1412 },
-      { src: '/work/cairo-scan/05-board.webp', alt: 'Cairo Scan campaign, a board carrying the results and radiology posts', width: 1400, height: 572 },
-      { src: '/work/cairo-scan/06-board.webp', alt: 'Cairo Scan campaign, the waiting post shown large beside its line', width: 1400, height: 562 },
-      { src: '/work/cairo-scan/07-board.webp', alt: 'Cairo Scan campaign, a board carrying the coverage and second opinion posts', width: 1400, height: 517 },
-      { src: '/work/cairo-scan/08-board.webp', alt: 'Cairo Scan campaign, a detail lifted out of the women\'s health post', width: 1400, height: 562 },
-      { src: '/work/cairo-scan/09-board.webp', alt: 'Cairo Scan campaign, a board carrying the paediatric and reports posts', width: 1400, height: 562 },
-      { src: '/work/cairo-scan/10-board.webp', alt: 'Cairo Scan campaign, the contrast post shown large beside its line', width: 1400, height: 517 },
-      { src: '/work/cairo-scan/11-board.webp', alt: 'Cairo Scan campaign, a board carrying the archive and night posts', width: 1400, height: 568 },
-      { src: '/work/cairo-scan/12-board.webp', alt: 'Cairo Scan campaign, a detail lifted out of the insurance post', width: 1400, height: 569 },
-      { src: '/work/cairo-scan/13-in-the-feed.webp', alt: 'Cairo Scan campaign, three phones showing the posts in the feed', width: 1400, height: 549 },
-      { src: '/work/cairo-scan/14-closing.webp', alt: 'Cairo Scan campaign, a closing board, three posts in a row', width: 1400, height: 1020 },
+      { src: '/work/cairo-scan/02-lockup.webp', alt: 'The Cairo Scan mark beside the Triple Vision mark, under the title Social Media Designs', width: 1400, height: 279 },
+      { src: '/work/cairo-scan/03-posts.webp', alt: 'Eight awareness posts in Arabic - morning stiffness, the sound of your heartbeat, the bill for eating badly, the diabetic foot, blood clotting, your back at work, acid reflux and your shoulder - each carrying the clinic\'s 19144 hotline and the Ray Lab Group mark', width: 1400, height: 2806 },
+      { src: '/work/cairo-scan/04-in-the-feed.webp', alt: 'Three phones showing the posts as they ran in the feed, with their Arabic captions', width: 1400, height: 1091 },
     ],
+    brand: { accent: '#E06870', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -216,6 +223,7 @@ export const projects: Project[] = [
       { src: '/work/technoscan/13-in-the-feed.webp', alt: 'Technoscan campaign, three phones showing the posts in the feed', width: 1400, height: 549 },
       { src: '/work/technoscan/14-closing.webp', alt: 'Technoscan campaign, a closing board, three posts in a row', width: 1400, height: 1020 },
     ],
+    brand: { accent: '#00B7B5', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -253,6 +261,7 @@ export const projects: Project[] = [
       { src: '/work/solve-clinic/12-post.webp', alt: 'SOLVE campaign, the payment post, split over the treatment', width: 714, height: 714 },
       { src: '/work/solve-clinic/13-story.webp', alt: 'SOLVE campaign, the story cut, a number that answers', width: 1080, height: 1350 },
     ],
+    brand: { accent: '#6B975F', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -289,6 +298,7 @@ export const projects: Project[] = [
       { src: '/work/dr-bichoy-magdi/12-post.webp', alt: 'Dr. Bichoy Magdi campaign, the cleaning post, fifteen minutes, twice a year', width: 714, height: 714 },
       { src: '/work/dr-bichoy-magdi/13-story.webp', alt: 'Dr. Bichoy Magdi campaign, the story cut, shade matched to your own enamel', width: 1080, height: 1350 },
     ],
+    brand: { accent: '#5F8BF2', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -325,6 +335,7 @@ export const projects: Project[] = [
       { src: '/work/diet-care/12-post.webp', alt: 'Diet Care campaign, the water post, before you decide you are hungry', width: 714, height: 714 },
       { src: '/work/diet-care/13-story.webp', alt: 'Diet Care campaign, the story cut, expected. planned for', width: 1080, height: 1350 },
     ],
+    brand: { accent: '#7CB342', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -363,6 +374,7 @@ export const projects: Project[] = [
       { src: '/work/dr-fady-fawzy/13-in-the-feed.webp', alt: 'Dr. Fady Fawzy campaign, three phones showing the posts in the feed', width: 1400, height: 549 },
       { src: '/work/dr-fady-fawzy/14-closing.webp', alt: 'Dr. Fady Fawzy campaign, a closing board, three posts in a row', width: 1400, height: 1020 },
     ],
+    brand: { accent: '#688FB8', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -400,6 +412,7 @@ export const projects: Project[] = [
       { src: '/work/pax-dental-house/13-in-the-feed.webp', alt: 'PAX campaign, three phones showing the posts in the feed', width: 1400, height: 549 },
       { src: '/work/pax-dental-house/14-closing.webp', alt: 'PAX campaign, a closing board, three posts in a row', width: 1400, height: 1020 },
     ],
+    brand: { accent: '#B08D57', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -438,6 +451,48 @@ export const projects: Project[] = [
       { src: '/work/neurology-clinic/12-post.webp', alt: 'Neurology Clinic campaign, the back post, numbness is a nerve, not a muscle', width: 714, height: 714 },
       { src: '/work/neurology-clinic/13-story.webp', alt: 'Neurology Clinic campaign, the story cut, sent to your doctor the same day', width: 1080, height: 1350 },
     ],
+    brand: { accent: '#DFA479', onAccent: '#FFFFFF' },
+    video: null,
+  },
+  {
+    slug: 'dr-noura-khaled',
+    title: 'Dr. Noura Khaled',
+    client: 'Dr. Noura Khaled',
+    services: ['social-media-management', 'photography'],
+    industry: 'Healthcare',
+    summary:
+      'Social content, stories, carousels, page artwork and a studio shoot for a plastic surgery consultant \u2014 built around the questions patients actually arrive with rather than around the procedures.',
+    category: 'Healthcare campaigns',
+    facts: [
+      { label: 'Task', value: 'Social Media Management, Photography' },
+      { label: 'Strategy', value: 'Brand & Competitive Analysis, Social Media Strategy, Content Creation, Creative Copywriting' },
+      { label: 'Design', value: 'Art Direction, Graphic Design' },
+      { label: 'Client', value: 'Dr. Noura Khaled' },
+    ],
+    caseStudyStyle: 'scroll',
+    continuous: true,
+    cover: '/work/dr-noura-khaled/01-opening.webp',
+    coverAlt: 'The opening board: a Facebook post on a phone reading Welcome to the journey, over a wall of the campaign\'s work',
+    coverWidth: 1400,
+    coverHeight: 1400,
+    gallery: [
+      { src: '/work/dr-noura-khaled/02-lockup.webp', alt: 'Dr. Noura Khaled\'s mark beside the Triple Vision mark, under the title Social Media Designs', width: 1400, height: 279 },
+      { src: '/work/dr-noura-khaled/03-posts-dysmorphia.webp', alt: 'Two posts in Arabic: that everyone notices flaws in their own appearance, and what body dysmorphic disorder actually is', width: 1400, height: 1157 },
+      { src: '/work/dr-noura-khaled/04-posts-surgery.webp', alt: 'Two posts in Arabic asking what a plastic surgeon is for, and whether surgery is always the answer', width: 1400, height: 822 },
+      { src: '/work/dr-noura-khaled/05-posts-natural.webp', alt: 'Two posts in Arabic: that the best result is the one that looks natural, and an introduction to the doctor', width: 1400, height: 827 },
+      { src: '/work/dr-noura-khaled/06-posts-body.webp', alt: 'Two posts in Arabic on loose skin after weight loss, and on how motherhood changes the body', width: 1400, height: 817 },
+      { src: '/work/dr-noura-khaled/07-stories-title.webp', alt: 'A title band reading Social Media Stories', width: 1400, height: 312 },
+      { src: '/work/dr-noura-khaled/08-stories.webp', alt: 'Three stories in Arabic: a mommy makeover, a result that still looks like you, and loving yourself as you are', width: 1400, height: 712 },
+      { src: '/work/dr-noura-khaled/09-stories.webp', alt: 'Three stories in Arabic on facing summer with confidence, what is holding you back, and feeling a change in your body', width: 1400, height: 709 },
+      { src: '/work/dr-noura-khaled/10-carousel-title.webp', alt: 'A title band reading Social Media Carousel', width: 1400, height: 282 },
+      { src: '/work/dr-noura-khaled/11-carousel.webp', alt: 'The opening frames of the carousel, carrying the body image series across several cards', width: 1400, height: 546 },
+      { src: '/work/dr-noura-khaled/12-carousel.webp', alt: 'The closing frames of the same carousel', width: 1400, height: 542 },
+      { src: '/work/dr-noura-khaled/13-in-the-feed.webp', alt: 'A title band reading Social Media Posts, over three phones showing the posts as they ran, with their Arabic captions', width: 1400, height: 994 },
+      { src: '/work/dr-noura-khaled/14-photo-and-cover.webp', alt: 'A title band reading Photo and Cover, over the clinic\'s Facebook page with its cover image and profile picture in place', width: 1400, height: 1071 },
+      { src: '/work/dr-noura-khaled/15-photoshoot.webp', alt: 'A title band reading Photoshots, over two studio portraits of the doctor', width: 1400, height: 1100 },
+      { src: '/work/dr-noura-khaled/16-photoshoot.webp', alt: 'Two further studio portraits, in the operating gown and in the clinic', width: 1400, height: 959 },
+    ],
+    brand: { accent: '#C769C5', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -483,6 +538,7 @@ export const projects: Project[] = [
       { src: '/work/one-stop-gresco/20-board.webp', alt: 'One Stop campaign, the tread post shown large beside its line', width: 1400, height: 821 },
       { src: '/work/one-stop-gresco/21-closing.webp', alt: 'One Stop campaign, a closing board, three posts in a row', width: 1400, height: 1014 },
     ],
+    brand: { accent: '#F15D5D', onAccent: '#FFFFFF' },
     video: null,
     featured: true,
   },
@@ -521,6 +577,7 @@ export const projects: Project[] = [
       { src: '/work/global-auto-parts/13-in-the-feed.webp', alt: 'Global campaign, three phones showing the posts in the feed', width: 1400, height: 549 },
       { src: '/work/global-auto-parts/14-closing.webp', alt: 'Global campaign, a closing board, three posts in a row', width: 1400, height: 1020 },
     ],
+    brand: { accent: '#F0A500', onAccent: '#15151B' },
     video: null,
   },
   {
@@ -559,6 +616,7 @@ export const projects: Project[] = [
       { src: '/work/mohamed-fouda-law/13-in-the-feed.webp', alt: 'Mohamed Fouda campaign, three phones showing the posts in the feed', width: 1400, height: 549 },
       { src: '/work/mohamed-fouda-law/14-closing.webp', alt: 'Mohamed Fouda campaign, a closing board, three posts in a row', width: 1400, height: 1020 },
     ],
+    brand: { accent: '#C8A57D', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -596,6 +654,7 @@ export const projects: Project[] = [
       { src: '/work/nourish-cosmetics/12-post.webp', alt: 'Nourish campaign, the sets post, priced as a routine, not a shelf', width: 714, height: 714 },
       { src: '/work/nourish-cosmetics/13-story.webp', alt: 'Nourish campaign, the story cut, opened and used. still returnable', width: 1080, height: 1350 },
     ],
+    brand: { accent: '#039CC4', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -633,6 +692,7 @@ export const projects: Project[] = [
       { src: '/work/tbg-train-brain-to-gain/12-post.webp', alt: 'TBG campaign, the maths post, anxiety is the first thing we treat', width: 714, height: 714 },
       { src: '/work/tbg-train-brain-to-gain/13-story.webp', alt: 'TBG campaign, the story cut, study skills that survive exams', width: 1080, height: 1350 },
     ],
+    brand: { accent: '#F79156', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -795,6 +855,7 @@ export const projects: Project[] = [
       { src: '/work/mm-bags/home.webp', alt: 'M.M Bags — Home', width: 1600, height: 1000 },
       { src: '/work/mm-bags/product.webp', alt: 'M.M Bags — Product', width: 1600, height: 1000 },
     ],
+    brand: { accent: '#718EC3', onAccent: '#FFFFFF' },
     video: null,
     featured: true,
   },
@@ -947,6 +1008,7 @@ export const projects: Project[] = [
       { src: '/work/gold-jewelry-erp/wholesale-statement.webp', alt: 'Mogohrat Al-Gabaly — Wholesale statement', width: 1161, height: 1600 },
       { src: '/work/gold-jewelry-erp/m-activity.webp', alt: 'Mogohrat Al-Gabaly — Mobile activity', width: 760, height: 1644 },
     ],
+    brand: { accent: '#5F91D4', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -1086,6 +1148,7 @@ export const projects: Project[] = [
       { src: '/work/ray-lab/financial-highlights.webp', alt: 'Ray Lab Group — Financial highlights', width: 850, height: 1600 },
       { src: '/work/ray-lab/press-room.webp', alt: 'Ray Lab Group — Press room', width: 922, height: 1600 },
     ],
+    brand: { accent: '#75AA43', onAccent: '#FFFFFF' },
     video: null,
     featured: true,
   },
@@ -1200,6 +1263,7 @@ export const projects: Project[] = [
       { src: '/work/ojos-studio/portfolio-wedding.webp', alt: 'OJOS Studio — Portfolio wedding', width: 1600, height: 1000 },
       { src: '/work/ojos-studio/m-news.webp', alt: 'OJOS Studio — Mobile news', width: 760, height: 1644 },
     ],
+    brand: { accent: '#B8805B', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -1330,6 +1394,7 @@ export const projects: Project[] = [
     ],
     gallery: [],
     // every screenshot now sits beside the decision it illustrates
+    brand: { accent: '#BFB590', onAccent: '#15151B' },
     video: null,
   },
   {
@@ -1368,6 +1433,7 @@ export const projects: Project[] = [
       { src: '/work/abhathk/13-in-the-feed.webp', alt: 'abhathk campaign, three phones showing the posts in the feed', width: 1400, height: 549 },
       { src: '/work/abhathk/14-closing.webp', alt: 'abhathk campaign, a closing board, three posts in a row', width: 1400, height: 1020 },
     ],
+    brand: { accent: '#6E8DCB', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -1405,6 +1471,7 @@ export const projects: Project[] = [
       { src: '/work/fast-clinics/12-post.webp', alt: 'FAST Clinics campaign, the programmes post, twelve weeks. two visits a week', width: 714, height: 714 },
       { src: '/work/fast-clinics/13-story.webp', alt: 'FAST Clinics campaign, the story cut, message, do not queue', width: 1080, height: 1350 },
     ],
+    brand: { accent: '#ED6531', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -1450,6 +1517,7 @@ export const projects: Project[] = [
       { src: '/work/praxis/20-board.webp', alt: 'PRAXIS campaign, the follow-up post shown large beside its line', width: 1400, height: 821 },
       { src: '/work/praxis/21-closing.webp', alt: 'PRAXIS campaign, a closing board, three posts in a row', width: 1400, height: 1014 },
     ],
+    brand: { accent: '#698ADD', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -1488,6 +1556,7 @@ export const projects: Project[] = [
       { src: '/work/sky-line-logistics/13-in-the-feed.webp', alt: 'SKY LINE campaign, three phones showing the posts in the feed', width: 1400, height: 549 },
       { src: '/work/sky-line-logistics/14-closing.webp', alt: 'SKY LINE campaign, a closing board, three posts in a row', width: 1400, height: 1020 },
     ],
+    brand: { accent: '#7D8ECC', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -1525,6 +1594,7 @@ export const projects: Project[] = [
       { src: '/work/tbb-tires/12-post.webp', alt: 'TBB Tires campaign, the nitrogen post, steadier pressure, cooler rubber', width: 714, height: 714 },
       { src: '/work/tbb-tires/13-story.webp', alt: 'TBB Tires campaign, the story cut, tell us the car, not the part number', width: 1080, height: 1350 },
     ],
+    brand: { accent: '#EEEB02', onAccent: '#15151B' },
     video: null,
   },
   /**
@@ -1569,6 +1639,7 @@ export const projects: Project[] = [
       { src: '/work/branding-food-group/08-look-and-feel.webp', alt: 'MAZRA rebranding board, stationery, lanyard and desk calendar', width: 1920, height: 1878 },
       { src: '/work/branding-food-group/09-outdoor.webp', alt: 'MAZRA rebranding board, the brand outdoors, on signage and a vending unit', width: 1920, height: 1945 },
     ],
+    brand: { accent: '#E8A020', onAccent: '#FFFFFF' },
     video: null,
   },
   /**
@@ -1618,6 +1689,7 @@ export const projects: Project[] = [
       { src: '/work/branding-landscape-company/brand-book-12.webp', alt: 'VERDE brand book, the letterhead and the business cards', width: 1100, height: 575 },
       { src: '/work/branding-landscape-company/brand-book-13.webp', alt: 'VERDE brand book, signage, uniform and vehicle applications', width: 1086, height: 619 },
     ],
+    brand: { accent: '#459D66', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -1648,6 +1720,7 @@ export const projects: Project[] = [
       { src: '/work/branding-spend-platform/brand-book-05.webp', alt: 'QUANTA brand book, the identity applied to the product interface', width: 960, height: 540 },
       { src: '/work/branding-spend-platform/brand-book-06.webp', alt: 'QUANTA brand book, the letterhead and the business cards', width: 960, height: 540 },
     ],
+    brand: { accent: '#6283FF', onAccent: '#FFFFFF' },
     video: null,
   },
 ];
