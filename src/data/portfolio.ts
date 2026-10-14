@@ -128,6 +128,7 @@ export const projects: Project[] = [
     ],
     caseStudyStyle: 'scroll',
     placeholder: true,
+    cardImage: '/work/dr-bishoy-ghabrial-clinic/card.webp',
     cover: '/work/dr-bishoy-ghabrial-clinic/01-key-visual.webp',
     coverAlt: 'Dr. Bishoy Ghabrial campaign, the opening key visual, the wordmark over four posts from the set',
     coverWidth: 1400,
@@ -154,7 +155,7 @@ export const projects: Project[] = [
       { src: '/work/dr-bishoy-ghabrial-clinic/20-board.webp', alt: 'Dr. Bishoy Ghabrial campaign, the check-up post shown large beside its line', width: 1400, height: 821 },
       { src: '/work/dr-bishoy-ghabrial-clinic/21-closing.webp', alt: 'Dr. Bishoy Ghabrial campaign, a closing board, three posts in a row', width: 1400, height: 1014 },
     ],
-    brand: { accent: '#C8973F', onAccent: '#FFFFFF' },
+    brand: { accent: '#C6AA72', onAccent: '#FFFFFF' },
     video: null,
     featured: true,
   },
@@ -374,7 +375,7 @@ export const projects: Project[] = [
       { src: '/work/dr-fady-fawzy/13-in-the-feed.webp', alt: 'Dr. Fady Fawzy campaign, three phones showing the posts in the feed', width: 1400, height: 549 },
       { src: '/work/dr-fady-fawzy/14-closing.webp', alt: 'Dr. Fady Fawzy campaign, a closing board, three posts in a row', width: 1400, height: 1020 },
     ],
-    brand: { accent: '#688FB8', onAccent: '#FFFFFF' },
+    brand: { accent: '#E67864', onAccent: '#FFFFFF' },
     video: null,
   },
   {
@@ -1433,7 +1434,7 @@ export const projects: Project[] = [
       { src: '/work/abhathk/13-in-the-feed.webp', alt: 'abhathk campaign, three phones showing the posts in the feed', width: 1400, height: 549 },
       { src: '/work/abhathk/14-closing.webp', alt: 'abhathk campaign, a closing board, three posts in a row', width: 1400, height: 1020 },
     ],
-    brand: { accent: '#6E8DCB', onAccent: '#FFFFFF' },
+    brand: { accent: '#FBE087', onAccent: '#15151B' },
     video: null,
   },
   {
@@ -1556,7 +1557,7 @@ export const projects: Project[] = [
       { src: '/work/sky-line-logistics/13-in-the-feed.webp', alt: 'SKY LINE campaign, three phones showing the posts in the feed', width: 1400, height: 549 },
       { src: '/work/sky-line-logistics/14-closing.webp', alt: 'SKY LINE campaign, a closing board, three posts in a row', width: 1400, height: 1020 },
     ],
-    brand: { accent: '#7D8ECC', onAccent: '#FFFFFF' },
+    brand: { accent: '#F39577', onAccent: '#FFFFFF' },
     video: null,
   },
   {

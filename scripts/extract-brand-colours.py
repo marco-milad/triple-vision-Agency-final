@@ -76,7 +76,30 @@ def dominant(path):
         tally[pixel] += 1 + s * 2
     if not tally:
         return None
-    return max(tally.items(), key=lambda kv: kv[1])[0]
+
+    ranked = [colour for colour, _ in tally.most_common(12)]
+    first = ranked[0]
+
+    # A mark with two colours should give up the one that reads on a dark page
+    # rather than a lightened version of the one that does not. Dr. Bishoy's is
+    # navy and gold: the navy covers more, but lifting it far enough to be
+    # legible invents a blue the clinic does not use, while the gold is theirs
+    # and reads as it is.
+    #
+    # The test is hue, not brightness. Every mark also carries pale tints of
+    # itself where the letters are anti-aliased, and those are bright enough to
+    # qualify and plentiful enough to rank - judging on brightness alone turns
+    # Cairo Scan's red into a washed pink. A genuine second colour sits at a
+    # different hue; a halo sits at the same one.
+    def hue_of(colour):
+        return colorsys.rgb_to_hls(*(c / 255 for c in colour))[0] * 360
+
+    for colour in ranked[1:]:
+        gap = abs(hue_of(colour) - hue_of(first))
+        gap = min(gap, 360 - gap)
+        if gap >= 40 and luminance(colour) >= MIN_ON_DARK:
+            return colour
+    return first
 
 
 def generated_accents():
@@ -117,7 +140,12 @@ def source_for(slug, block):
 
 
 def run():
-    source = io.open(PORTFOLIO, encoding="utf-8", newline="").read()
+    # Git hands this file back with CRLF on Windows, so everything below works
+    # on LF and the original endings go back on write. Without this the anchors
+    # silently match nothing and no colour is written at all.
+    raw = io.open(PORTFOLIO, encoding="utf-8", newline="").read()
+    crlf = "\r\n" in raw
+    source = raw.replace("\r\n", "\n")
     rows = []
 
     for match in re.finditer(r"    slug: '([a-z0-9-]+)',", source):
@@ -150,7 +178,11 @@ def run():
     for slug, raw, accent, text, _ in rows:
         if not accent:
             continue
-        start = source.index("    slug: '%s',\n" % slug)
+        anchor = "    slug: '%s',\n" % slug
+        if anchor not in source:
+            print("  could not place a colour for %s" % slug)
+            continue
+        start = source.index(anchor)
         end = source.index("\n  },", start)
         block = source[start:end]
         block = re.sub(r"    brand: \{[^}]*\},\n", "", block)
@@ -161,6 +193,8 @@ def run():
         source = source[:start] + block + source[end:]
         written += 1
 
+    if crlf:
+        source = source.replace("\n", "\r\n")
     io.open(PORTFOLIO, "w", encoding="utf-8", newline="").write(source)
     print("\nwrote a brand colour for %d of %d projects" % (written, len(rows)))
     return rows

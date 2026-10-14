@@ -23,6 +23,7 @@ LOGOS = {
     "Abhathk": "abhathk",
     "Cairo Scan": "cairo-scan",
     "Dr.Bassant": "neurology-clinic",
+    "Dr.Bishoy Ghabrial": "dr-bishoy-ghabrial-clinic",
     "Dr.Fady Fawzy": "dr-fady-fawzy",
     "Fast Clincs": "fast-clinics",
     "Fouda": "mohamed-fouda-law",
