@@ -69,15 +69,34 @@ const WorkDetail = () => {
 
   const positionOf = (src: string) => viewerImages.findIndex((image) => image.src === src);
 
+  /**
+   * The client's colour, published once as a custom property so every piece of
+   * the page picks it up. Without a brand it falls back to the site's own, so
+   * the page is themed or it is the default - never half of each.
+   */
+  const brandStyle = {
+    '--brand': project.brand?.accent ?? 'hsl(var(--primary))',
+    '--brand-on': project.brand?.onAccent ?? 'hsl(var(--primary-foreground))',
+  } as React.CSSProperties;
+
   return (
     <Layout>
       <Seo title={`${project.title} — ${project.client}`} description={project.summary} />
 
+      {/* The client's colour, in scope for the whole page. */}
+      <div style={brandStyle}>
+
       {/* Hero */}
       <section className="pt-32 pb-12 px-6 relative overflow-hidden bg-gradient-to-br from-background via-background-secondary to-background">
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[140px]" />
-          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-orange-500/10 blur-[120px]" />
+          <div
+            className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full blur-[140px] opacity-20"
+            style={{ backgroundColor: 'var(--brand)' }}
+          />
+          <div
+            className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full blur-[120px] opacity-10"
+            style={{ backgroundColor: 'var(--brand)' }}
+          />
         </div>
 
         <div className="container mx-auto relative z-10">
@@ -103,7 +122,12 @@ const WorkDetail = () => {
           >
             <div className={stacked ? 'lg:col-span-5' : ''}>
               {project.category && (
-                <p className="text-primary font-semibold text-sm uppercase tracking-wider mb-4">{project.category}</p>
+                <p
+                  className="font-semibold text-sm uppercase tracking-wider mb-4"
+                  style={{ color: 'var(--brand)' }}
+                >
+                  {project.category}
+                </p>
               )}
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-4 leading-[1.1]">
@@ -112,7 +136,10 @@ const WorkDetail = () => {
 
               {/* The brief, beside the title rather than in a strip below it. */}
               {stacked && (
-                <dl className="mt-10 pt-8 border-t border-border/50 space-y-6">
+                <dl
+                  className="mt-10 pt-8 border-t space-y-6"
+                  style={{ borderColor: 'color-mix(in srgb, var(--brand) 35%, transparent)' }}
+                >
                   {facts.map((fact) => (
                     <div key={fact.label}>
                       <dt className="text-xs text-muted-foreground/60 font-semibold uppercase tracking-wider mb-1.5">
@@ -140,7 +167,12 @@ const WorkDetail = () => {
                   <Link
                     key={service.slug}
                     to={`/services/${service.slug}`}
-                    className="px-4 py-2 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm font-semibold hover:bg-primary/20 transition-colors"
+                    className="px-4 py-2 rounded-full border text-sm font-semibold transition-colors hover:brightness-125"
+                    style={{
+                      color: 'var(--brand)',
+                      borderColor: 'color-mix(in srgb, var(--brand) 40%, transparent)',
+                      backgroundColor: 'color-mix(in srgb, var(--brand) 12%, transparent)',
+                    }}
                   >
                     {service.title}
                   </Link>
@@ -151,7 +183,8 @@ const WorkDetail = () => {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary to-orange-500 text-primary-foreground text-sm font-bold hover:opacity-90 transition-opacity"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold hover:opacity-90 transition-opacity"
+                    style={{ backgroundColor: 'var(--brand)', color: 'var(--brand-on)' }}
                   >
                     Visit live site
                     <ExternalLink className="w-4 h-4" />
@@ -173,9 +206,13 @@ const WorkDetail = () => {
             own headings — a column and a gap would frame what is already framed.
           */}
           <div
-            className={
-              board ? 'w-full grid gap-0' : 'mx-auto max-w-[1400px] grid gap-2'
-            }
+            className={[
+              'grid',
+              board ? 'w-full' : 'mx-auto max-w-[1400px]',
+              // Separate pieces get the reference's hairline; a cut-up
+              // composition gets nothing, or the cut shows.
+              board || project.continuous ? 'gap-0' : 'gap-2',
+            ].join(' ')}
           >
             {stackedImages.map((image, i) => (
               <button
@@ -183,7 +220,7 @@ const WorkDetail = () => {
                 type="button"
                 onClick={() => setViewing(i)}
                 aria-label={`Open ${image.alt}`}
-                className="block w-full cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
+                className="block w-full cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[color:var(--brand)]"
               >
                 <img
                   src={image.src}
@@ -345,15 +382,11 @@ const WorkDetail = () => {
           <div className="container mx-auto max-w-5xl">
             <h2 className="text-2xl md:text-3xl font-black text-foreground mb-10">
               {project.galleryHeading ? (
-                <span className="bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent">
-                  {project.galleryHeading}
-                </span>
+                <span style={{ color: 'var(--brand)' }}>{project.galleryHeading}</span>
               ) : (
                 <>
                   More{' '}
-                  <span className="bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent">
-                    screens
-                  </span>
+                  <span style={{ color: 'var(--brand)' }}>screens</span>
                 </>
               )}
             </h2>
@@ -372,7 +405,7 @@ const WorkDetail = () => {
           <div className="container mx-auto max-w-5xl">
             <h2 className="text-2xl md:text-3xl font-black text-foreground mb-10">
               On a{' '}
-              <span className="bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent">phone</span>
+              <span style={{ color: 'var(--brand)' }}>phone</span>
             </h2>
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -445,6 +478,7 @@ const WorkDetail = () => {
         onClose={() => setViewing(null)}
         onIndexChange={setViewing}
       />
+      </div>
     </Layout>
   );
 };
