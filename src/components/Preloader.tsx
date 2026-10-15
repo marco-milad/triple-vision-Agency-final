@@ -42,18 +42,22 @@ const TIMINGS = {
 const BACKGROUND = 'hsl(280, 100%, 8%)';
 
 const SIZES = {
-  SVG_VIEWBOX: '0 0 340 115',
-  DISPLAY_WIDTH: 340,
-  DISPLAY_HEIGHT: 115,
-  LOGO_WIDTH: 320,
-  LOGO_HEIGHT: 64,
+  /*
+   * The logo file is 640x178. The viewBox matches it exactly and every
+   * coordinate in the drawing is measured off it, so the sketch and the image
+   * that replaces it occupy the same box and nothing shifts when they swap.
+   */
+  SVG_VIEWBOX: '0 0 640 178',
+  ASPECT: '640 / 178',
+  /** The widest it is drawn; below this it scales with the viewport. */
+  MAX_WIDTH: 420,
 } as const;
 
 const LOGO_URL =
   'https://res.cloudinary.com/dcui0elwh/image/upload/f_auto,q_auto,w_640/v1763917799/logo2_transparent_jjpgv6.png';
 
-/** Circumference of the "O" (r=15); pathLength is unreliable on <circle>. */
-const CIRCLE_LENGTH = 2 * Math.PI * 15;
+/** Circumference of the "O" (r=29); pathLength is unreliable on <circle>. */
+const CIRCLE_LENGTH = 2 * Math.PI * 29;
 
 const STROKE_CONFIGS: StrokeConfig[] = [
   // ── TRIPLE ──
@@ -68,24 +72,24 @@ const STROKE_CONFIGS: StrokeConfig[] = [
   { className: 'd-I2', delay: 0.75, duration: 0.7 },
   { className: 'd-S', delay: 0.85, duration: 1.1 },
   { className: 'd-I3', delay: 0.95, duration: 0.7 },
-  { className: 'd-O', delay: 1.05, duration: 1.1, strokeWidth: 5 },
+  { className: 'd-O', delay: 1.05, duration: 1.1 },
   { className: 'd-N', delay: 1.2, duration: 1.0 },
-  // ── AGENCY ──
-  { className: 'd-A', delay: 1.45, duration: 1.0 },
-  { className: 'd-G', delay: 1.55, duration: 1.1 },
-  { className: 'd-E2', delay: 1.65, duration: 1.0 },
-  { className: 'd-N2', delay: 1.75, duration: 1.0 },
-  { className: 'd-C', delay: 1.85, duration: 1.0 },
-  { className: 'd-Y', delay: 1.95, duration: 0.9 },
-  // ── underline ──
-  { className: 'd-line', delay: 2.1, duration: 0.7, strokeWidth: 1.5 },
+  // ── Agency: lighter and quicker, the way a signature is written ──
+  { className: 'd-ag-A', delay: 1.5, duration: 0.5, strokeWidth: 4.5 },
+  { className: 'd-ag-g', delay: 1.58, duration: 0.5, strokeWidth: 4.5 },
+  { className: 'd-ag-e', delay: 1.66, duration: 0.5, strokeWidth: 4.5 },
+  { className: 'd-ag-n', delay: 1.74, duration: 0.5, strokeWidth: 4.5 },
+  { className: 'd-ag-c', delay: 1.82, duration: 0.5, strokeWidth: 4.5 },
+  { className: 'd-ag-y', delay: 1.9, duration: 0.5, strokeWidth: 4.5 },
+  // ── the three bars close it ──
+  { className: 'd-mark', delay: 2.1, duration: 0.6, strokeWidth: 5 },
 ];
 
 const STYLES = (() => {
   const defs = STROKE_CONFIGS.map(
     ({ className, delay, duration, strokeWidth }) => `
     .${className} {
-      stroke-width: ${strokeWidth ?? 3.5};
+      stroke-width: ${strokeWidth ?? 7};
       animation: svgDraw ${(duration * DRAW_SPEED).toFixed(2)}s ${(delay * DRAW_SPEED).toFixed(2)}s ease-out forwards;
     }`,
   ).join('');
@@ -107,7 +111,14 @@ const STYLES = (() => {
       stroke-dashoffset: ${CIRCLE_LENGTH.toFixed(2)};
     }
     ${defs}
-    .d-line { opacity: 0.4; }
+    .d-mark { opacity: 0.6; }
+    /* A fill cannot be drawn with a dash offset, so it fades in once the O closes. */
+    .d-play {
+      fill: hsl(32, 100%, 50%);
+      opacity: 0;
+      animation: playIn ${(0.45 * DRAW_SPEED).toFixed(2)}s ${(1.75 * DRAW_SPEED).toFixed(2)}s ease-out forwards;
+    }
+    @keyframes playIn { to { opacity: 1; } }
   `;
 })();
 
@@ -261,16 +272,22 @@ const Preloader = () => {
         pointerEvents: isFading ? 'none' : 'auto',
       }}
     >
-      <div className="relative flex items-center justify-center px-4" style={{ transform: 'scale(1.15)' }}>
+      {/*
+        One box, given the logo's aspect ratio, holding both layers on top of
+        each other. Both fill it, so they are the same size and the same place
+        at every width, and the box itself is centred by the flex parent.
+      */}
+      <div
+        className="relative w-[min(86vw,420px)]"
+        style={{ aspectRatio: SIZES.ASPECT }}
+      >
         {/* SVG Stroke Animation */}
         <svg
           viewBox={SIZES.SVG_VIEWBOX}
-          width={SIZES.DISPLAY_WIDTH}
-          height={SIZES.DISPLAY_HEIGHT}
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
-          className="max-w-[85vw]"
+          className="absolute inset-0 w-full h-full"
           style={{
             opacity: showLogo ? 0 : 1,
             transition: 'opacity 0.35s ease-out',
@@ -279,116 +296,60 @@ const Preloader = () => {
           <style>{STYLES}</style>
 
           {/* ══ TRIPLE ══ */}
-
-          {/* T — top bar + vertical stem */}
           <path pathLength="1" className="sp d-T"
-            d="M5,18 L25,18
-               M15,18 L15,50" />
-
-          {/* R — vertical + bump + diagonal leg */}
+            d="M53,65 L99,65 M76,65 L76,121" />
           <path pathLength="1" className="sp d-R"
-            d="M30,50 L30,18
-               L43,18 Q51,18 51,27 Q51,36 43,36
-               L30,36
-               L51,50" />
-
-          {/* I */}
-          <path pathLength="1" className="sp d-I1" d="M58,18 L58,50" />
-
-          {/* P — vertical + closed bump */}
+            d="M103,121 L103,65 L138,65 Q152,65 152,79 Q152,93 138,93 L103,93 L152,121" />
+          <path pathLength="1" className="sp d-I1"
+            d="M164,65 L164,121" />
           <path pathLength="1" className="sp d-P"
-            d="M65,50 L65,18
-               L78,18 Q86,18 86,27 Q86,36 78,36
-               L65,36" />
-
-          {/* L — vertical + floor */}
+            d="M181,121 L181,65 L214,65 Q228,65 228,80 Q228,95 214,95 L181,95" />
           <path pathLength="1" className="sp d-L"
-            d="M93,18 L93,50 L108,50" />
-
-          {/* E — vertical + top + mid + bottom */}
+            d="M232,65 L232,121 L273,121" />
           <path pathLength="1" className="sp d-E1"
-            d="M115,18 L115,50
-               M115,18 L130,18
-               M115,34 L127,34
-               M115,50 L130,50" />
+            d="M320,65 L277,65 L277,121 L320,121 M277,93 L312,93" />
 
-          {/* ══ VISION ══ */}
-
-          {/* V — top-left → bottom-center → top-right */}
+          {/* ══ VISION — the gap before the V is the word space ══ */}
           <path pathLength="1" className="sp d-V"
-            d="M140,18 L152,50 L164,18" />
-
-          {/* I */}
-          <path pathLength="1" className="sp d-I2" d="M171,18 L171,50" />
-
-          {/* S — starts top right, upper curve, through the middle, lower curve */}
+            d="M339,65 L368,121 L397,65" />
+          <path pathLength="1" className="sp d-I2"
+            d="M411,65 L411,121" />
           <path pathLength="1" className="sp d-S"
-            d="M197,24
-               C197,18 191,18 186,18
-               C181,18 178,22 178,26
-               C178,31 183,33 188,35
-               C193,37 198,39 198,44
-               C198,48 195,52 190,52
-               C185,52 181,49 181,44" />
+            d="M471,74 Q471,65 448,65 Q425,65 425,79 Q425,93 448,93 Q471,93 471,107 Q471,121 448,121 Q425,121 425,112" />
+          <path pathLength="1" className="sp d-I3"
+            d="M484,65 L484,121" />
 
-          {/* I */}
-          <path pathLength="1" className="sp d-I3" d="M206,18 L206,50" />
+          {/* The O, with the brand's play mark inside it */}
+          <circle className="sp d-O" cx="526.5" cy="93" r="29" />
+          <polygon className="d-play" points="519,84 536,93 519,102" />
 
-          {/* O — the lens motif */}
-          <circle className="sp d-O" cx="226" cy="34" r="15" />
-
-          {/* N — vertical + diagonal + vertical */}
           <path pathLength="1" className="sp d-N"
-            d="M248,50 L248,18
-               L268,50
-               L268,18" />
+            d="M562,121 L562,65 L611,121 L611,65" />
 
-          {/* ══ AGENCY ══ */}
+          {/* ══ Agency — small, sentence case, under the end of VISION ══ */}
+          <path pathLength="1" className="sp d-ag-A"
+            d="M507,148 L517,125 L527,148 M511,141 L523,141" />
+          <path pathLength="1" className="sp d-ag-g"
+            d="M545,132 Q531,132 531,140 Q531,148 545,148 L545,131 L545,152 Q545,156 538,156" />
+          <path pathLength="1" className="sp d-ag-e"
+            d="M549,141 L562,141 Q562,132 556,132 Q549,132 549,140 Q549,148 556,148 Q561,148 562,145" />
+          <path pathLength="1" className="sp d-ag-n"
+            d="M566,148 L566,132 Q579,132 579,140 L579,148" />
+          <path pathLength="1" className="sp d-ag-c"
+            d="M595,134 Q583,130 583,140 Q583,150 595,146" />
+          <path pathLength="1" className="sp d-ag-y"
+            d="M599,132 L606,148 M614,132 L606,148 L603,156" />
 
-          {/* A */}
-          <path pathLength="1" className="sp d-A"
-            d="M30,100 L42,68 L54,100
-               M35,86 L49,86" />
-
-          {/* G */}
-          <path pathLength="1" className="sp d-G"
-            d="M85,68 Q70,68 70,84 Q70,100 85,100
-               L97,100 L97,84 L85,84" />
-
-          {/* E */}
-          <path pathLength="1" className="sp d-E2"
-            d="M107,68 L107,100
-               M107,68 L122,68
-               M107,84 L119,84
-               M107,100 L122,100" />
-
-          {/* N */}
-          <path pathLength="1" className="sp d-N2"
-            d="M131,100 L131,68
-               L148,100
-               L148,68" />
-
-          {/* C */}
-          <path pathLength="1" className="sp d-C"
-            d="M182,68 Q165,68 165,84 Q165,100 182,100" />
-
-          {/* Y */}
-          <path pathLength="1" className="sp d-Y"
-            d="M193,68 L202,82 L211,68
-               M202,82 L202,100" />
-
-          {/* underline */}
-          <path pathLength="1" className="sp d-line" d="M5,110 L280,110" />
-
+          {/* The three bars that open the mark */}
+          <path pathLength="1" className="sp d-mark"
+            d="M14,106 L45,106 M14,112 L45,112 M14,118 L45,118" />
         </svg>
 
         {/* Logo — takes over once it has loaded */}
         <img
           src={LOGO_URL}
           alt=""
-          width={SIZES.LOGO_WIDTH}
-          height={SIZES.LOGO_HEIGHT}
-          className="absolute max-w-[85vw]"
+          className="absolute inset-0 w-full h-full"
           style={{
             opacity: showLogo ? 1 : 0,
             transition: 'opacity 0.45s ease-in',
