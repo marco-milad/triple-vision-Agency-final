@@ -1,5 +1,34 @@
 import { describe, it, expect } from "vitest";
+import { existsSync, readFileSync } from "node:fs";
+import path from "node:path";
 import { projects } from "@/data/portfolio";
+
+const PUBLIC = path.resolve(process.cwd(), "public");
+
+/**
+ * Read a WebP's real size out of its header.
+ *
+ * Every piece of artwork on this site is WebP, and the declared size is what
+ * the page reserves space with, so it has to come from the file rather than
+ * from whoever typed the entry.
+ */
+const webpSize = (file: string): { width: number; height: number } | null => {
+  const buf = readFileSync(file);
+  if (buf.length < 30 || buf.toString("ascii", 0, 4) !== "RIFF") return null;
+  switch (buf.toString("ascii", 12, 16)) {
+    case "VP8 ": // lossy
+      return { width: buf.readUInt16LE(26) & 0x3fff, height: buf.readUInt16LE(28) & 0x3fff };
+    case "VP8L": {
+      // lossless - the two 14-bit dimensions are packed into one word
+      const bits = buf.readUInt32LE(21);
+      return { width: (bits & 0x3fff) + 1, height: ((bits >> 14) & 0x3fff) + 1 };
+    }
+    case "VP8X": // extended - 24-bit canvas size
+      return { width: buf.readUIntLE(24, 3) + 1, height: buf.readUIntLE(27, 3) + 1 };
+    default:
+      return null;
+  }
+};
 
 /**
  * The case study pages render artwork at its own aspect ratio, which is right
@@ -70,5 +99,68 @@ describe("Written case studies", () => {
     for (const project of projects.filter((p) => p.services.includes("web-development"))) {
       expect(project.liveUrl, `${project.slug}`).toMatch(/^https:\/\//);
     }
+  });
+});
+
+/**
+ * The data and the files on disk are edited separately — real artwork replaces
+ * stand-ins, pieces get recut, a board is dropped. Nothing above reads a file,
+ * so until now a path that pointed at nothing, or a size that disagreed with
+ * the file it described, shipped silently: the first as a hole in the page, the
+ * second as a reserved box of the wrong shape that the artwork then jumps out of.
+ */
+describe("Artwork on disk", () => {
+  /** Every /work path the data mentions, however it is mentioned. */
+  const referenced = [
+    ...new Set(
+      [
+        ...projects.flatMap((p) => [p.cover, p.cardImage, ...p.gallery.map((g) => g.src)]),
+        ...projects.flatMap((p) =>
+          (p.sections ?? []).flatMap((s) => [
+            ...(s.items ?? []).map((i) => i.figure?.src),
+            s.figure?.src,
+          ]),
+        ),
+      ].filter((src): src is string => typeof src === "string" && src.startsWith("/work/")),
+    ),
+  ];
+
+  it("has artwork to check", () => {
+    expect(referenced.length).toBeGreaterThan(100);
+  });
+
+  it("has the file every entry points at", () => {
+    const missing = referenced.filter((src) => !existsSync(path.join(PUBLIC, src)));
+    expect(missing, "these paths render as a broken image").toEqual([]);
+  });
+
+  it("describes every image with the size it actually is", () => {
+    const sized = projects.flatMap((project) => [
+      ...(project.cover && project.coverWidth && project.coverHeight
+        ? [
+            {
+              slug: project.slug,
+              src: project.cover,
+              width: project.coverWidth,
+              height: project.coverHeight,
+            },
+          ]
+        : []),
+      ...project.gallery.map((image) => ({ slug: project.slug, ...image })),
+    ]);
+
+    const wrong: string[] = [];
+    for (const image of sized) {
+      const file = path.join(PUBLIC, image.src);
+      if (!existsSync(file)) continue; // the test above owns that failure
+      const real = webpSize(file);
+      if (!real) continue;
+      if (real.width !== image.width || real.height !== image.height) {
+        wrong.push(
+          `${image.src} is ${real.width}x${real.height}, declared ${image.width}x${image.height}`,
+        );
+      }
+    }
+    expect(wrong, "the page reserves space from the declared size").toEqual([]);
   });
 });
