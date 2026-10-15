@@ -186,19 +186,13 @@
     </script>
     
     <!-- Performance Optimization - Preconnect to External Domains -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
     <link rel="dns-prefetch" href="https://res.cloudinary.com" />
     
-    <!-- Optimized Font Loading with Display Swap -->
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" />
-    </noscript>
     
+    <!-- The weights the first screen is drawn with -->
+    <link rel="preload" href="/fonts/poppins-latin-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/poppins-latin-900.woff2" as="font" type="font/woff2" crossorigin />
     <!-- Preload Critical Assets -->
     <link rel="preload" href="https://res.cloudinary.com/dcui0elwh/image/upload/f_auto,q_auto,w_640/v1763917799/logo2_transparent_jjpgv6.png" as="image" />
   </head>

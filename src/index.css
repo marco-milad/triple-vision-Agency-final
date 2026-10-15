@@ -1,4 +1,5 @@
-/* Font loaded via index.html preload for better FCP */
+/* Poppins is served from this repo; see scripts/fetch-poppins.py */
+@import './styles/poppins.css';
 
 @tailwind base;
 @tailwind components;
