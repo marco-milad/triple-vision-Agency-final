@@ -7,6 +7,7 @@ import Seo from '@/components/Seo';
 import ProjectImage from '@/components/ProjectImage';
 import Figure, { isPortrait } from '@/components/work/Figure';
 import Lightbox from '@/components/work/Lightbox';
+import CampaignResultsPanel from '@/components/work/CampaignResults';
 import { Button } from '@/components/ui/button';
 import { getProjectBySlug, nextProject } from '@/data/portfolio';
 import { getServiceBySlug } from '@/data/services';
@@ -158,7 +159,9 @@ const WorkDetail = () => {
               {/* Honest while the real artwork is still coming. */}
               {project.placeholder && (
                 <p className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-xl border border-border/50 bg-muted/20 text-muted-foreground/80 text-sm">
-                  Sample layout — the artwork and names on this page are stand-ins.
+                  {project.results
+                    ? 'Sample layout — every figure on this page is illustrative, not a real result.'
+                    : 'Sample layout — the artwork and names on this page are stand-ins.'}
                 </p>
               )}
 
@@ -195,6 +198,16 @@ const WorkDetail = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* A media buying case study is its figures, so they stand where the
+          artwork stands on every other kind. */}
+      {project.results && (
+        <section className="py-16 md:py-24 px-6 bg-background">
+          <div className="container mx-auto max-w-4xl">
+            <CampaignResultsPanel results={project.results} />
+          </div>
+        </section>
+      )}
 
       {/* The work, run end to end with nothing between the pieces */}
       {stacked && stackedImages.length > 0 && (

@@ -38,6 +38,63 @@ export interface CaseSection {
   figure?: GalleryImage;
 }
 
+/**
+ * What a media buying campaign delivered.
+ *
+ * This service's product is numbers, not pictures, so the case study is the
+ * numbers themselves rather than an image of them: real text, which reads on a
+ * screen reader, can be searched, stays sharp at any size, and is corrected by
+ * editing a figure rather than re-exporting a board.
+ */
+export interface CampaignResults {
+  /**
+   * Which shape the case study takes.
+   *
+   * Media buying briefs come in two kinds and they are proved by different
+   * things. An efficiency brief — "the same results for less" — is proved by
+   * what the cost per result was before against what it became. A scale brief —
+   * "sell the run out" — is proved by what came back against what went in.
+   * Running every account through one template would bury whichever of the two
+   * that account was actually judged on.
+   */
+  template: 'efficiency' | 'scale';
+  /** What the spend was bought to do. */
+  objective: string;
+  /** How long it ran. */
+  window: string;
+  /** Where it ran. */
+  platforms: string[];
+  /** The one figure the page leads with. */
+  headline: { value: string; label: string };
+  /** The supporting figures, four at most so the row stays readable. */
+  figures: { value: string; label: string; note?: string }[];
+  /**
+   * Reach down to results. Bars are de-emphasised except the last, because the
+   * last stage is the point; every bar carries its own number, so the lengths
+   * never have to be read off an axis.
+   */
+  funnel: { stage: string; value: number; display: string }[];
+  /** An efficiency brief: what a result cost before, and what it costs now. */
+  benchmark?: {
+    label: string;
+    before: { display: string; note: string };
+    after: { display: string; note: string };
+    /** Both on one scale, so the gap between them is the gap on the page. */
+    beforeValue: number;
+    afterValue: number;
+  };
+  /** A scale brief: what went in against what came back, in the same unit. */
+  economics?: {
+    unit: string;
+    spend: { value: number; display: string };
+    returned: { value: number; display: string };
+  };
+  /** Where the money went. Context, so it is never the loudest thing here. */
+  spendSplit?: { channel: string; value: number; display: string }[];
+  /** What was actually done, in a sentence or two. */
+  approach: string[];
+}
+
 export interface Project {
   slug: string;
   title: string;
@@ -85,7 +142,7 @@ export interface Project {
    * run the full width of the window, flush against each other, because each
    * one already carries its own headings and copy.
    */
-  caseStudyStyle?: 'feed' | 'deck' | 'scroll' | 'board';
+  caseStudyStyle?: 'feed' | 'deck' | 'scroll' | 'board' | 'results';
   /**
    * The client's own colour, so a case study page reads as the brand it is
    * about rather than as the agency's template. `accent` is already lifted far
@@ -101,6 +158,8 @@ export interface Project {
    * would draw a visible seam straight through the design.
    */
   continuous?: boolean;
+  /** Set for a media buying case study, whose case study is its figures. */
+  results?: CampaignResults;
   /** Artwork and names are stand-ins; the page shape is final. */
   placeholder?: boolean;
   /**
@@ -1642,6 +1701,117 @@ export const projects: Project[] = [
       { src: '/work/branding-food-group/09-outdoor.webp', alt: 'MAZRA rebranding board, the brand outdoors, on signage and a vending unit', width: 1920, height: 1945 },
     ],
     brand: { accent: '#E8A020', onAccent: '#FFFFFF' },
+    video: null,
+  },
+  {
+    slug: 'media-buying-clinic-bookings',
+    title: 'Booking Campaign — Specialised Clinics',
+    client: 'Client name pending',
+    services: ['media-buying'],
+    industry: 'Healthcare',
+    summary: 'A booking campaign for a specialised clinic group, bought against cost per confirmed booking rather than against reach.',
+    category: 'Lead generation',
+    facts: [
+      { label: 'Task', value: 'Media Buying' },
+      { label: 'Strategy', value: 'Audience & Competitive Analysis, Media Plan, Creative Testing, Optimisation' },
+      { label: 'Design', value: 'Creative Testing, Art Direction' },
+      { label: 'Client', value: 'Client name pending' },
+    ],
+    caseStudyStyle: 'results',
+    placeholder: true,
+    brand: { accent: '#2F9BD4', onAccent: '#15151B' },
+    results: {
+      template: 'efficiency',
+      objective: 'Confirmed bookings',
+      window: '9 weeks, February to April',
+      platforms: ['Facebook', 'Instagram', 'Google Search'],
+      headline: { value: 'EGP 41', label: 'per confirmed booking, against a brief that allowed EGP 120' },
+      figures: [
+        { value: 'EGP 286,000', label: 'Media spend' },
+        { value: '1.84M', label: 'People reached' },
+        { value: '6,940', label: 'Bookings confirmed' },
+        { value: '3.4x', label: 'Return on ad spend', note: 'against the clinic\'s own average visit value' },
+      ],
+      funnel: [
+        { stage: 'Reached', value: 1840000, display: '1,840,000' },
+        { stage: 'Engaged', value: 212400, display: '212,400' },
+        { stage: 'Clicked', value: 58700, display: '58,700' },
+        { stage: 'Enquired', value: 14300, display: '14,300' },
+        { stage: 'Booked', value: 6940, display: '6,940' },
+      ],
+      benchmark: {
+        label: 'Cost per confirmed booking',
+        before: { display: 'EGP 118', note: 'what the clinic was paying before' },
+        after: { display: 'EGP 41', note: 'by the end of the ninth week' },
+        beforeValue: 118,
+        afterValue: 41,
+      },
+      spendSplit: [
+        { channel: 'Facebook', value: 134000, display: 'EGP 134,000' },
+        { channel: 'Instagram', value: 57000, display: 'EGP 57,000' },
+        { channel: 'Google Search', value: 95000, display: 'EGP 95,000' },
+      ],
+      approach: [
+        'Three audiences were run against each other for the first fortnight and the two that could not hold their cost per booking were stopped rather than optimised.',
+        'Spend moved to search for the terms people use when they have already decided, and stayed on social for the ones who had not.',
+      ],
+    },
+    cover: null,
+    gallery: [],
+    video: null,
+  },
+  {
+    slug: 'media-buying-retail-launch',
+    title: 'Launch Campaign — Retail',
+    client: 'Client name pending',
+    services: ['media-buying'],
+    industry: 'Retail & E-commerce',
+    summary: 'A launch campaign for a retail range, bought to sell through the first production run rather than to be seen.',
+    category: 'Product launch',
+    facts: [
+      { label: 'Task', value: 'Media Buying' },
+      { label: 'Strategy', value: 'Audience & Competitive Analysis, Media Plan, Creative Testing, Optimisation' },
+      { label: 'Design', value: 'Creative Testing, Art Direction' },
+      { label: 'Client', value: 'Client name pending' },
+    ],
+    caseStudyStyle: 'results',
+    placeholder: true,
+    brand: { accent: '#E0683E', onAccent: '#15151B' },
+    results: {
+      template: 'scale',
+      objective: 'Sell-through on a first run',
+      window: '6 weeks, September to October',
+      platforms: ['Facebook', 'Instagram'],
+      headline: { value: '5.8x', label: 'returned on every pound of media spend' },
+      figures: [
+        { value: 'EGP 164,000', label: 'Media spend' },
+        { value: '2.31M', label: 'People reached' },
+        { value: '4,120', label: 'Orders placed' },
+        { value: 'EGP 40', label: 'Cost per order', note: 'on an average basket of EGP 230' },
+      ],
+      funnel: [
+        { stage: 'Reached', value: 2310000, display: '2,310,000' },
+        { stage: 'Watched', value: 404000, display: '404,000' },
+        { stage: 'Visited', value: 96800, display: '96,800' },
+        { stage: 'Added to basket', value: 11900, display: '11,900' },
+        { stage: 'Ordered', value: 4120, display: '4,120' },
+      ],
+      economics: {
+        unit: 'EGP',
+        spend: { value: 164000, display: 'EGP 164,000' },
+        returned: { value: 951000, display: 'EGP 951,000' },
+      },
+      spendSplit: [
+        { channel: 'Facebook', value: 112000, display: 'EGP 112,000' },
+        { channel: 'Instagram', value: 52000, display: 'EGP 52,000' },
+      ],
+      approach: [
+        'Six cuts of the same film were put out in the first week and the two that held attention past three seconds took the rest of the budget.',
+        'The campaign was stopped on the day the run sold out rather than spending the remainder of the plan.',
+      ],
+    },
+    cover: null,
+    gallery: [],
     video: null,
   },
   /**
