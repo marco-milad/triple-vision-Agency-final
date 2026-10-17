@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { existsSync, readFileSync } from "node:fs";
+import { closeSync, existsSync, openSync, readSync } from "node:fs";
 import path from "node:path";
 import { projects } from "@/data/portfolio";
 
@@ -13,8 +13,18 @@ const PUBLIC = path.resolve(process.cwd(), "public");
  * from whoever typed the entry.
  */
 const webpSize = (file: string): { width: number; height: number } | null => {
-  const buf = readFileSync(file);
-  if (buf.length < 30 || buf.toString("ascii", 0, 4) !== "RIFF") return null;
+  // Only the first 30 bytes carry the size. Reading each whole file instead
+  // meant slurping tens of megabytes to look at a header, which pushed this
+  // past its timeout once the real artwork landed.
+  const buf = Buffer.alloc(30);
+  const fd = openSync(file, "r");
+  let read = 0;
+  try {
+    read = readSync(fd, buf, 0, 30, 0);
+  } finally {
+    closeSync(fd);
+  }
+  if (read < 30 || buf.toString("ascii", 0, 4) !== "RIFF") return null;
   switch (buf.toString("ascii", 12, 16)) {
     case "VP8 ": // lossy
       return { width: buf.readUInt16LE(26) & 0x3fff, height: buf.readUInt16LE(28) & 0x3fff };
