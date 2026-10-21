@@ -71,9 +71,16 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
 
   useEffect(() => { setIsMobileMenuOpen(false); }, [location]);
 
+  // Hold the page still behind the mobile menu — and only then. Writing the
+  // overflow on every mount, menu or no menu, meant Navbar reset it the moment
+  // it appeared, which quietly undid the intro's own scroll lock; restoring
+  // whatever was there beforehand rather than a fixed value keeps that lock
+  // intact if the menu is closed while it is still up.
   useEffect(() => {
-    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'unset';
-    return () => { document.body.style.overflow = 'unset'; };
+    if (!isMobileMenuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = previousOverflow; };
   }, [isMobileMenuOpen]);
 
   useEffect(() => {

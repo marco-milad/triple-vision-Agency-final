@@ -33,19 +33,19 @@ const HEADER_LOGO = 'header img[alt="Triple Vision Logo"], nav img[alt="Triple V
 
 const TIMINGS = {
   /** One letter, from first stroke to last. */
-  GLYPH_DRAW_MS: 440,
+  GLYPH_DRAW_MS: 400,
   /** How far behind the previous letter each one starts. */
-  GLYPH_STAGGER_MS: 88,
+  GLYPH_STAGGER_MS: 55,
   /** Each letter's ink arrives behind its own outline, not the whole word's. */
-  FILL_OFFSET_MS: 175,
-  FILL_MS: 480,
+  FILL_OFFSET_MS: 160,
+  FILL_MS: 430,
   /** A beat between the last letter and the play mark landing. */
-  PLAY_GAP_MS: 60,
-  PLAY_MS: 380,
+  PLAY_GAP_MS: 50,
+  PLAY_MS: 320,
   /** The journey into the header. */
-  DOCK_MS: 900,
+  DOCK_MS: 760,
   /** Dock by now even if something has gone wrong upstream. */
-  MAX_MS: 3200,
+  MAX_MS: 2100,
 } as const;
 
 const GLYPH_COUNT = MAIN_GLYPHS.length + AGENCY_GLYPHS.length;
@@ -190,30 +190,68 @@ const Preloader = () => {
     if (phase !== 'done') markSeen();
   }, [phase]);
 
-  // Hold the page still and keep the rest of the app out of the tab order
-  // while the overlay covers it.
+  /**
+   * Hold the header's own copy of the logo back until the mark has landed on it.
+   *
+   * Deliberately separate from the interaction lock below, which lets go a good
+   * deal earlier. The two were once a single effect, so releasing the lock at
+   * dock start also un-hid the header logo while the mark was still in flight —
+   * and two copies of the same artwork, however close, read as doubling.
+   */
   useEffect(() => {
     if (phase === 'done') return;
-
     document.documentElement.classList.add('tv-intro');
+    return () => document.documentElement.classList.remove('tv-intro');
+  }, [phase]);
+
+  /**
+   * Hold the page still and keep it out of the tab order — but only while the
+   * mark is being written. Once it starts travelling to the header the overlay
+   * has already stopped taking pointer events and its ground is fading out, so
+   * the page beneath is genuinely usable and there is nothing left to lock.
+   *
+   * The covered elements are maintained rather than captured once. React swaps
+   * the whole page subtree in when its lazy chunk arrives, and the replacement
+   * is a different node: marking the children a single time left that node
+   * unmarked. Measured, the lock was lost at roughly 600ms and then re-applied
+   * at the phase change, so the page spent about two seconds quietly scrollable
+   * and focusable behind an opaque overlay before being taken away again.
+   */
+  useEffect(() => {
+    if (phase !== 'draw') return;
+
     const { body } = document;
     const previousOverflow = body.style.overflow;
     body.style.overflow = 'hidden';
 
     const root = document.getElementById('root');
-    const covered = Array.from(root?.children ?? []).filter((el) => el !== overlayRef.current);
-    covered.forEach((el) => {
+    const covered = new Set<Element>();
+
+    const cover = (el: Element) => {
+      if (el === overlayRef.current || covered.has(el)) return;
       el.setAttribute('aria-hidden', 'true');
       el.setAttribute('inert', '');
-    });
+      covered.add(el);
+    };
+    const coverAll = () => {
+      for (const el of Array.from(root?.children ?? [])) cover(el);
+    };
+
+    coverAll();
+    const observer = new MutationObserver(coverAll);
+    if (root) observer.observe(root, { childList: true });
 
     return () => {
-      document.documentElement.classList.remove('tv-intro');
+      observer.disconnect();
       body.style.overflow = previousOverflow;
-      covered.forEach((el) => {
+      // Includes nodes React has since detached; taking an attribute off an
+      // element that is no longer in the document does nothing, and tracking
+      // only what was actually marked keeps the bookkeeping honest.
+      for (const el of covered) {
         el.removeAttribute('aria-hidden');
         el.removeAttribute('inert');
-      });
+      }
+      covered.clear();
     };
   }, [phase]);
 
@@ -243,9 +281,16 @@ const Preloader = () => {
   return (
     <div
       ref={overlayRef}
-      role="status"
-      aria-live="polite"
-      aria-label="Loading"
+      /*
+        While the mark is being written the overlay is the page, and a screen
+        reader should be told that something is loading. From dock start the
+        page underneath is interactive, so the live region goes quiet instead of
+        announcing "Loading" over a page the visitor can already use — and the
+        overlay, now only an animation on its way out, leaves the tree with it.
+      */
+      {...(docking
+        ? { 'aria-hidden': true }
+        : { role: 'status', 'aria-live': 'polite' as const, 'aria-label': 'Loading' })}
       className="fixed inset-0 z-[9999] flex items-center justify-center"
       style={{ pointerEvents: docking ? 'none' : 'auto' }}
     >

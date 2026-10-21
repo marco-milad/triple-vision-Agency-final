@@ -135,35 +135,62 @@ describe("Artwork on disk", () => {
     ),
   ];
 
+  /** Every image that states a size, with the size it states. */
+  const sized = projects.flatMap((project) => [
+    ...(project.cover && project.coverWidth && project.coverHeight
+      ? [
+          {
+            slug: project.slug,
+            src: project.cover,
+            width: project.coverWidth,
+            height: project.coverHeight,
+          },
+        ]
+      : []),
+    ...project.gallery.map((image) => ({ slug: project.slug, ...image })),
+  ]);
+
+  /**
+   * Everything the two checks below need to know about one file.
+   *
+   * Read once, here, rather than inside the tests. The tests used to walk the
+   * same artwork twice over, and on a mechanical disk the first walk costs
+   * about five seconds cold against a five-second budget for a test body —
+   * close enough that the suite went red at random. A describe body runs while
+   * the file is being collected, not while a test is being timed, so the disk
+   * can take as long as it takes.
+   *
+   * This is built once and only ever read, so neither test can affect what the
+   * other sees, and they still pass in any order or on their own.
+   */
+  type Found = { exists: boolean; size: ReturnType<typeof webpSize> };
+
+  const onDisk: ReadonlyMap<string, Found> = new Map(
+    [...new Set([...referenced, ...sized.map((image) => image.src)])].map(
+      (src): [string, Found] => {
+        const file = path.join(PUBLIC, src);
+        if (!existsSync(file)) return [src, { exists: false, size: null }];
+        return [src, { exists: true, size: webpSize(file) }];
+      },
+    ),
+  );
+
   it("has artwork to check", () => {
     expect(referenced.length).toBeGreaterThan(100);
   });
 
   it("has the file every entry points at", () => {
-    const missing = referenced.filter((src) => !existsSync(path.join(PUBLIC, src)));
+    // Every path in both lists was probed above, so the lookup always lands.
+    const missing = referenced.filter((src) => !onDisk.get(src)!.exists);
     expect(missing, "these paths render as a broken image").toEqual([]);
   });
 
   it("describes every image with the size it actually is", () => {
-    const sized = projects.flatMap((project) => [
-      ...(project.cover && project.coverWidth && project.coverHeight
-        ? [
-            {
-              slug: project.slug,
-              src: project.cover,
-              width: project.coverWidth,
-              height: project.coverHeight,
-            },
-          ]
-        : []),
-      ...project.gallery.map((image) => ({ slug: project.slug, ...image })),
-    ]);
-
     const wrong: string[] = [];
     for (const image of sized) {
-      const file = path.join(PUBLIC, image.src);
-      if (!existsSync(file)) continue; // the test above owns that failure
-      const real = webpSize(file);
+      const found = onDisk.get(image.src)!;
+      if (!found.exists) continue; // the test above owns that failure
+      const real = found.size;
       if (!real) continue;
       if (real.width !== image.width || real.height !== image.height) {
         wrong.push(

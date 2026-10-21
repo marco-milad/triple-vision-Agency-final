@@ -7,6 +7,76 @@ import { dockTransform } from "@/components/dockTransform";
 
 const clearSession = () => window.sessionStorage.clear();
 
+/**
+ * Step time forward until something is true.
+ *
+ * Each phase schedules its timer from an effect, and effects only run when act
+ * flushes, so one big jump sails past them. Nothing here waits for a literal
+ * millisecond either: the intro's timings are tuned from time to time, and a
+ * test that encodes them turns every retune into a failure.
+ */
+const advanceUntil = async (done: () => boolean, limitMs = 6000) => {
+  for (let elapsed = 0; elapsed < limitMs && !done(); elapsed += 100) {
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(100);
+    });
+  }
+  return done();
+};
+
+/**
+ * Mount the intro the way the app mounts it: inside `#root`, with a sibling
+ * standing in for the page.
+ *
+ * The intro covers the app by marking `#root`'s other children, so without a
+ * real `#root` that whole branch is skipped — `document.getElementById('root')`
+ * is null in a bare jsdom document, and the observer never even starts.
+ */
+const mountOverIntroRoot = async () => {
+  const root = document.createElement("div");
+  root.id = "root";
+  document.body.appendChild(root);
+
+  const view = render(<Preloader />, { container: root });
+
+  // Held by identity rather than looked up each time: one of these tests
+  // replaces the page node, and "the child that is not the page" would then
+  // match the replacement as happily as the overlay.
+  const overlayEl = root.firstElementChild;
+
+  // The stand-in for the app goes in after the intro, because createRoot empties
+  // the container it is given — in the app both are React's own children of
+  // #root and neither clears the other. Arriving late is also the case that
+  // matters here: it is the one the intro used to miss.
+  const page = document.createElement("div");
+  page.textContent = "the page";
+  await act(async () => {
+    root.appendChild(page);
+    await Promise.resolve(); // the observer reports on a microtask
+  });
+
+  return {
+    root,
+    page,
+    /**
+     * The overlay, if it is still in the document.
+     *
+     * Deliberately not a role query: from dock start the overlay is aria-hidden
+     * on purpose, so a role query stops finding it — which is the behaviour
+     * under test. Being mounted and being exposed are different questions.
+     */
+    overlay: () => (overlayEl?.isConnected ? overlayEl : null),
+    isExposed: () => overlayEl?.getAttribute("role") === "status",
+    /** Scrolling held, or anything under #root kept out of reach. */
+    isLocked: () =>
+      document.body.style.overflow === "hidden" ||
+      Array.from(root.children).some(
+        (el) => el !== overlayEl && el.hasAttribute("inert"),
+      ),
+    unmount: view.unmount,
+  };
+};
+
 describe("Preloader", () => {
   beforeEach(() => {
     clearSession();
@@ -62,24 +132,29 @@ describe("Preloader", () => {
     expect(window.sessionStorage.getItem("preloaderShown")).toBe("true");
   });
 
-  it("finishes on its own without the visitor pressing skip", async () => {
+  it("stops announcing itself before it leaves, and only leaves at the end", async () => {
     vi.useFakeTimers();
+    const intro = await mountOverIntroRoot();
     try {
-      render(<Preloader />);
       expect(screen.getByRole("status", { name: /loading/i })).toBeInTheDocument();
 
-      // Step in small slices: each phase schedules its timer from an effect,
-      // which only runs when act flushes, so one big jump would skip past them.
-      for (let elapsed = 0; elapsed < 6000; elapsed += 100) {
-        if (!screen.queryByRole("status")) break;
-        await act(async () => {
-          await vi.advanceTimersByTimeAsync(100);
-        });
-      }
-
+      // The announcement goes quiet as the mark sets off for the header, since
+      // from that moment the page underneath is usable and telling a screen
+      // reader it is still loading would be false.
+      await advanceUntil(() => !intro.isExposed());
+      expect(intro.isExposed()).toBe(false);
       expect(screen.queryByRole("status")).not.toBeInTheDocument();
+
+      // Going quiet is not leaving. Waiting on the role alone used to end the
+      // test here, which stopped it checking that the intro ever came down.
+      expect(intro.overlay()).not.toBeNull();
+
+      await advanceUntil(() => intro.overlay() === null);
+      expect(intro.overlay()).toBeNull();
       expect(document.body.style.overflow).toBe("");
     } finally {
+      intro.unmount();
+      intro.root.remove();
       vi.useRealTimers();
     }
   });
@@ -96,6 +171,169 @@ describe("Preloader", () => {
 
     // The play mark is its own shape so it can keep the brand's orange.
     expect(container.querySelector("path.tv-play")).toBeTruthy();
+  });
+});
+
+/**
+ * The intro holds the page still and out of reach while it writes, then hands
+ * it back.
+ *
+ * These run inside a real `#root`, because that is the only way the covering
+ * branch runs at all: with no `#root` the lookup returns null, nothing is
+ * marked, and the observer never starts — so none of this was being checked.
+ *
+ * What went wrong before, and what each test here pins down: the covered nodes
+ * were read once, so the subtree React swapped in when the page's chunk arrived
+ * was never covered; the lock was then re-applied at the phase change; and the
+ * page spent roughly two seconds scrollable and focusable behind an opaque
+ * overlay in between.
+ */
+describe("The interaction lock", () => {
+  beforeEach(() => {
+    clearSession();
+    vi.restoreAllMocks();
+  });
+
+  afterEach(() => {
+    clearSession();
+    document.getElementById("root")?.remove();
+    document.documentElement.classList.remove("tv-intro");
+    document.body.style.overflow = "";
+    vi.useRealTimers();
+  });
+
+  it("covers the page while the mark is being written", async () => {
+    const intro = await mountOverIntroRoot();
+    try {
+      expect(document.body.style.overflow).toBe("hidden");
+      expect(intro.page).toHaveAttribute("inert");
+      expect(intro.page).toHaveAttribute("aria-hidden", "true");
+      expect(intro.isExposed()).toBe(true);
+    } finally {
+      intro.unmount();
+    }
+  });
+
+  it("lets go when the mark sets off, while the intro is still on screen", async () => {
+    vi.useFakeTimers();
+    const intro = await mountOverIntroRoot();
+    try {
+      expect(intro.isLocked()).toBe(true);
+
+      await advanceUntil(() => !intro.isLocked());
+
+      // Handed back as the mark starts travelling, not when it lands: by then
+      // the overlay takes no pointer events and its ground is fading, so there
+      // is nothing left to hold.
+      expect(document.body.style.overflow).toBe("");
+      expect(intro.page).not.toHaveAttribute("inert");
+      expect(intro.page).not.toHaveAttribute("aria-hidden");
+
+      // Still on screen, and the header's own copy of the logo still held back
+      // so the two never show at once.
+      expect(intro.overlay()).not.toBeNull();
+      expect(document.documentElement.classList.contains("tv-intro")).toBe(true);
+    } finally {
+      intro.unmount();
+    }
+  });
+
+  it("does not quietly put the lock back when it changes phase", async () => {
+    vi.useFakeTimers();
+    const intro = await mountOverIntroRoot();
+    try {
+      const transitions: boolean[] = [];
+      const note = () => {
+        const locked = intro.isLocked();
+        if (transitions[transitions.length - 1] !== locked) transitions.push(locked);
+      };
+      note();
+
+      /*
+        Take the lock off from outside, the way the rest of the page used to.
+        The navbar wrote the body's overflow the moment it mounted, and the
+        subtree React swapped in when the page's own chunk arrived had never
+        been covered — measured in a browser, the two together left the page
+        loose from about 600ms.
+
+        Changing phase then re-ran the whole covering pass and put the lock
+        back on, which is the thing this test exists to catch. On its own that
+        re-lock is invisible: React runs the cleanup and the effect body
+        back-to-back inside one commit, so the released moment never reaches
+        the DOM. It only shows once the lock has been taken off first.
+      */
+      await act(async () => {
+        document.body.style.overflow = "unset";
+        intro.page.removeAttribute("inert");
+        intro.page.removeAttribute("aria-hidden");
+      });
+      note();
+      expect(intro.isLocked()).toBe(false);
+
+      for (let elapsed = 0; elapsed < 6000; elapsed += 100) {
+        await act(async () => {
+          await vi.advanceTimersByTimeAsync(100);
+        });
+        note();
+      }
+
+      // Held once, let go once, never taken back.
+      expect(transitions).toEqual([true, false]);
+      expect(document.body.style.overflow).not.toBe("hidden");
+      expect(intro.page).not.toHaveAttribute("inert");
+      expect(intro.page).not.toHaveAttribute("aria-hidden");
+    } finally {
+      intro.unmount();
+    }
+  });
+
+  it("covers a subtree swapped in while the intro is up", async () => {
+    vi.useFakeTimers();
+    const intro = await mountOverIntroRoot();
+    try {
+      expect(intro.page).toHaveAttribute("inert");
+
+      // What React does when the page's own chunk arrives: the node standing in
+      // for it is replaced outright, and the node taking its place was never
+      // covered by the pass that ran at mount.
+      const replacement = document.createElement("div");
+      replacement.textContent = "the page, for real";
+      await act(async () => {
+        intro.root.replaceChild(replacement, intro.page);
+        await Promise.resolve(); // the observer reports on a microtask
+      });
+
+      expect(replacement).toHaveAttribute("inert");
+      expect(replacement).toHaveAttribute("aria-hidden", "true");
+      expect(intro.isLocked()).toBe(true);
+    } finally {
+      intro.unmount();
+    }
+  });
+
+  it("gives back both the subtree it covered and the one that replaced it", async () => {
+    vi.useFakeTimers();
+    const intro = await mountOverIntroRoot();
+    const original = intro.page;
+    try {
+      const replacement = document.createElement("div");
+      await act(async () => {
+        intro.root.replaceChild(replacement, original);
+        await Promise.resolve();
+      });
+      expect(replacement).toHaveAttribute("inert");
+
+      await advanceUntil(() => !intro.isLocked());
+
+      expect(replacement).not.toHaveAttribute("inert");
+      expect(replacement).not.toHaveAttribute("aria-hidden");
+      // The one React detached is tracked too. Nothing reads it any more, but
+      // leaving it marked would mean the bookkeeping had lost it.
+      expect(original).not.toHaveAttribute("inert");
+      expect(original).not.toHaveAttribute("aria-hidden");
+    } finally {
+      intro.unmount();
+    }
   });
 });
 
