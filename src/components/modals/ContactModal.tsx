@@ -40,8 +40,8 @@ const ContactModal = ({ isOpen, onClose, preSelectedService }: ContactModalProps
               className="absolute inset-0 opacity-[0.02]"
               style={{
                 backgroundImage: `
-                  linear-gradient(rgba(255,140,0,0.3) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(255,140,0,0.3) 1px, transparent 1px)
+                  linear-gradient(rgba(250,173,27,0.3) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(250,173,27,0.3) 1px, transparent 1px)
                 `,
                 backgroundSize: '40px 40px',
               }}
@@ -73,8 +73,8 @@ const ContactModal = ({ isOpen, onClose, preSelectedService }: ContactModalProps
                     className="absolute inset-0 opacity-[0.02] pointer-events-none"
                     style={{
                       backgroundImage: `
-                        linear-gradient(rgba(255,140,0,0.3) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255,140,0,0.3) 1px, transparent 1px)
+                        linear-gradient(rgba(250,173,27,0.3) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(250,173,27,0.3) 1px, transparent 1px)
                       `,
                       backgroundSize: '20px 20px',
                     }}
@@ -141,8 +141,8 @@ const ContactModal = ({ isOpen, onClose, preSelectedService }: ContactModalProps
           <style>{`
             .custom-scrollbar::-webkit-scrollbar { width: 6px; }
             .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-            .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,140,0,0.3); border-radius: 4px; }
-            .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255,140,0,0.5); }
+            .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(250,173,27,0.3); border-radius: 4px; }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(250,173,27,0.5); }
           `}</style>
         </>
       )}

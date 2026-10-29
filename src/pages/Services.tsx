@@ -109,8 +109,8 @@ const Services = () => {
                         className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity duration-300"
                         style={{
                           backgroundImage: `
-                            linear-gradient(rgba(255,140,0,0.3) 1px, transparent 1px),
-                            linear-gradient(90deg, rgba(255,140,0,0.3) 1px, transparent 1px)
+                            linear-gradient(rgba(250,173,27,0.3) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(250,173,27,0.3) 1px, transparent 1px)
                           `,
                           backgroundSize: '20px 20px'
                         }}

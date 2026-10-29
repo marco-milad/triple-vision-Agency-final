@@ -25,7 +25,7 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
       <div
         className="absolute inset-0 opacity-[0.02]"
         style={{
-          backgroundImage: `linear-gradient(rgba(255,140,0,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,140,0,0.3) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(rgba(250,173,27,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(250,173,27,0.3) 1px, transparent 1px)`,
           backgroundSize: '60px 60px'
         }}
       />
@@ -60,7 +60,7 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
               <div 
                 className="absolute inset-0 opacity-[0.03]"
                 style={{
-                  backgroundImage: `linear-gradient(rgba(255,140,0,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,140,0,0.3) 1px, transparent 1px)`,
+                  backgroundImage: `linear-gradient(rgba(250,173,27,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(250,173,27,0.3) 1px, transparent 1px)`,
                   backgroundSize: '30px 30px'
                 }}
               />

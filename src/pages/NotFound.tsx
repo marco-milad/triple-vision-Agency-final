@@ -63,15 +63,15 @@ const NotFound = () => {
       <Seo title="Page Not Found" description="The page you are looking for does not exist or has moved." noIndex />
       <div className="min-h-screen flex items-center justify-center bg-background hero-gradient px-4 sm:px-6 overflow-hidden relative">
       {/* Enhanced Background Effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(255,140,0,0.08),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(250,173,27,0.08),transparent_50%)]" />
       
       {/* Animated Grid */}
       <div
         className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255,140,0,0.3) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,140,0,0.3) 1px, transparent 1px)
+            linear-gradient(rgba(250,173,27,0.3) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(250,173,27,0.3) 1px, transparent 1px)
           `,
           backgroundSize: '50px 50px',
         }}
@@ -121,7 +121,7 @@ const NotFound = () => {
           <motion.h1
             className="text-[120px] sm:text-[160px] md:text-[200px] font-black text-gradient leading-none"
             style={{
-              textShadow: '0 0 60px rgba(255, 140, 0, 0.3)',
+              textShadow: '0 0 60px rgba(250, 173, 27, 0.3)',
             }}
           >
             404

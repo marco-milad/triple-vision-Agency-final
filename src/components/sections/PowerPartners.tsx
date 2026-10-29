@@ -68,8 +68,8 @@ const PowerPartners = React.memo(() => {
         className="absolute inset-0 opacity-[0.02]"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255,140,0,0.3) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,140,0,0.3) 1px, transparent 1px)
+            linear-gradient(rgba(250,173,27,0.3) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(250,173,27,0.3) 1px, transparent 1px)
           `,
           backgroundSize: '60px 60px',
         }}
@@ -177,7 +177,7 @@ const PartnerCard = ({ partner }: { partner: Partner }) => (
         src={partner.logo}
         alt={partner.name}
         loading="lazy"
-        className="h-20 w-36 object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:drop-shadow-[0_0_12px_rgba(255,140,0,0.6)] transition-all duration-400 rounded-lg"
+        className="h-20 w-36 object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:drop-shadow-[0_0_12px_rgba(250,173,27,0.6)] transition-all duration-400 rounded-lg"
       />
     </div>
   </motion.div>

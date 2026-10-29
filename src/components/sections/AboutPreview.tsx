@@ -56,7 +56,7 @@ const AboutPreview = () => {
       <div
         className="absolute inset-0 opacity-[0.03]"
         style={{
-          backgroundImage: `linear-gradient(rgba(255,140,0,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,140,0,0.3) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(rgba(250,173,27,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(250,173,27,0.3) 1px, transparent 1px)`,
           backgroundSize: '60px 60px'
         }}
       />
@@ -140,7 +140,7 @@ const AboutPreview = () => {
                 <div
                   className="absolute inset-0"
                   style={{
-                    backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(255,140,0,0.3), transparent 50%), radial-gradient(circle at 70% 70%, rgba(255,105,180,0.2), transparent 50%)',
+                    backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(250,173,27,0.3), transparent 50%), radial-gradient(circle at 70% 70%, rgba(255,105,180,0.2), transparent 50%)',
                   }}
                 />
 
