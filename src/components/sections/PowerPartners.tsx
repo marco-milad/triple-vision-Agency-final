@@ -60,7 +60,7 @@ const PowerPartners = React.memo(() => {
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/5 blur-[120px]" />
-        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full bg-orange-500/5 blur-[100px]" />
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full bg-amber-500/5 blur-[100px]" />
       </div>
 
       {/* Static Grid */}
@@ -99,7 +99,7 @@ const PowerPartners = React.memo(() => {
 
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground mb-4">
             Our{' '}
-            <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
               Power Partners
             </span>
           </h2>
@@ -113,7 +113,7 @@ const PowerPartners = React.memo(() => {
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
-            className="mt-6 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-orange-500 to-pink-500 rounded-full shadow-lg shadow-primary/50"
+            className="mt-6 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-amber-500 to-pink-500 rounded-full shadow-lg shadow-primary/50"
           />
         </motion.div>
 

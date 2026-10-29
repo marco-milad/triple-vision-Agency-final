@@ -51,7 +51,7 @@ const AboutPreview = () => {
     <section className="section-padding bg-gradient-to-br from-background via-background to-background-secondary relative overflow-hidden">
       {/* Background - reduced blur */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] rounded-full bg-primary/10 blur-[80px]" />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-orange-500/5 blur-[80px]" />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-amber-500/5 blur-[80px]" />
       
       <div
         className="absolute inset-0 opacity-[0.03]"
@@ -82,7 +82,7 @@ const AboutPreview = () => {
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-foreground mb-6 leading-[1.1]">
               Where Creativity Meets{' '}
-              <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">Innovation</span>
+              <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">Innovation</span>
             </h2>
 
             <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8">
@@ -119,7 +119,7 @@ const AboutPreview = () => {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="inline-block">
               <Button variant="outline" size="lg" className="group relative overflow-hidden" asChild>
                 <Link to="/about">
-                  <motion.div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <motion.div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-amber-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                   <span className="relative z-10">Discover Our Story</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform relative z-10" />
                 </Link>
@@ -135,7 +135,7 @@ const AboutPreview = () => {
             className="relative"
           >
             <div className="relative aspect-square rounded-3xl overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-orange-500/20 to-pink-500/20 backdrop-blur-xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-amber-500/20 to-pink-500/20 backdrop-blur-xl">
                 {/* Static gradient instead of animated */}
                 <div
                   className="absolute inset-0"
@@ -156,7 +156,7 @@ const AboutPreview = () => {
                     transition={{ duration: 0.8, delay: 0.4 }}
                   >
                     <TrendingUp className="w-16 h-16 text-primary mb-6 mx-auto" />
-                    <div className="text-6xl md:text-7xl font-black bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent mb-3">
+                    <div className="text-6xl md:text-7xl font-black bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent mb-3">
                       <Counter value={yearsInBusiness()} suffix="+" duration={2.5} />
                     </div>
                     <p className="text-foreground font-bold text-xl md:text-2xl mb-2">Years of Excellence</p>
@@ -171,7 +171,7 @@ const AboutPreview = () => {
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="absolute -bottom-6 -left-6 bg-gradient-to-br from-primary to-orange-600 rounded-2xl p-6 shadow-2xl shadow-primary/40"
+              className="absolute -bottom-6 -left-6 bg-gradient-to-br from-primary to-amber-600 rounded-2xl p-6 shadow-2xl shadow-primary/40"
             >
               <p className="text-5xl font-black text-white mb-1">
                 <Counter value={company.stats.projects} suffix="+" duration={2.5} />
@@ -194,7 +194,7 @@ const AboutPreview = () => {
 
             {/* Static decorative elements instead of floating */}
             <div className="absolute top-1/4 -right-8 w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-purple-500/10 backdrop-blur-sm border border-primary/20 shadow-xl" />
-            <div className="absolute bottom-1/4 -left-8 w-16 h-16 rounded-xl bg-gradient-to-br from-orange-500/20 to-pink-500/10 backdrop-blur-sm border border-primary/20 shadow-xl" />
+            <div className="absolute bottom-1/4 -left-8 w-16 h-16 rounded-xl bg-gradient-to-br from-amber-500/20 to-pink-500/10 backdrop-blur-sm border border-primary/20 shadow-xl" />
           </motion.div>
         </div>
 
@@ -215,7 +215,7 @@ const AboutPreview = () => {
                 transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
                 className="text-center"
               >
-                <p className="text-3xl md:text-4xl font-black bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent mb-2">
+                <p className="text-3xl md:text-4xl font-black bg-gradient-to-r from-primary to-amber-500 bg-clip-text text-transparent mb-2">
                   <Counter value={stat.value} suffix={stat.suffix} duration={2 + index * 0.2} />
                 </p>
                 <p className="text-muted-foreground text-sm font-medium">{stat.label}</p>

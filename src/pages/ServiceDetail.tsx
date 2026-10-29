@@ -36,7 +36,7 @@ const ServiceDetail = () => {
         {/* Background Effects */}
         <div className="absolute inset-0">
           <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[140px]" />
-          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-orange-500/10 blur-[120px]" />
+          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-amber-500/10 blur-[120px]" />
         </div>
 
         <div className="container mx-auto relative z-10">
@@ -134,7 +134,7 @@ const ServiceDetail = () => {
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground">
               Our{' '}
-              <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
                 {service.title}
               </span>{' '}
               Services
@@ -152,7 +152,7 @@ const ServiceDetail = () => {
                 whileHover={{ y: -5 }}
                 className="group p-6 rounded-2xl border-2 border-border/50 bg-background/50 backdrop-blur-sm hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
               >
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-orange-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-amber-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <CheckCircle className="w-6 h-6 text-primary" />
                 </div>
                 <h3 className="text-lg md:text-xl font-black text-foreground mb-2 group-hover:text-primary transition-colors">
@@ -172,7 +172,7 @@ const ServiceDetail = () => {
       <section className="section-padding bg-gradient-to-br from-background-secondary via-background to-background-secondary relative overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0">
-          <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full bg-orange-500/5 blur-[120px]" />
+          <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full bg-amber-500/5 blur-[120px]" />
         </div>
 
         <div className="container mx-auto relative z-10">
@@ -199,7 +199,7 @@ const ServiceDetail = () => {
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground">
               How We{' '}
-              <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
                 Work
               </span>
             </h2>
@@ -274,7 +274,7 @@ const ServiceDetail = () => {
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground">
               Featured{' '}
-              <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
                 Projects
               </span>
             </h2>
@@ -353,7 +353,7 @@ const ServiceDetail = () => {
 
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground mb-8">
                 The Triple Vision{' '}
-                <span className="bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-primary to-amber-500 bg-clip-text text-transparent">
                   Advantage
                 </span>
               </h2>
@@ -391,8 +391,8 @@ const ServiceDetail = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative group"
             >
-              <div className="relative p-8 md:p-12 lg:p-16 rounded-3xl border-2 border-primary/20 bg-gradient-to-br from-primary/10 to-orange-500/10 backdrop-blur-xl text-center">
-                <div className="text-7xl md:text-8xl font-black bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent mb-4">
+              <div className="relative p-8 md:p-12 lg:p-16 rounded-3xl border-2 border-primary/20 bg-gradient-to-br from-primary/10 to-amber-500/10 backdrop-blur-xl text-center">
+                <div className="text-7xl md:text-8xl font-black bg-gradient-to-r from-primary to-amber-500 bg-clip-text text-transparent mb-4">
                   98%
                 </div>
                 <p className="text-foreground font-bold text-xl md:text-2xl mb-2">Client Satisfaction</p>
@@ -419,12 +419,12 @@ const ServiceDetail = () => {
             className="max-w-3xl mx-auto text-center"
           >
             {/* Static Glow */}
-            <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-primary/20 via-orange-500/20 to-pink-500/20 blur-3xl opacity-40" />
+            <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-primary/20 via-amber-500/20 to-pink-500/20 blur-3xl opacity-40" />
 
             <div className="relative p-8 md:p-12 lg:p-16 rounded-3xl border-2 border-primary/20 bg-background/90 backdrop-blur-2xl">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground mb-6">
                 Ready to{' '}
-                <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
                   Get Started?
                 </span>
               </h2>
@@ -454,7 +454,7 @@ const ServiceDetail = () => {
         <div className="container mx-auto">
           <h3 className="text-2xl md:text-3xl font-black text-foreground mb-10 text-center">
             Explore{' '}
-            <span className="bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary to-amber-500 bg-clip-text text-transparent">
               Other Services
             </span>
           </h3>

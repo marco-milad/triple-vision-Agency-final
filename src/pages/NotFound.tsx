@@ -101,7 +101,7 @@ const NotFound = () => {
           ease: "easeInOut",
           delay: 1,
         }}
-        className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-orange-500/20 rounded-full blur-3xl"
+        className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-amber-500/20 rounded-full blur-3xl"
       />
 
       {/* Main Content */}
@@ -248,7 +248,7 @@ const NotFound = () => {
           repeat: Infinity,
           ease: "linear",
         }}
-        className="absolute bottom-10 left-10 w-6 h-6 border-2 border-orange-500/30 rounded-full"
+        className="absolute bottom-10 left-10 w-6 h-6 border-2 border-amber-500/30 rounded-full"
         aria-hidden="true"
       />
     </div>

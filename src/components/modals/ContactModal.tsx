@@ -34,7 +34,7 @@ const ContactModal = ({ isOpen, onClose, preSelectedService }: ContactModalProps
           >
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/10 blur-[120px]" />
-              <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-orange-500/10 blur-[100px]" />
+              <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-amber-500/10 blur-[100px]" />
             </div>
             <div
               className="absolute inset-0 opacity-[0.02]"
@@ -62,10 +62,10 @@ const ContactModal = ({ isOpen, onClose, preSelectedService }: ContactModalProps
               aria-label="Contact form"
             >
               {/* Glow outside the overflow-hidden card */}
-              <div className="absolute -inset-1 rounded-3xl bg-gradient-to-br from-primary via-orange-500 to-pink-500 blur-xl opacity-30 pointer-events-none" />
+              <div className="absolute -inset-1 rounded-3xl bg-gradient-to-br from-primary via-amber-500 to-pink-500 blur-xl opacity-30 pointer-events-none" />
 
               <div className="relative rounded-2xl sm:rounded-3xl border-2 border-border/50 bg-background/95 backdrop-blur-2xl shadow-2xl overflow-hidden max-h-[95vh] sm:max-h-[90vh] flex flex-col">
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-orange-500 to-pink-500 z-10" />
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-amber-500 to-pink-500 z-10" />
 
                 {/* Header */}
                 <div className="relative flex-shrink-0 p-4 sm:p-6 md:p-8 border-b-2 border-border/50 bg-background/95 backdrop-blur-xl">
@@ -100,7 +100,7 @@ const ContactModal = ({ isOpen, onClose, preSelectedService }: ContactModalProps
                         className="text-2xl sm:text-3xl md:text-4xl font-black text-foreground mb-1 sm:mb-2"
                       >
                         Let's Work{' '}
-                        <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
                           Together
                         </span>
                       </motion.h2>

@@ -113,14 +113,14 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
             <>
               <motion.div
                 layoutId="activeTab"
-                className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary via-orange-500 to-primary rounded-full"
+                className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary via-amber-500 to-primary rounded-full"
                 transition={{ type: 'spring', stiffness: 380, damping: 30 }}
               />
-              <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary via-orange-500 to-primary rounded-full blur-sm opacity-70" />
+              <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary via-amber-500 to-primary rounded-full blur-sm opacity-70" />
             </>
           )}
           {location.pathname !== link.path && (
-            <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-orange-500 rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+            <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-amber-500 rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
           )}
         </Link>
       </motion.div>
@@ -253,7 +253,7 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
             aria-label="Social media links"
           >
             <div className="relative">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/20 to-orange-500/20 blur-xl" />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/20 to-amber-500/20 blur-xl" />
               <div className="relative bg-background/90 backdrop-blur-xl border-2 border-border/50 rounded-full p-4 shadow-2xl">
                 <nav className="flex flex-col gap-3" aria-label="Social media navigation">
                   {socialIcons}
@@ -308,7 +308,7 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
                       {location.pathname === link.path && (
                         <motion.div
                           layoutId="activeMobileTab"
-                          className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary via-orange-500 to-pink-500 rounded-full"
+                          className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary via-amber-500 to-pink-500 rounded-full"
                           transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                         />
                       )}

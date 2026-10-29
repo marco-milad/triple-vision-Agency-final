@@ -20,7 +20,7 @@ const contactInfo = [
     label: 'Email',
     value: company.contact.email,
     href: `mailto:${company.contact.email}`,
-    color: 'from-primary to-orange-500',
+    color: 'from-primary to-amber-500',
     iconColor: 'text-primary',
     bgColor: 'bg-primary/10 border-primary/20 group-hover:bg-primary/20',
   },
@@ -30,9 +30,9 @@ const contactInfo = [
     value: company.contact.phones[0].display,
     detail: company.contact.phones[1]?.display,
     href: `tel:${company.contact.phones[0].e164}`,
-    color: 'from-orange-500 to-pink-500',
-    iconColor: 'text-orange-500',
-    bgColor: 'bg-orange-500/10 border-orange-500/20 group-hover:bg-orange-500/20',
+    color: 'from-amber-500 to-pink-500',
+    iconColor: 'text-amber-500',
+    bgColor: 'bg-amber-500/10 border-amber-500/20 group-hover:bg-amber-500/20',
   },
   {
     icon: MessageCircle,
@@ -53,7 +53,7 @@ const Contact = () => {
       <section className="pt-32 pb-16 px-6 relative overflow-hidden bg-gradient-to-br from-background via-background-secondary to-background">
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/10 blur-[120px]" />
-          <div className="absolute bottom-0 right-1/3 w-[400px] h-[400px] rounded-full bg-orange-500/10 blur-[100px]" />
+          <div className="absolute bottom-0 right-1/3 w-[400px] h-[400px] rounded-full bg-amber-500/10 blur-[100px]" />
         </div>
 
         <div
@@ -82,7 +82,7 @@ const Contact = () => {
             className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-foreground mb-6 leading-[1.1]"
           >
             Contact{' '}
-            <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
               Us
             </span>
           </motion.h1>
@@ -100,7 +100,7 @@ const Contact = () => {
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ duration: 1, delay: 0.4 }}
-            className="mt-8 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-orange-500 to-pink-500 rounded-full shadow-lg shadow-primary/50"
+            className="mt-8 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-amber-500 to-pink-500 rounded-full shadow-lg shadow-primary/50"
           />
         </div>
       </section>
@@ -148,7 +148,7 @@ const Contact = () => {
             >
               <h2 className="text-2xl md:text-3xl font-black text-foreground mb-2">
                 Send Us a{' '}
-                <span className="bg-gradient-to-r from-primary to-orange-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-primary to-amber-500 bg-clip-text text-transparent">
                   Message
                 </span>
               </h2>
@@ -168,7 +168,7 @@ const Contact = () => {
             >
               <h2 className="text-2xl md:text-3xl font-black text-foreground mb-2">
                 Find{' '}
-                <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-amber-500 to-pink-500 bg-clip-text text-transparent">
                   Us
                 </span>
               </h2>

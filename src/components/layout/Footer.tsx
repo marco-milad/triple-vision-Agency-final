@@ -27,7 +27,7 @@ const Footer = () => {
       {/* Background - reduced blur, no particles */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[80px]" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-orange-500/5 blur-[60px]" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-amber-500/5 blur-[60px]" />
       </div>
 
       <div
@@ -100,7 +100,7 @@ const Footer = () => {
               transition={{ duration: 0.5, delay: 0.1 }}
             >
               <h4 className="font-black text-foreground mb-6 text-lg flex items-center gap-2">
-                <div className="w-1.5 h-6 bg-gradient-to-b from-primary to-orange-500 rounded-full" />
+                <div className="w-1.5 h-6 bg-gradient-to-b from-primary to-amber-500 rounded-full" />
                 Services
               </h4>
               <ul className="space-y-3">
@@ -131,7 +131,7 @@ const Footer = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <h4 className="font-black text-foreground mb-6 text-lg flex items-center gap-2">
-                <div className="w-1.5 h-6 bg-gradient-to-b from-orange-500 to-pink-500 rounded-full" />
+                <div className="w-1.5 h-6 bg-gradient-to-b from-amber-500 to-pink-500 rounded-full" />
                 Company
               </h4>
               <ul className="space-y-3">
@@ -176,8 +176,8 @@ const Footer = () => {
                   </div>
                 </motion.li>
                 <motion.li initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: 0.4 }} className="flex items-start gap-3 group">
-                  <div className="w-10 h-10 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center flex-shrink-0 group-hover:bg-orange-500/20 transition-colors">
-                    <Phone className="w-5 h-5 text-orange-500" />
+                  <div className="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0 group-hover:bg-amber-500/20 transition-colors">
+                    <Phone className="w-5 h-5 text-amber-500" />
                   </div>
                   <div className="flex-1">
                     <p className="text-xs text-muted-foreground/60 mb-1 font-semibold uppercase tracking-wider">Phone</p>
@@ -246,7 +246,7 @@ const Footer = () => {
           whileHover={{ scale: 1.1, y: -5 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-8 right-8 w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-orange-600 border-2 border-primary/30 shadow-2xl shadow-primary/30 flex items-center justify-center text-white z-50 hover:shadow-primary/50 transition-all duration-300"
+          className="fixed bottom-8 right-8 w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-amber-600 border-2 border-primary/30 shadow-2xl shadow-primary/30 flex items-center justify-center text-white z-50 hover:shadow-primary/50 transition-all duration-300"
           aria-label="Back to top"
         >
           <ArrowRight className="w-6 h-6 -rotate-90" />

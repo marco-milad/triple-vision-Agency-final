@@ -4,8 +4,8 @@ import { Target, Lightbulb, Rocket, Shield, Sparkles, ArrowRight } from 'lucide-
 import { company } from '@/data/company';
 
 const values = [
-  { icon: Target, title: 'Precision Focus', description: 'Every pixel, every frame, every detail matters. We obsess over quality so you don\'t have to.', color: 'from-primary to-orange-500', delay: 0 },
-  { icon: Lightbulb, title: 'Creative Innovation', description: 'We push boundaries and challenge conventions to create work that stands out.', color: 'from-orange-500 to-pink-500', delay: 0.1 },
+  { icon: Target, title: 'Precision Focus', description: 'Every pixel, every frame, every detail matters. We obsess over quality so you don\'t have to.', color: 'from-primary to-amber-500', delay: 0 },
+  { icon: Lightbulb, title: 'Creative Innovation', description: 'We push boundaries and challenge conventions to create work that stands out.', color: 'from-amber-500 to-pink-500', delay: 0.1 },
   { icon: Rocket, title: 'Fast Delivery', description: 'Premium quality doesn\'t mean slow. We deliver exceptional work on time, every time.', color: 'from-pink-500 to-purple-500', delay: 0.2 },
   { icon: Shield, title: 'Trusted Partner', description: 'We build lasting relationships. Your success is our success.', color: 'from-purple-500 to-primary', delay: 0.3 },
 ];
@@ -16,7 +16,7 @@ const WhyTripleVision = () => {
       {/* Background - reduced blur, no particles */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 right-0 w-[700px] h-[700px] rounded-full bg-primary/10 blur-[80px]" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full bg-orange-500/10 blur-[80px]" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full bg-amber-500/10 blur-[80px]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-purple-500/5 blur-[60px]" />
       </div>
 
@@ -49,7 +49,7 @@ const WhyTripleVision = () => {
 
           <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-foreground mb-6 leading-[1.1]">
             The Triple Vision{' '}
-            <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">Difference</span>
+            <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">Difference</span>
           </h2>
 
           <motion.p
@@ -67,7 +67,7 @@ const WhyTripleVision = () => {
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.4, ease: 'easeOut' }}
-            className="mt-8 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-orange-500 to-pink-500 rounded-full shadow-lg shadow-primary/50"
+            className="mt-8 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-amber-500 to-pink-500 rounded-full shadow-lg shadow-primary/50"
           />
         </motion.div>
 
@@ -137,7 +137,7 @@ const WhyTripleVision = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: value.delay + 0.3, type: 'spring' }}
-                className="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-gradient-to-br from-primary to-orange-600 border-2 border-background shadow-xl flex items-center justify-center"
+                className="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-gradient-to-br from-primary to-amber-600 border-2 border-background shadow-xl flex items-center justify-center"
               >
                 <span className="text-white font-black text-sm">0{index + 1}</span>
               </motion.div>
@@ -158,7 +158,7 @@ const WhyTripleVision = () => {
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-primary via-orange-500 to-pink-500 text-primary-foreground font-bold shadow-2xl shadow-primary/50 cursor-pointer group"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-primary via-amber-500 to-pink-500 text-primary-foreground font-bold shadow-2xl shadow-primary/50 cursor-pointer group"
           >
             <span>Ready to Get Started?</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

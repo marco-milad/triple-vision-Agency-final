@@ -5,8 +5,8 @@ import ceoPortrait from '@/assets/ceo-portrait.jpg';
 import { company, yearsInBusiness } from '@/data/company';
 
 const achievements = [
-  { icon: Award, label: `${company.stats.projects}+ Projects`, color: 'from-primary to-orange-500' },
-  { icon: Users, label: `${company.stats.clients}+ Clients`, color: 'from-orange-500 to-pink-500' },
+  { icon: Award, label: `${company.stats.projects}+ Projects`, color: 'from-primary to-amber-500' },
+  { icon: Users, label: `${company.stats.clients}+ Clients`, color: 'from-amber-500 to-pink-500' },
   { icon: TrendingUp, label: `${yearsInBusiness()}+ Years`, color: 'from-pink-500 to-purple-500' },
 ];
 
@@ -23,7 +23,7 @@ const CEOSection = () => {
       {/* Background - reduced blur */}
       <div className="absolute inset-0">
         <div className="absolute top-1/2 left-0 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[80px]" />
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-orange-500/10 blur-[80px]" />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-amber-500/10 blur-[80px]" />
         <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-purple-500/5 blur-[60px]" />
       </div>
 
@@ -55,7 +55,7 @@ const CEOSection = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-primary/20 via-orange-500/10 to-pink-500/20 blur-2xl"
+                className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-primary/20 via-amber-500/10 to-pink-500/20 blur-2xl"
               />
               
               <motion.div 
@@ -78,7 +78,7 @@ const CEOSection = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.4, type: 'spring' }}
                 whileHover={{ scale: 1.1, rotate: 3 }}
-                className="absolute -bottom-8 -right-8 bg-gradient-to-br from-primary to-orange-600 rounded-2xl p-6 shadow-2xl shadow-primary/50 border border-primary/30"
+                className="absolute -bottom-8 -right-8 bg-gradient-to-br from-primary to-amber-600 rounded-2xl p-6 shadow-2xl shadow-primary/50 border border-primary/30"
               >
                 <div className="flex items-center gap-2 mb-1">
                   <Sparkles className="w-5 h-5 text-white" />
@@ -133,7 +133,7 @@ const CEOSection = () => {
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-foreground mb-8 leading-[1.1]">
               Meet Our{' '}
-              <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">Visionary Leader</span>
+              <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">Visionary Leader</span>
             </h2>
 
             <motion.div
@@ -236,7 +236,7 @@ const CEOSection = () => {
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1, delay: 0.8, ease: 'easeOut' }}
-              className="mt-10 h-1.5 w-32 bg-gradient-to-r from-primary via-orange-500 to-pink-500 rounded-full origin-left shadow-lg shadow-primary/50"
+              className="mt-10 h-1.5 w-32 bg-gradient-to-r from-primary via-amber-500 to-pink-500 rounded-full origin-left shadow-lg shadow-primary/50"
             />
           </motion.div>
         </div>

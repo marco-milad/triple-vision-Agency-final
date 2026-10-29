@@ -14,7 +14,7 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
       {/* Background - reduced blur, no rotating rings */}
       <div className="absolute inset-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] rounded-full bg-primary/10 blur-[80px]" />
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full bg-orange-500/10 blur-[80px]" />
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full bg-amber-500/10 blur-[80px]" />
         <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-pink-500/5 blur-[60px]" />
         
         {/* Static rings */}
@@ -38,7 +38,7 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
         { Icon: Sparkles, position: 'bottom-1/3 right-[10%]' },
       ].map(({ Icon, position }, i) => (
         <div key={i} className={`absolute ${position} hidden lg:block`}>
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-orange-500/10 border border-primary/20 flex items-center justify-center shadow-xl">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-amber-500/10 border border-primary/20 flex items-center justify-center shadow-xl">
             <Icon className="w-8 h-8 text-primary" />
           </div>
         </div>
@@ -54,7 +54,7 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
         >
           <div className="relative">
             {/* Static glow instead of animated */}
-            <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-primary via-orange-500 to-pink-500 blur-3xl opacity-20" />
+            <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-primary via-amber-500 to-pink-500 blur-3xl opacity-20" />
 
             <div className="relative p-8 md:p-12 lg:p-20 rounded-3xl border-2 border-primary/20 bg-background/90 backdrop-blur-2xl overflow-hidden">
               <div 
@@ -74,8 +74,8 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
                   className="inline-block mb-8"
                 >
                   <div className="relative">
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary to-orange-500 blur-xl opacity-50" />
-                    <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-orange-500 p-0.5 shadow-2xl">
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary to-amber-500 blur-xl opacity-50" />
+                    <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-amber-500 p-0.5 shadow-2xl">
                       <div className="w-full h-full rounded-2xl bg-background/95 backdrop-blur-xl flex items-center justify-center">
                         <Sparkles className="w-10 h-10 text-primary" />
                       </div>
@@ -91,7 +91,7 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
                   className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-foreground mb-6 leading-[1.1]"
                 >
                   Ready to Create Something{' '}
-                  <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">Extraordinary?</span>
+                  <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">Extraordinary?</span>
                 </motion.h2>
 
                 <motion.p
@@ -152,7 +152,7 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
                   <div className="flex items-center gap-2">
                     <div className="flex -space-x-2">
                       {[...Array(3)].map((_, i) => (
-                        <div key={i} className={`w-8 h-8 rounded-full bg-gradient-to-br ${i === 0 ? 'from-primary to-orange-500' : i === 1 ? 'from-orange-500 to-pink-500' : 'from-pink-500 to-purple-500'} border-2 border-background flex items-center justify-center shadow-lg`}>
+                        <div key={i} className={`w-8 h-8 rounded-full bg-gradient-to-br ${i === 0 ? 'from-primary to-amber-500' : i === 1 ? 'from-amber-500 to-pink-500' : 'from-pink-500 to-purple-500'} border-2 border-background flex items-center justify-center shadow-lg`}>
                           <Star className="w-4 h-4 text-white fill-white" />
                         </div>
                       ))}
@@ -171,7 +171,7 @@ const CTASection = ({ onContactClick }: CTASectionProps) => {
               </div>
 
               <div className="absolute top-0 left-0 w-32 h-32 rounded-br-[3rem] bg-gradient-to-br from-primary/10 to-transparent" />
-              <div className="absolute bottom-0 right-0 w-32 h-32 rounded-tl-[3rem] bg-gradient-to-tl from-orange-500/10 to-transparent" />
+              <div className="absolute bottom-0 right-0 w-32 h-32 rounded-tl-[3rem] bg-gradient-to-tl from-amber-500/10 to-transparent" />
             </div>
           </div>
         </motion.div>

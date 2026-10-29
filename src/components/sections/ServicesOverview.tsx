@@ -27,7 +27,7 @@ const ServicesOverview = () => {
       <div className="absolute inset-0">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-primary/10 blur-[80px]" />
         <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-purple-500/5 blur-[60px]" />
-        <div className="absolute top-1/3 left-0 w-[500px] h-[500px] rounded-full bg-orange-500/5 blur-[60px]" />
+        <div className="absolute top-1/3 left-0 w-[500px] h-[500px] rounded-full bg-amber-500/5 blur-[60px]" />
       </div>
 
       <div
@@ -40,7 +40,7 @@ const ServicesOverview = () => {
 
       {/* Static decorative elements instead of floating */}
       <div className="absolute top-1/4 right-10 w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/10 to-purple-500/10 border border-primary/20 hidden lg:block" />
-      <div className="absolute bottom-1/4 left-10 w-16 h-16 rounded-xl bg-gradient-to-br from-orange-500/10 to-pink-500/10 border border-primary/20 hidden lg:block" />
+      <div className="absolute bottom-1/4 left-10 w-16 h-16 rounded-xl bg-gradient-to-br from-amber-500/10 to-pink-500/10 border border-primary/20 hidden lg:block" />
 
       <div className="container mx-auto relative z-10">
         <motion.div
@@ -63,7 +63,7 @@ const ServicesOverview = () => {
 
           <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-foreground mb-6 leading-[1.1]">
             Creative Solutions for{' '}
-            <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">Bold Brands</span>
+            <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">Bold Brands</span>
           </h2>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
             From concept to execution, we offer <span className="text-foreground font-semibold">comprehensive creative services</span>
@@ -97,7 +97,7 @@ const ServicesOverview = () => {
                       transition={{ duration: 0.3, delay: index * 0.1 + 0.2 }}
                       className="absolute top-4 right-4"
                     >
-                      <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-primary to-orange-500 text-primary-foreground text-xs font-bold">
+                      <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-primary to-amber-500 text-primary-foreground text-xs font-bold">
                         <Star className="w-3 h-3" />
                         {service.badge}
                       </div>
@@ -147,7 +147,7 @@ const ServicesOverview = () => {
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="inline-block">
             <Button variant="outline" size="lg" className="group relative overflow-hidden" asChild>
               <Link to="/services">
-                <motion.div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <motion.div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-amber-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                 <span className="relative z-10">Explore All Services</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform relative z-10" />
               </Link>

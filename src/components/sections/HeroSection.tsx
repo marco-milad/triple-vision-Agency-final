@@ -12,8 +12,8 @@ interface HeroSectionProps {
 
 // ✅ Constants outside component - REDUCED
 const CARD_COLORS = [
-  'from-primary/20 to-orange-500/10',
-  'from-orange-500/20 to-pink-500/10',
+  'from-primary/20 to-amber-500/10',
+  'from-amber-500/20 to-pink-500/10',
   'from-pink-500/20 to-purple-500/10',
 ] as const;
 
@@ -24,8 +24,8 @@ const CARD_POSITIONS = [
 ] as const;
 
 const TRUST_INDICATORS = [
-  { icon: Star, label: `${company.stats.projects}+ Projects`, color: 'from-primary to-orange-500' },
-  { icon: Award, label: `${company.stats.clients}+ Clients`, color: 'from-orange-500 to-pink-500' },
+  { icon: Star, label: `${company.stats.projects}+ Projects`, color: 'from-primary to-amber-500' },
+  { icon: Award, label: `${company.stats.clients}+ Clients`, color: 'from-amber-500 to-pink-500' },
   { icon: Sparkles, label: `${yearsInBusiness()}+ Years`, color: 'from-pink-500 to-purple-500' },
 ] as const;
 
@@ -134,7 +134,7 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
         />
         
         <div
-          className={`absolute bottom-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-l from-orange-500/20 to-pink-500/20 ${blurClass} will-change-transform`}
+          className={`absolute bottom-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-l from-amber-500/20 to-pink-500/20 ${blurClass} will-change-transform`}
           style={{ 
             transform: 'translateZ(0)',
             backfaceVisibility: 'hidden',
@@ -175,7 +175,7 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
           >
             <motion.div
               whileHover={{ scale: 1.05, y: -5 }}
-              className="inline-flex items-center gap-3 px-6 md:px-8 py-3 md:py-4 rounded-2xl border-2 border-primary/30 bg-gradient-to-r from-primary/10 via-orange-500/10 to-pink-500/10 backdrop-blur-xl shadow-2xl shadow-primary/20 group relative overflow-hidden"
+              className="inline-flex items-center gap-3 px-6 md:px-8 py-3 md:py-4 rounded-2xl border-2 border-primary/30 bg-gradient-to-r from-primary/10 via-amber-500/10 to-pink-500/10 backdrop-blur-xl shadow-2xl shadow-primary/20 group relative overflow-hidden"
             >
               {!isMobile && shouldAnimate && (
                 <div
@@ -198,7 +198,7 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
                 Premium Creative Agency
               </span>
               
-              <Rocket className="w-5 h-5 text-orange-500" aria-hidden="true" />
+              <Rocket className="w-5 h-5 text-amber-500" aria-hidden="true" />
             </motion.div>
           </motion.div>
 
@@ -211,7 +211,7 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
           >
             <span className="inline-block text-foreground">Transform Your </span>
             <br className="hidden sm:block" />
-            <span className="inline-block bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">
+            <span className="inline-block bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
               Vision
             </span>
             <br />
@@ -231,12 +231,12 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
             We craft{' '}
             <span className="text-primary font-bold relative inline-block group">
               cinematic experiences
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-orange-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-amber-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
             </span>
             {' '}and{' '}
-            <span className="text-orange-500 font-bold relative inline-block group">
+            <span className="text-amber-500 font-bold relative inline-block group">
               immersive storytelling
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-500 to-pink-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-amber-500 to-pink-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
             </span>
             {' '}that captivate audiences and elevate your brand to new heights.
           </motion.p>
@@ -326,7 +326,7 @@ const HeroSection = ({ onContactClick, onShowreelClick }: HeroSectionProps) => {
 
       {/* Corner Decorations */}
       <div className="absolute top-0 left-0 w-40 h-40 rounded-br-full bg-gradient-to-br from-primary/5 to-transparent" />
-      <div className="absolute bottom-0 right-0 w-40 h-40 rounded-tl-full bg-gradient-to-tl from-orange-500/5 to-transparent" />
+      <div className="absolute bottom-0 right-0 w-40 h-40 rounded-tl-full bg-gradient-to-tl from-amber-500/5 to-transparent" />
 
       {/* ✅ CSS Keyframes - Removed unused animations */}
       <style>{`

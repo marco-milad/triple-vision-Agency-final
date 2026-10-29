@@ -18,7 +18,7 @@ const Services = () => {
         {/* Background Effects */}
         <div className="absolute inset-0">
           <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[140px]" />
-          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-orange-500/10 blur-[120px]" />
+          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-amber-500/10 blur-[120px]" />
         </div>
 
         <div className="container mx-auto relative z-10">
@@ -43,7 +43,7 @@ const Services = () => {
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-foreground mb-6 leading-[1.1]">
               Creative Solutions for{' '}
-              <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
                 Every Need
               </span>
             </h1>
@@ -63,7 +63,7 @@ const Services = () => {
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ duration: 1, delay: 0.4, ease: 'easeOut' }}
-              className="mt-8 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-orange-500 to-pink-500 rounded-full shadow-lg shadow-primary/50"
+              className="mt-8 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-amber-500 to-pink-500 rounded-full shadow-lg shadow-primary/50"
             />
           </motion.div>
         </div>
@@ -173,7 +173,7 @@ const Services = () => {
                       <div className={`absolute -bottom-8 -right-8 w-24 h-24 rounded-full bg-gradient-to-br ${service.color} opacity-10 group-hover:opacity-20 blur-2xl transition-opacity duration-500`} />
 
                       {/* Number Badge */}
-                      <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-orange-500/20 border border-primary/30 flex items-center justify-center">
+                      <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-amber-500/20 border border-primary/30 flex items-center justify-center">
                         <span className="text-xs font-black text-primary">0{index + 1}</span>
                       </div>
                     </motion.div>
@@ -201,12 +201,12 @@ const Services = () => {
             className="max-w-3xl mx-auto text-center"
           >
             {/* Static Glow Behind Card */}
-            <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-primary/20 via-orange-500/20 to-pink-500/20 blur-3xl opacity-40" />
+            <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-primary/20 via-amber-500/20 to-pink-500/20 blur-3xl opacity-40" />
 
             <div className="relative p-8 md:p-12 lg:p-16 rounded-3xl border-2 border-primary/20 bg-background/90 backdrop-blur-2xl">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground mb-6">
                 Not Sure Which Service{' '}
-                <span className="bg-gradient-to-r from-primary via-orange-500 to-pink-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
                   You Need?
                 </span>
               </h2>
