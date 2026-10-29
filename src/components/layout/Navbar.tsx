@@ -308,7 +308,7 @@ const Navbar = ({ onContactClick }: NavbarProps) => {
                       {location.pathname === link.path && (
                         <motion.div
                           layoutId="activeMobileTab"
-                          className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary via-amber-500 to-pink-500 rounded-full"
+                          className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary via-amber-500 to-amber-600 rounded-full"
                           transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                         />
                       )}

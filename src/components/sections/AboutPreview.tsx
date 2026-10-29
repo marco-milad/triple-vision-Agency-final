@@ -82,7 +82,7 @@ const AboutPreview = () => {
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-foreground mb-6 leading-[1.1]">
               Where Creativity Meets{' '}
-              <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">Innovation</span>
+              <span className="bg-gradient-to-r from-primary via-amber-500 to-amber-600 bg-clip-text text-transparent">Innovation</span>
             </h2>
 
             <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8">
@@ -135,7 +135,7 @@ const AboutPreview = () => {
             className="relative"
           >
             <div className="relative aspect-square rounded-3xl overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-amber-500/20 to-pink-500/20 backdrop-blur-xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-amber-500/20 to-amber-600/20 backdrop-blur-xl">
                 {/* Static gradient instead of animated */}
                 <div
                   className="absolute inset-0"
@@ -156,7 +156,7 @@ const AboutPreview = () => {
                     transition={{ duration: 0.8, delay: 0.4 }}
                   >
                     <TrendingUp className="w-16 h-16 text-primary mb-6 mx-auto" />
-                    <div className="text-6xl md:text-7xl font-black bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent mb-3">
+                    <div className="text-6xl md:text-7xl font-black bg-gradient-to-r from-primary via-amber-500 to-amber-600 bg-clip-text text-transparent mb-3">
                       <Counter value={yearsInBusiness()} suffix="+" duration={2.5} />
                     </div>
                     <p className="text-foreground font-bold text-xl md:text-2xl mb-2">Years of Excellence</p>
@@ -193,8 +193,8 @@ const AboutPreview = () => {
             </motion.div>
 
             {/* Static decorative elements instead of floating */}
-            <div className="absolute top-1/4 -right-8 w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-purple-500/10 backdrop-blur-sm border border-primary/20 shadow-xl" />
-            <div className="absolute bottom-1/4 -left-8 w-16 h-16 rounded-xl bg-gradient-to-br from-amber-500/20 to-pink-500/10 backdrop-blur-sm border border-primary/20 shadow-xl" />
+            <div className="absolute top-1/4 -right-8 w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-amber-600/10 backdrop-blur-sm border border-primary/20 shadow-xl" />
+            <div className="absolute bottom-1/4 -left-8 w-16 h-16 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-600/10 backdrop-blur-sm border border-primary/20 shadow-xl" />
           </motion.div>
         </div>
 

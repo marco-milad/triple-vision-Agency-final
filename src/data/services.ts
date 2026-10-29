@@ -61,7 +61,7 @@ export const services: Service[] = [
     description:
       "When it comes to branding, clarity is the foundation of every strong identity. We continuously refine our craft and tools to ensure your brand is presented in its finest, most compelling light.",
     icon: Palette,
-    color: "from-green-500 to-emerald-500",
+    color: "from-primary to-amber-600",
     // TODO(client): confirm the branding deliverables list — the profile has prose only.
     features: ["Logo Design", "Brand Guidelines", "Visual Identity", "Brand Collateral"],
     offerings: [],
@@ -76,7 +76,7 @@ export const services: Service[] = [
     description:
       "We build your presence from the ground up: analysing your brand and competitors, setting the strategy, then producing the content, copy and art direction that consistently delivers results for our partners.",
     icon: Share2,
-    color: "from-blue-500 to-cyan-500",
+    color: "from-primary to-amber-600",
     features: [
       "Brand & Competitive Analysis",
       "Social Media Strategy",
@@ -122,7 +122,7 @@ export const services: Service[] = [
     description:
       "Photography helps people see not only the surface, but the profound depth of your brand values. At Triple Vision, we decode the digital landscape to ensure your brand stands out and keeps your audience captivated.",
     icon: Camera,
-    color: "from-pink-500 to-rose-500",
+    color: "from-primary to-amber-600",
     // TODO(client): which photography packages to list (product, corporate, events...).
     features: [],
     offerings: [],
@@ -137,7 +137,7 @@ export const services: Service[] = [
     description:
       "Driven by data, we deliver performance-focused outcomes that generate measurable ROI, directly boosting our clients' profitability. The ultimate strategy to dominate the market lies in combining data, technology and expertise — tailored to craft a seamless journey for your audience.",
     icon: Megaphone,
-    color: "from-amber-500 to-orange-500",
+    color: "from-primary to-amber-600",
     features: ["Data-Driven Planning", "Performance Campaigns", "Measurable ROI", "Audience Targeting"],
     offerings: [],
     process: [],
@@ -151,7 +151,7 @@ export const services: Service[] = [
     description:
       "From snackable social media videos to large-scale TV and radio commercials, we blend photography, videography and sound design using next-gen tools and distinctive artistic viewpoints. The result is compelling communication that inspires, persuades and converts.",
     icon: Video,
-    color: "from-orange-500 to-red-500",
+    color: "from-primary to-amber-600",
     features: ["TV & Radio Commercials", "Social Media Videos", "Videography", "Sound Design"],
     offerings: [
       {
@@ -186,7 +186,7 @@ export const services: Service[] = [
     description:
       "We are frequently recognized as one of the most active and effective event planning and management providers in Egypt. Having successfully conducted over 50 activations, product launches, grand openings, conferences and entertainment promotions, we're ready for any challenge — no matter the scale or type of your envisioned event.",
     icon: Calendar,
-    color: "from-purple-500 to-pink-500",
+    color: "from-primary to-amber-600",
     features: ["Activations", "Product Launches", "Grand Openings", "Conferences", "Entertainment Promotions"],
     offerings: [],
     process: [],
@@ -200,7 +200,7 @@ export const services: Service[] = [
     description:
       "We leverage strategic partnerships with a refined network of reliable print houses and manufacturers both in Egypt and abroad. From booklets, collaterals, stationery and packaging to ATL and BTL materials, we deliver superior print quality — plus a proven track record in high-end interior decoration, signage, event accessories and multipurpose props and assemblies.",
     icon: Printer,
-    color: "from-teal-500 to-cyan-500",
+    color: "from-primary to-amber-600",
     features: [
       "Booklets & Collaterals",
       "Stationery",
@@ -221,7 +221,7 @@ export const services: Service[] = [
     description:
       "A website is more than just your digital address — it's your most powerful sales and branding tool. We design and develop premium, fully responsive websites that combine striking visual aesthetics with flawless functionality. From optimized code and fast loading speeds to built-in SEO and user-centric UX/UI, we build secure, scalable digital experiences that convert visitors into loyal clients.",
     icon: Code,
-    color: "from-indigo-500 to-violet-500",
+    color: "from-primary to-amber-600",
     features: ["Custom Websites", "UI/UX Design", "Performance & SEO", "Secure & Scalable Builds"],
     offerings: [],
     process: [],

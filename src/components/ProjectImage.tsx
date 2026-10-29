@@ -26,7 +26,7 @@ const ProjectImage = ({ src, alt, label, className = '', size = 'card' }: Projec
     <div
       role="img"
       aria-label={`${alt} — artwork coming soon`}
-      className={`flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-primary/20 via-background-secondary to-purple-500/20 ${className}`}
+      className={`flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-primary/20 via-background-secondary to-amber-600/20 ${className}`}
     >
       <div
         className="absolute inset-0 opacity-[0.05]"

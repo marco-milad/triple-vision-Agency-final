@@ -15,7 +15,7 @@ const PortfolioPreview = () => {
       {/* Background - reduced blur */}
       <div className="absolute inset-0">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[80px]" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-purple-500/5 blur-[80px]" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-amber-600/5 blur-[80px]" />
       </div>
 
       <div
@@ -48,7 +48,7 @@ const PortfolioPreview = () => {
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-foreground mb-4 leading-[1.1]">
               Featured{' '}
-              <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">Projects</span>
+              <span className="bg-gradient-to-r from-primary via-amber-500 to-amber-600 bg-clip-text text-transparent">Projects</span>
             </h2>
             <p className="text-muted-foreground text-base md:text-lg">
               Explore our latest work and see how we bring <span className="text-primary font-semibold">bold ideas</span> to life.

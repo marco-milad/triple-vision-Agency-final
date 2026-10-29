@@ -55,7 +55,7 @@ const Portfolio = () => {
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-foreground mb-6 leading-[1.1]">
               Featured{' '}
-              <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary via-amber-500 to-amber-600 bg-clip-text text-transparent">
                 Projects
               </span>
             </h1>
@@ -68,7 +68,7 @@ const Portfolio = () => {
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ duration: 1, delay: 0.4, ease: 'easeOut' }}
-              className="mt-8 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-amber-500 to-pink-500 rounded-full shadow-lg shadow-primary/50"
+              className="mt-8 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-amber-500 to-amber-600 rounded-full shadow-lg shadow-primary/50"
             />
           </motion.div>
         </div>
@@ -225,7 +225,7 @@ const Portfolio = () => {
                 whileHover={{ scale: 1.05, y: -5 }}
                 className="text-center p-4 md:p-6 rounded-2xl border-2 border-border/50 bg-background/50 backdrop-blur-sm hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
               >
-                <div className="text-3xl md:text-4xl lg:text-5xl font-black bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent mb-2">
+                <div className="text-3xl md:text-4xl lg:text-5xl font-black bg-gradient-to-r from-primary via-amber-500 to-amber-600 bg-clip-text text-transparent mb-2">
                   {stat.number}
                 </div>
                 <div className="text-xs md:text-sm text-muted-foreground font-semibold">{stat.label}</div>
@@ -249,12 +249,12 @@ const Portfolio = () => {
             transition={{ duration: 0.6 }}
             className="max-w-3xl mx-auto text-center"
           >
-            <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-primary/20 via-amber-500/20 to-pink-500/20 blur-3xl opacity-40" />
+            <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-primary/20 via-amber-500/20 to-amber-600/20 blur-3xl opacity-40" />
 
             <div className="relative p-8 md:p-12 lg:p-16 rounded-3xl border-2 border-primary/20 bg-background/90 backdrop-blur-2xl">
               <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black text-foreground mb-4 md:mb-6">
                 Ready to{' '}
-                <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-primary via-amber-500 to-amber-600 bg-clip-text text-transparent">
                   Start Your Project?
                 </span>
               </h2>

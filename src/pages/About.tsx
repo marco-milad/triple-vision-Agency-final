@@ -17,19 +17,19 @@ const values = [
     icon: Eye,
     title: 'Vision',
     description: 'We see beyond the obvious to create truly innovative solutions.',
-    color: 'from-amber-500 to-pink-500',
+    color: 'from-amber-500 to-amber-600',
   },
   {
     icon: Heart,
     title: 'Passion',
     description: 'Every project is fueled by genuine enthusiasm and dedication.',
-    color: 'from-pink-500 to-purple-500',
+    color: 'from-amber-500 to-amber-600',
   },
   {
     icon: Users,
     title: 'Collaboration',
     description: 'We work with clients as true partners in their success.',
-    color: 'from-purple-500 to-primary',
+    color: 'from-amber-600 to-primary',
   },
 ];
 
@@ -123,7 +123,7 @@ const About = () => {
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-foreground mb-6 leading-[1.1]">
               Crafting{' '}
-              <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary via-amber-500 to-amber-600 bg-clip-text text-transparent">
                 Digital Excellence
               </span>
               <br />
@@ -145,7 +145,7 @@ const About = () => {
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ duration: 1, delay: 0.4, ease: 'easeOut' }}
-              className="mt-8 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-amber-500 to-pink-500 rounded-full shadow-lg shadow-primary/50"
+              className="mt-8 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-amber-500 to-amber-600 rounded-full shadow-lg shadow-primary/50"
             />
           </motion.div>
         </div>
@@ -186,7 +186,7 @@ const About = () => {
                 <p>
                   This is driven by a passionate, talented team of marketing experts who push creative
                   boundaries to deliver outstanding executions — all focused on
-                  {' '}<span className="text-pink-500 font-semibold">maximizing your ROI</span>.
+                  {' '}<span className="text-amber-600 font-semibold">maximizing your ROI</span>.
                 </p>
               </div>
 
@@ -316,14 +316,14 @@ const About = () => {
               <motion.div
                 initial={{ opacity: 0 }}
                 whileHover={{ opacity: 1 }}
-                className="absolute -inset-1 rounded-3xl bg-gradient-to-br from-amber-500/30 to-pink-500/30 blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"
+                className="absolute -inset-1 rounded-3xl bg-gradient-to-br from-amber-500/30 to-amber-600/30 blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"
               />
 
               <div className="relative p-10 rounded-2xl border-2 border-border/50 bg-background/80 backdrop-blur-xl hover:border-primary/50 transition-all duration-300 h-full">
                 {/* Icon */}
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500 to-pink-500 p-0.5 mb-6 shadow-xl"
+                  className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-600 p-0.5 mb-6 shadow-xl"
                 >
                   <div className="w-full h-full rounded-2xl bg-background flex items-center justify-center">
                     <Target className="w-8 h-8 text-amber-500" />
@@ -373,7 +373,7 @@ const About = () => {
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground">
               What{' '}
-              <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary via-amber-500 to-amber-600 bg-clip-text text-transparent">
                 Drives Us
               </span>
             </h2>
@@ -384,7 +384,7 @@ const About = () => {
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
-              className="mt-6 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-amber-500 to-pink-500 rounded-full shadow-lg shadow-primary/50"
+              className="mt-6 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-amber-500 to-amber-600 rounded-full shadow-lg shadow-primary/50"
             />
           </motion.div>
 
@@ -440,7 +440,7 @@ const About = () => {
       <section className="section-padding bg-gradient-to-br from-background-secondary via-background to-background-secondary relative overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-purple-500/5 blur-[120px]" />
+          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-amber-600/5 blur-[120px]" />
         </div>
 
         <div className="container mx-auto relative z-10">
@@ -467,7 +467,7 @@ const About = () => {
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground">
               The{' '}
-              <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary via-amber-500 to-amber-600 bg-clip-text text-transparent">
                 Creative Minds
               </span>
             </h2>
@@ -478,7 +478,7 @@ const About = () => {
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
-              className="mt-6 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-amber-500 to-pink-500 rounded-full shadow-lg shadow-primary/50"
+              className="mt-6 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-amber-500 to-amber-600 rounded-full shadow-lg shadow-primary/50"
             />
           </motion.div>
 
@@ -550,13 +550,13 @@ const About = () => {
                 duration: 4,
                 repeat: Infinity,
               }}
-              className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-primary via-amber-500 to-pink-500 blur-3xl opacity-30"
+              className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-primary via-amber-500 to-amber-600 blur-3xl opacity-30"
             />
 
             <div className="relative p-8 md:p-12 lg:p-16 rounded-3xl border-2 border-primary/20 bg-background/90 backdrop-blur-2xl">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground mb-6">
                 Ready to{' '}
-                <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-primary via-amber-500 to-amber-600 bg-clip-text text-transparent">
                   Work with Us?
                 </span>
               </h2>

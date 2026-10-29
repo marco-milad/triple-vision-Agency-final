@@ -131,7 +131,7 @@ const Footer = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <h4 className="font-black text-foreground mb-6 text-lg flex items-center gap-2">
-                <div className="w-1.5 h-6 bg-gradient-to-b from-amber-500 to-pink-500 rounded-full" />
+                <div className="w-1.5 h-6 bg-gradient-to-b from-amber-500 to-amber-600 rounded-full" />
                 Company
               </h4>
               <ul className="space-y-3">
@@ -162,7 +162,7 @@ const Footer = () => {
               transition={{ duration: 0.5, delay: 0.3 }}
             >
               <h4 className="font-black text-foreground mb-6 text-lg flex items-center gap-2">
-                <div className="w-1.5 h-6 bg-gradient-to-b from-pink-500 to-purple-500 rounded-full" />
+                <div className="w-1.5 h-6 bg-gradient-to-b from-amber-500 to-amber-600 rounded-full" />
                 Contact
               </h4>
               <ul className="space-y-5">
@@ -193,8 +193,8 @@ const Footer = () => {
                   </div>
                 </motion.li>
                 <motion.li initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: 0.45 }} className="flex items-start gap-3 group">
-                  <div className="w-10 h-10 rounded-lg bg-pink-500/10 border border-pink-500/20 flex items-center justify-center flex-shrink-0 group-hover:bg-pink-500/20 transition-colors">
-                    <MapPin className="w-5 h-5 text-pink-500" />
+                  <div className="w-10 h-10 rounded-lg bg-amber-600/10 border border-amber-600/20 flex items-center justify-center flex-shrink-0 group-hover:bg-amber-600/20 transition-colors">
+                    <MapPin className="w-5 h-5 text-amber-600" />
                   </div>
                   <div className="flex-1">
                     <p className="text-xs text-muted-foreground/60 mb-1 font-semibold uppercase tracking-wider">Location</p>

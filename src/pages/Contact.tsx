@@ -11,9 +11,9 @@ const contactInfo = [
     label: 'Location',
     value: `${company.contact.address.city}, ${company.contact.address.country}`,
     detail: `${company.contact.address.street}, ${company.contact.address.area}`,
-    color: 'from-pink-500 to-purple-500',
-    iconColor: 'text-pink-500',
-    bgColor: 'bg-pink-500/10 border-pink-500/20 group-hover:bg-pink-500/20',
+    color: 'from-amber-500 to-amber-600',
+    iconColor: 'text-amber-600',
+    bgColor: 'bg-amber-600/10 border-amber-600/20 group-hover:bg-amber-600/20',
   },
   {
     icon: Mail,
@@ -30,7 +30,7 @@ const contactInfo = [
     value: company.contact.phones[0].display,
     detail: company.contact.phones[1]?.display,
     href: `tel:${company.contact.phones[0].e164}`,
-    color: 'from-amber-500 to-pink-500',
+    color: 'from-amber-500 to-amber-600',
     iconColor: 'text-amber-500',
     bgColor: 'bg-amber-500/10 border-amber-500/20 group-hover:bg-amber-500/20',
   },
@@ -82,7 +82,7 @@ const Contact = () => {
             className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-foreground mb-6 leading-[1.1]"
           >
             Contact{' '}
-            <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary via-amber-500 to-amber-600 bg-clip-text text-transparent">
               Us
             </span>
           </motion.h1>
@@ -100,7 +100,7 @@ const Contact = () => {
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ duration: 1, delay: 0.4 }}
-            className="mt-8 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-amber-500 to-pink-500 rounded-full shadow-lg shadow-primary/50"
+            className="mt-8 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-amber-500 to-amber-600 rounded-full shadow-lg shadow-primary/50"
           />
         </div>
       </section>
@@ -168,7 +168,7 @@ const Contact = () => {
             >
               <h2 className="text-2xl md:text-3xl font-black text-foreground mb-2">
                 Find{' '}
-                <span className="bg-gradient-to-r from-amber-500 to-pink-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-amber-500 to-amber-600 bg-clip-text text-transparent">
                   Us
                 </span>
               </h2>

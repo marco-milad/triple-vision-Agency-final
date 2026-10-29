@@ -7,11 +7,11 @@ import { company } from '@/data/company';
 
 const testimonials = [
   { name: 'Sarah Mitchell', role: 'Marketing Director', company: 'TechFlow Inc.', avatar: '', rating: 5, review: 'Triple Vision transformed our brand identity completely. Their cinematic approach to our product videos increased our engagement by 300%. Absolutely phenomenal work!', metric: '300% Engagement', color: 'from-primary to-amber-500' },
-  { name: 'James Okonkwo', role: 'CEO', company: 'Horizon Ventures', avatar: '', rating: 5, review: 'Working with Triple Vision was a game-changer. They understood our vision from day one and delivered beyond expectations. The team is incredibly professional and creative.', metric: 'Game Changer', color: 'from-amber-500 to-pink-500' },
-  { name: 'Emily Chen', role: 'Brand Manager', company: 'Luxe Lifestyle', avatar: '', rating: 5, review: 'The attention to detail is unmatched. From concept to execution, every frame was crafted with precision. Our campaign went viral thanks to their exceptional storytelling.', metric: 'Went Viral', color: 'from-pink-500 to-purple-500' },
-  { name: 'Michael Rodriguez', role: 'Founder', company: 'StartUp Labs', avatar: '', rating: 5, review: 'Their creative vision and technical expertise helped us launch our product with a bang. The ROI was incredible - we got 500% more sign-ups than projected!', metric: '500% ROI', color: 'from-purple-500 to-blue-500' },
-  { name: 'Aisha Kamau', role: 'Creative Director', company: 'Design Studios', avatar: '', rating: 5, review: "As a creative professional myself, I'm incredibly picky. Triple Vision exceeded all expectations. Their storytelling ability is world-class.", metric: 'World-Class', color: 'from-blue-500 to-primary' },
-  { name: 'David Thompson', role: 'VP Marketing', company: 'Global Brands Inc.', avatar: '', rating: 5, review: "We've worked with many agencies, but Triple Vision stands out. They delivered a campaign that generated over 2M impressions in the first week alone!", metric: '2M+ Impressions', color: 'from-primary to-pink-500' },
+  { name: 'James Okonkwo', role: 'CEO', company: 'Horizon Ventures', avatar: '', rating: 5, review: 'Working with Triple Vision was a game-changer. They understood our vision from day one and delivered beyond expectations. The team is incredibly professional and creative.', metric: 'Game Changer', color: 'from-amber-500 to-amber-600' },
+  { name: 'Emily Chen', role: 'Brand Manager', company: 'Luxe Lifestyle', avatar: '', rating: 5, review: 'The attention to detail is unmatched. From concept to execution, every frame was crafted with precision. Our campaign went viral thanks to their exceptional storytelling.', metric: 'Went Viral', color: 'from-amber-500 to-amber-600' },
+  { name: 'Michael Rodriguez', role: 'Founder', company: 'StartUp Labs', avatar: '', rating: 5, review: 'Their creative vision and technical expertise helped us launch our product with a bang. The ROI was incredible - we got 500% more sign-ups than projected!', metric: '500% ROI', color: 'from-amber-600 to-amber-500' },
+  { name: 'Aisha Kamau', role: 'Creative Director', company: 'Design Studios', avatar: '', rating: 5, review: "As a creative professional myself, I'm incredibly picky. Triple Vision exceeded all expectations. Their storytelling ability is world-class.", metric: 'World-Class', color: 'from-amber-600 to-primary' },
+  { name: 'David Thompson', role: 'VP Marketing', company: 'Global Brands Inc.', avatar: '', rating: 5, review: "We've worked with many agencies, but Triple Vision stands out. They delivered a campaign that generated over 2M impressions in the first week alone!", metric: '2M+ Impressions', color: 'from-primary to-amber-600' },
 ];
 
 const StarRating = ({ rating }: { rating: number }) => (
@@ -135,7 +135,7 @@ const isInView = useInView(sectionRef, { margin: "-200px 0px -200px 0px", once: 
 
           <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-foreground mb-6 leading-[1.1]">
             What Our{' '}
-            <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">Clients Say</span>
+            <span className="bg-gradient-to-r from-primary via-amber-500 to-amber-600 bg-clip-text text-transparent">Clients Say</span>
           </h2>
 
           <motion.p
@@ -153,7 +153,7 @@ const isInView = useInView(sectionRef, { margin: "-200px 0px -200px 0px", once: 
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.4, ease: 'easeOut' }}
-            className="mt-8 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-amber-500 to-pink-500 rounded-full shadow-lg shadow-primary/50"
+            className="mt-8 h-1.5 w-32 mx-auto bg-gradient-to-r from-primary via-amber-500 to-amber-600 rounded-full shadow-lg shadow-primary/50"
           />
         </motion.div>
 
@@ -178,7 +178,7 @@ const isInView = useInView(sectionRef, { margin: "-200px 0px -200px 0px", once: 
                   onClick={handleNext}
                   onMouseEnter={() => setIsAutoPlaying(false)}
                   onMouseLeave={() => setIsAutoPlaying(true)}
-                  className="pointer-events-auto w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-amber-600 to-pink-600 border-2 border-amber-500/30 shadow-2xl shadow-amber-500/50 flex items-center justify-center group hover:shadow-amber-500/70 transition-all duration-300"
+                  className="pointer-events-auto w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-amber-600 to-amber-700 border-2 border-amber-500/30 shadow-2xl shadow-amber-500/50 flex items-center justify-center group hover:shadow-amber-500/70 transition-all duration-300"
                 >
                   <ChevronRight className="w-7 h-7 md:w-8 md:h-8 text-white group-hover:scale-125 transition-transform" />
                 </motion.button>
@@ -316,7 +316,7 @@ const isInView = useInView(sectionRef, { margin: "-200px 0px -200px 0px", once: 
               onClick={handleNext}
               onFocus={() => setIsAutoPlaying(false)}
               aria-label="Next testimonial"
-              className="lg:hidden w-11 h-11 rounded-xl bg-gradient-to-br from-amber-600 to-pink-600 border-2 border-amber-500/30 shadow-lg shadow-amber-500/40 flex items-center justify-center flex-shrink-0"
+              className="lg:hidden w-11 h-11 rounded-xl bg-gradient-to-br from-amber-600 to-amber-700 border-2 border-amber-500/30 shadow-lg shadow-amber-500/40 flex items-center justify-center flex-shrink-0"
             >
               <ChevronRight className="w-6 h-6 text-white" />
             </motion.button>
@@ -333,8 +333,8 @@ const isInView = useInView(sectionRef, { margin: "-200px 0px -200px 0px", once: 
           {[
             { icon: Star, value: '4.9/5', label: 'Average Rating', color: 'text-primary' },
             { icon: Award, value: '100%', label: 'Client Satisfaction', color: 'text-amber-500' },
-            { icon: TrendingUp, value: '300%', label: 'Avg. ROI Increase', color: 'text-pink-500' },
-            { icon: CheckCircle2, value: `${company.stats.projects}+`, label: 'Projects Delivered', color: 'text-purple-500' },
+            { icon: TrendingUp, value: '300%', label: 'Avg. ROI Increase', color: 'text-amber-600' },
+            { icon: CheckCircle2, value: `${company.stats.projects}+`, label: 'Projects Delivered', color: 'text-amber-600' },
           ].map((stat, index) => (
             <motion.div
               key={stat.label}

@@ -134,7 +134,7 @@ const ServiceDetail = () => {
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground">
               Our{' '}
-              <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary via-amber-500 to-amber-600 bg-clip-text text-transparent">
                 {service.title}
               </span>{' '}
               Services
@@ -199,7 +199,7 @@ const ServiceDetail = () => {
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground">
               How We{' '}
-              <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary via-amber-500 to-amber-600 bg-clip-text text-transparent">
                 Work
               </span>
             </h2>
@@ -274,7 +274,7 @@ const ServiceDetail = () => {
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground">
               Featured{' '}
-              <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary via-amber-500 to-amber-600 bg-clip-text text-transparent">
                 Projects
               </span>
             </h2>
@@ -419,12 +419,12 @@ const ServiceDetail = () => {
             className="max-w-3xl mx-auto text-center"
           >
             {/* Static Glow */}
-            <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-primary/20 via-amber-500/20 to-pink-500/20 blur-3xl opacity-40" />
+            <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-primary/20 via-amber-500/20 to-amber-600/20 blur-3xl opacity-40" />
 
             <div className="relative p-8 md:p-12 lg:p-16 rounded-3xl border-2 border-primary/20 bg-background/90 backdrop-blur-2xl">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground mb-6">
                 Ready to{' '}
-                <span className="bg-gradient-to-r from-primary via-amber-500 to-pink-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-primary via-amber-500 to-amber-600 bg-clip-text text-transparent">
                   Get Started?
                 </span>
               </h2>
