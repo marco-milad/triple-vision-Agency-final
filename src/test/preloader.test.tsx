@@ -166,8 +166,11 @@ describe("Preloader", () => {
     expect(ink).toBeTruthy();
     // Normalised, so the pen takes the same time whatever the perimeter adds up to.
     expect(ink!.getAttribute("pathLength")).toBe("1");
-    // Holes in R, P, O, A, g and e only fall out with this rule.
-    expect(ink!.getAttribute("fill-rule")).toBe("evenodd");
+    // The logo file states no fill-rule: the holes in R, P, O, A, g and e fall
+    // out of the way its own contours are wound. Naming a rule here would make
+    // the intro render the mark differently from the file it came from — the
+    // old traced artwork needed evenodd, and these curves do not.
+    expect(ink!.getAttribute("fill-rule")).toBeNull();
 
     // The play mark is its own shape so it can keep the brand's orange.
     expect(container.querySelector("path.tv-play")).toBeTruthy();
@@ -420,18 +423,25 @@ describe("Preloader wordmark", () => {
     const lockedMid = (a.x0 * scale + Number(tx) + (a.x1 * scale + Number(tx))) / 2;
 
     // The three bars sit out to the left of the words and are a mark, not a
-    // letter; centring on them too drags the second line off the middle.
-    const m = pathBox(main);
-    const words = mainGlyphs.map(pathBox).filter((b) => b.x0 > m.x0 + 30);
-    const wordsMid = (Math.min(...words.map((b) => b.x0)) + m.x1) / 2;
+    // letter; centring on them too drags the second line off the middle. They
+    // are the first shape in reading order, which is how they are excluded —
+    // a distance in the logo's own units would only hold for one artwork.
+    const words = mainGlyphs.slice(1).map(pathBox);
+    const wordsMid = (Math.min(...words.map((b) => b.x0)) + Math.max(...words.map((b) => b.x1))) / 2;
 
     expect(Math.abs(lockedMid - wordsMid)).toBeLessThan(10);
   });
 
   it("uses the real letterforms rather than redrawn ones", () => {
-    // A trace is hundreds of coordinates; a handful would mean it produced
-    // nothing and the mark had been hand-drawn instead.
-    expect((main + agency).match(/[ML]/g)?.length ?? 0).toBeGreaterThan(400);
+    const all = main + agency;
+    // The round letters are curves, as the designer drew them. A mark made of
+    // straight segments only is either a hand drawing or a trace of a bitmap,
+    // and both of those show their steps at the size the intro draws at.
+    expect(all.match(/[CQ]/g)?.length ?? 0).toBeGreaterThan(80);
+    expect(all.match(/[MLCQZ]/g)?.length ?? 0).toBeGreaterThan(200);
+    // Absolute and longhand throughout, or the boxes measured above mean
+    // nothing: a relative command would be read as a coordinate.
+    expect(all).not.toMatch(/[mlhvcsqtaHVST]/);
   });
 
   it("draws and fills rather than swapping in a second image", () => {

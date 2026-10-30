@@ -5,13 +5,14 @@ import {
   AGENCY_GLYPHS,
   AGENCY_LOCKUP,
   LOGO_ORANGE,
+  INK_STROKE_WIDTH,
 } from './logoPaths';
 import { dockTransform } from './dockTransform';
 
 /**
  * Intro overlay: the wordmark writes itself, then docks into the header.
  *
- * The outline is traced from the logo file, so the pen follows the real
+ * The outline is the logo file's own curves, so the pen follows the real
  * letterform and the fill that follows it is the real mark — one shape
  * completing itself rather than a sketch replaced by a picture.
  *
@@ -61,8 +62,11 @@ const WRITING_ENDS_MS =
   (GLYPH_COUNT - 1) * TIMINGS.GLYPH_STAGGER_MS + TIMINGS.GLYPH_DRAW_MS;
 const PLAY_AT_MS = WRITING_ENDS_MS + TIMINGS.PLAY_GAP_MS;
 
-const BACKGROUND = 'hsl(280, 100%, 8%)';
-const ACCENT = 'hsl(32, 100%, 50%)';
+/** The site's own ground, so the mark travels onto the page rather than
+    out of one panel and into another. */
+const BACKGROUND = '#201434';
+/** The gold the logo file itself is drawn in. */
+const ACCENT = '#faad1b';
 
 /** Storage can throw when cookies are blocked, and is absent while prerendering. */
 const seenThisSession = (): boolean => {
@@ -99,7 +103,9 @@ const STYLES = `
   .tv-ink {
     stroke: rgba(255, 255, 255, 0.9);
     fill: #fff;
-    stroke-width: 0.9;
+    /* In the logo's own units, so the pen keeps its weight against the mark
+       whatever the artwork's coordinate system turns out to be. */
+    stroke-width: ${INK_STROKE_WIDTH};
     stroke-linejoin: round;
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
@@ -317,7 +323,7 @@ const Preloader = () => {
           overflow: 'visible',
           // Stated rather than left to `h-auto`: the ink is located by its
           // fraction of this box, so the box has to be the artwork's shape.
-          aspectRatio: '640 / 178',
+          aspectRatio: LOGO_VIEWBOX.split(' ').slice(2).join(' / '),
           transform: dockMove && docking ? dockMove : 'none',
           transformOrigin: 'top left',
           transition: `transform ${TIMINGS.DOCK_MS}ms ${ease}`,
@@ -329,7 +335,6 @@ const Preloader = () => {
             key={d.slice(0, 24)}
             pathLength={1}
             className="tv-ink"
-            fillRule="evenodd"
             style={{ animationDelay: glyphDelay(i) }}
             d={d}
           />
@@ -347,14 +352,13 @@ const Preloader = () => {
               key={d.slice(0, 24)}
               pathLength={1}
               className="tv-ink"
-              fillRule="evenodd"
               style={{ animationDelay: glyphDelay(MAIN_GLYPHS.length + i) }}
               d={d}
             />
           ))}
         </g>
 
-        <path className="tv-play" fillRule="evenodd" d={LOGO_ORANGE} />
+        <path className="tv-play" d={LOGO_ORANGE} />
       </svg>
 
       <button

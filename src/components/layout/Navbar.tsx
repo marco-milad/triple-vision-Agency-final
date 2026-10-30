@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Facebook, Twitter, Instagram, Linkedin, Youtube, Sparkles, type LucideIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import logo from '@/assets/logo.png';
+import logo from '@/assets/logo.svg';
 import { company } from '@/data/company';
 import { mainNav } from '@/data/navigation';
 

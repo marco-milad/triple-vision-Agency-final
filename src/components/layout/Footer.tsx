@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Facebook, Instagram, Twitter, Linkedin, Youtube, Mail, Phone, MapPin, ArrowRight, Sparkles, Heart, type LucideIcon } from 'lucide-react';
-import logo from '@/assets/logo.png';
+import logo from '@/assets/logo.svg';
 import { company, addressLine } from '@/data/company';
 import { servicesNav, companyNav } from '@/data/navigation';
 
